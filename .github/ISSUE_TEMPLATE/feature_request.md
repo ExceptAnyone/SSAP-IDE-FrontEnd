@@ -2,7 +2,7 @@
 name: Feature request
 about: 작업 내용을 입력해 주세요
 title: ''
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
