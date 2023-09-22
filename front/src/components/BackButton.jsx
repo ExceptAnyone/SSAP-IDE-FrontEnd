@@ -1,12 +1,17 @@
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
+export default function BackButton(props) {
+  const navigate = useNavigate();
 
-export default function back() {
-    return (
-        <div>
-           <FaArrowLeft />
-        </div>
-    );
+  const goBack = () => {
+    navigate(-1); // 뒤로 가기 기능을 수행하는 navigate 함수
+  };
+
+  return (
+    <div>
+      <FaArrowLeft onClick={goBack} />  {props.icon}
+    </div>
+  );
 }
-
