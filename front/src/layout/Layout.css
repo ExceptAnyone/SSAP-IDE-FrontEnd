@@ -1,0 +1,14 @@
+.Layout {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .Sidebar {
+    width: 250px; /* 이 값은 원하는대로 조정하세요 */
+    border-right: 1px solid #ddd;
+  }
+  
+  .Editor {
+    flex: 1;
+  }
+  
