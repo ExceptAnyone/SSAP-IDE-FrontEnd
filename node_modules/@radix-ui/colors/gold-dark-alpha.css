@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --gold-a1: #91911102;
+  --gold-a2: #f9e29d0b;
+  --gold-a3: #f8ecbb15;
+  --gold-a4: #ffeec41e;
+  --gold-a5: #feecc22a;
+  --gold-a6: #feebcb37;
+  --gold-a7: #ffedcd48;
+  --gold-a8: #fdeaca5f;
+  --gold-a9: #ffdba690;
+  --gold-a10: #fedfb09d;
+  --gold-a11: #fee7c6c8;
+  --gold-a12: #fef7ede7;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --gold-a1: color(display-p3 0.8549 0.8549 0.0706 / 0.005);
+      --gold-a2: color(display-p3 0.9804 0.8902 0.6157 / 0.043);
+      --gold-a3: color(display-p3 1 0.949 0.7529 / 0.08);
+      --gold-a4: color(display-p3 1 0.9333 0.8 / 0.118);
+      --gold-a5: color(display-p3 1 0.949 0.8039 / 0.16);
+      --gold-a6: color(display-p3 1 0.9255 0.8 / 0.215);
+      --gold-a7: color(display-p3 1 0.9451 0.8314 / 0.278);
+      --gold-a8: color(display-p3 1 0.9373 0.8196 / 0.366);
+      --gold-a9: color(display-p3 0.9961 0.8824 0.6902 / 0.551);
+      --gold-a10: color(display-p3 1 0.8941 0.7255 / 0.601);
+      --gold-a11: color(display-p3 0.7841 0.728 0.6351);
+      --gold-a12: color(display-p3 0.9057 0.8871 0.8546);
+    }
+  }
+}

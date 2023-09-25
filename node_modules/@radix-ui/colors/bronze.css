@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --bronze-1: #fdfcfc;
+  --bronze-2: #fdf7f5;
+  --bronze-3: #f6edea;
+  --bronze-4: #efe4df;
+  --bronze-5: #e7d9d3;
+  --bronze-6: #dfcdc5;
+  --bronze-7: #d3bcb3;
+  --bronze-8: #c2a499;
+  --bronze-9: #a18072;
+  --bronze-10: #957468;
+  --bronze-11: #7d5e54;
+  --bronze-12: #43302b;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --bronze-1: color(display-p3 0.9915 0.9884 0.9883);
+      --bronze-2: color(display-p3 0.9887 0.9701 0.9605);
+      --bronze-3: color(display-p3 0.9584 0.9321 0.9189);
+      --bronze-4: color(display-p3 0.9288 0.8942 0.877);
+      --bronze-5: color(display-p3 0.8977 0.8534 0.8319);
+      --bronze-6: color(display-p3 0.8611 0.8045 0.7778);
+      --bronze-7: color(display-p3 0.8118 0.7392 0.706);
+      --bronze-8: color(display-p3 0.7409 0.647 0.6064);
+      --bronze-9: color(display-p3 0.6109 0.5069 0.4552);
+      --bronze-10: color(display-p3 0.5629 0.4607 0.414);
+      --bronze-11: color(display-p3 0.4714 0.3735 0.336);
+      --bronze-12: color(display-p3 0.2513 0.1912 0.1722);
+    }
+  }
+}

@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --sage-a1: #00000000;
+  --sage-a2: #f0f2f108;
+  --sage-a3: #f3f5f412;
+  --sage-a4: #f2fefd1a;
+  --sage-a5: #f1fbfa22;
+  --sage-a6: #edfbf42d;
+  --sage-a7: #edfcf73c;
+  --sage-a8: #ebfdf657;
+  --sage-a9: #dffdf266;
+  --sage-a10: #e5fdf474;
+  --sage-a11: #f4fef9af;
+  --sage-a12: #fdfffeed;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --sage-a1: color(display-p3 0 0 0 / 0);
+      --sage-a2: color(display-p3 0.9765 0.9882 0.9843 / 0.03);
+      --sage-a3: color(display-p3 0.9922 0.9451 0.9412 / 0.072);
+      --sage-a4: color(display-p3 0.9882 0.9961 0.9922 / 0.102);
+      --sage-a5: color(display-p3 0.9922 1 0.9961 / 0.131);
+      --sage-a6: color(display-p3 0.9725 1 0.9765 / 0.173);
+      --sage-a7: color(display-p3 0.9569 1 0.9765 / 0.233);
+      --sage-a8: color(display-p3 0.9569 1 0.9843 / 0.334);
+      --sage-a9: color(display-p3 0.902 1 0.9569 / 0.397);
+      --sage-a10: color(display-p3 0.9216 1 0.9725 / 0.452);
+      --sage-a11: color(display-p3 0.9647 1 0.9843 / 0.684);
+      --sage-a12: color(display-p3 0.9922 1 0.9961 / 0.929);
+    }
+  }
+}
