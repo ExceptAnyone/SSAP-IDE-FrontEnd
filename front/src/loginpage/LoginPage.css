@@ -1,0 +1,67 @@
+.login-hd {
+    display: flex;
+align-items: center;
+gap: 10px;
+align-self: stretch;
+margin-left: 13%;
+
+}
+
+.Loginpage-1,.Loginpage-2, .Loginpage-3,.Loginpage-4{
+    display: flex;
+width: 330px;
+padding: 40px 30px;
+flex-direction: column;
+align-items: flex-start;
+gap: 160px;
+flex-shrink: 0;
+border-radius: 30px;
+border: 1px solid #E2E2E2;
+background: #FFF;
+margin-right: 30px;
+margin-top: 80px;
+
+}
+
+.test {
+    display: flex;
+    margin-left: 13%;
+}
+
+.login-hd {
+    display: flex;
+align-items: center;
+gap: 10px;
+align-self: stretch;
+}
+
+.btn {
+    border-radius: 50px;
+    background: #000;
+    color: #FFF;
+    display: flex;
+    padding: 40px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    height: 40px;
+    margin-left: 1060px;
+    
+}
+
+.search{
+    display: flex;
+width: 328px;
+height: 40px;
+padding: 10px 20px;
+align-items: center;
+gap: 20px;
+border-radius: 50px;
+border: 1px solid #E2E2E2;
+background: #FFF;
+padding-top: 0;
+padding-bottom: 0;
+}
+
+.body {
+    background-color: rgb(56, 54, 54)
+}
