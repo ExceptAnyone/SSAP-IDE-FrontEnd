@@ -1,7 +1,7 @@
 import { Provider } from "react-redux";
-import Layout from "./Layout";
 import HeaderMenubar from "./ideUI/header/HeaderMenubar";
 import { store } from "./store";
+import Layout from "./layout/Layout";
 
 function App() {
   return (

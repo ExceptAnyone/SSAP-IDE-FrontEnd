@@ -2,34 +2,46 @@ import React, { useState } from "react";
 import * as Menubar from "@radix-ui/react-menubar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import "../HeaderMenubar.css";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addFile } from "../../../fileSlice/FileSlice";
 export default function File() {
   // 화면에 표시될 폴더 목록 상태
-  const [folders, setFolders] = useState([]);
+  const [files, setFiles] = useState([]);
+  const dispatch = useDispatch();
 
-  const createFolder = () => {
+  const selectedFileId = useSelector((state) => state.files.selectedFileId);
+
+  const createFile = () => {
     // 모킹 데이터
     const mockResponse = {
       status: 201,
       message: "폴더 생성",
       data: {
         Path: "/example/path",
-        folderName: "NewFolder",
+        fileName: "NewFile",
       },
     };
 
+    const newFileData = {
+      id: Math.floor(Date.now()), // 유니크한 ID 생성 (실제로는 다른 방식으로 생성해야 함)
+      parent: selectedFileId || 0, // 선택된 폴더가 있으면 그 폴더에 추가, 없으면 최상위에 추가
+      text: "New File",
+    };
+    console.log("newFileData", newFileData);
+    dispatch(addFile(newFileData));
+
     if (mockResponse.status === 201) {
       // 폴더 생성 성공시 화면에 폴더 추가
-      setFolders((prevFolders) => {
-        const newFolders = [
-          ...prevFolders,
+      setFiles((prevFiles) => {
+        const newFiles = [
+          ...prevFiles,
           {
             path: mockResponse.data.Path,
-            folderName: mockResponse.data.folderName,
+            fileName: mockResponse.data.fileName,
           },
         ];
-        console.log("Updated folders:", newFolders); // 이 부분을 추가
-        return newFolders;
+        console.log("Updated file:", newFiles); // 이 부분을 추가
+        return newFiles;
       });
     } else {
       // 다른 상태 코드에 따른 처리 로직
@@ -38,22 +50,22 @@ export default function File() {
   };
 
   //추후 주석된 코드로 변경 예정
-  // const createFolder = async () => {
-  //   const API_URL = "/ide/containerId/folders";
+  // const createFile = async () => {
+  //   const API_URL = "/ide/containerId/files";
   //   const requestData = {
   //     path: "여기에_경로_입력",
-  //     folderName: "여기에_폴더_이름_입력",
+  //     fileName: "여기에_폴더_이름_입력",
   //   };
 
   //   try {
   //     const response = await axios.post(API_URL, requestData);
 
   //     if (response.status === 201) {
-  //       setFolders((prevFolders) => [
-  //         ...prevFolders,
+  //       setFiles((prevFiles) => [
+  //         ...prevFiles,
   //         {
   //           path: response.data.Path,
-  //           folderName: response.data.folderName,
+  //           fileName: response.data.fileName,
   //         },
   //       ]);
   //     } else {
@@ -90,7 +102,7 @@ export default function File() {
                 className="MenubarSubContent"
                 alignOffset={-5}
               >
-                <Menubar.Item className="MenubarItem" onSelect={createFolder}>
+                <Menubar.Item className="MenubarItem" onSelect={createFile}>
                   새 파일
                 </Menubar.Item>
                 <Menubar.Item className="MenubarItem">새 폴더</Menubar.Item>
