@@ -1,14 +1,16 @@
-import CodeEditor from "./codeEditor/CodeEditor";
+import { Provider } from "react-redux";
+import Layout from "./Layout";
 import HeaderMenubar from "./ideUI/header/HeaderMenubar";
-import SideCollapsible from "./ideUI/sideBar/SideCollapsible";
-import Layout from "./layout/Layout";
+import { store } from "./store";
 
 function App() {
   return (
-    <div>
-      <HeaderMenubar />
-      <Layout />
-    </div>
+    <Provider store={store}>
+      <div>
+        <HeaderMenubar />
+        <Layout />
+      </div>
+    </Provider>
   );
 }
 
