@@ -7,12 +7,14 @@ import { addFile } from "../../../fileSlice/FileSlice";
 export default function File() {
   // 화면에 표시될 폴더 목록 상태
   const [files, setFiles] = useState([]);
+  const [folders, setFolders] = useState([]);
+
   const dispatch = useDispatch();
 
   const selectedFileId = useSelector((state) => state.files.selectedFileId);
 
   const createFile = () => {
-    // 모킹 데이터
+    // 모킹 데이터 TODO
     const mockResponse = {
       status: 201,
       message: "폴더 생성",
@@ -45,6 +47,35 @@ export default function File() {
       });
     } else {
       // 다른 상태 코드에 따른 처리 로직
+      alert(mockResponse.message);
+    }
+  };
+
+  const createFolder = () => {
+    //모킹 데이터 TODO
+    const mockResponse = {
+      status: 201,
+      message: "폴더 생성",
+      data: {
+        Path: "/example/path",
+        folderName: "newFolder",
+      },
+    };
+
+    const newFolderData = {
+      id: Math.floor(Date.now()),
+      parent: selectedFileId || 0,
+      droppable: true,
+      text: "new Folder",
+    };
+    console.log("new folder:", newFolderData);
+
+    dispatch(addFile(newFolderData)); // 리덕스 스토어에 폴더 데이터 추가
+    console.log("Current folders state:", folders);
+    if (mockResponse.status === 201) {
+      //폴더 생성 성공시 화면에 폴더 추가
+      setFolders((prevFolders) => [...prevFolders, newFolderData]);
+    } else {
       alert(mockResponse.message);
     }
   };
@@ -105,7 +136,9 @@ export default function File() {
                 <Menubar.Item className="MenubarItem" onSelect={createFile}>
                   새 파일
                 </Menubar.Item>
-                <Menubar.Item className="MenubarItem">새 폴더</Menubar.Item>
+                <Menubar.Item className="MenubarItem" onSelect={createFolder}>
+                  새 폴더
+                </Menubar.Item>
                 <Menubar.Item className="MenubarItem">텍스트 파일</Menubar.Item>
               </Menubar.SubContent>
             </Menubar.Portal>
