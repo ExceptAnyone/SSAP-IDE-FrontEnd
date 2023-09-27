@@ -4,6 +4,9 @@ import ProfileIcon from "./ProfileIcon";
 import "./Header.css"; // 헤더 스타일링을 위한 CSS 파일
 
 export default function Header(props) {
+  const password = props.password;
+  const confirmPassword = props.confirmPassword;
+
   return (
     <div className="header">
       <div className="header-inner">
@@ -13,6 +16,13 @@ export default function Header(props) {
           <div className="profileicon-right">
             <ProfileIcon />
           </div>
+          <button
+            className="edit-btn"
+            disabled={password !== confirmPassword || !password}
+          >
+            {props.name}
+          </button>
+          {/* isValidPassword 값에 따라 버튼의 disabled 속성을 설정하여 활성화/비활성화 조절 */}
         </div>
         <div className="header-bottom">
           <BackButton icon={props.icon} />
