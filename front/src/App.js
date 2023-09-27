@@ -1,46 +1,28 @@
-import React from 'react';
-import Main from './page/Main';
-import './App.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import SignUp from './page/SignUp';
-import LoginPage from './page/LoginPage';
-import Contain from './page/Contain';
-import Profile from './page/Profile';
-
-
-const router = createBrowserRouter([{
-  path: '/',
-  element: <Main /> ,
-  errorElement: <p>Not Found</p>  
-},
-  {
-  path: 'signup/',
-  element: <SignUp />
-},
-  {
-    path: 'loginpage/',
-    element: <LoginPage />
-  },
-  {
-    path: 'contain/',
-    element: <Contain />
-  },
-  {
-    path: 'profile/',
-    element: <Profile />
-  }
-  
-]);
-
+import React from "react";
+import "./App.css";
+import MainPage from "./page/main/MainPage";
+import LoginPage from "./page/loginpage/LoginPage";
+import SignupPage from "./page/signup/SignupPage";
+import EditSignupPage from "./page/editSignupPage/EditSignupPage";
+import CreateContainerPage from "./page/createContainer/CreateContainerPage";
+import EditContainerPage from "./page/editcontainer/EditContainerPage";
+import IdePage from "./page/ide/IdePage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => (
-  <RouterProvider router={router}>
   <div>
-   <Main />
-
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<MainPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/editsignup" element={<EditSignupPage />} />
+        <Route path="/createcontainer" element={<CreateContainerPage />} />
+        <Route path="/editcontainer" element={<EditContainerPage />} />
+        <Route path="/ide/:containerId" element={<IdePage />} />
+      </Routes>
+    </BrowserRouter>
   </div>
-
-  </RouterProvider>
 );
 
 export default App;
