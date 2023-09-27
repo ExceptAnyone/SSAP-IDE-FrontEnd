@@ -1,16 +1,12 @@
-import { Provider } from "react-redux";
+import { BrowserRouter, Routes } from "react-router-dom";
 import HeaderMenubar from "./ideUI/header/HeaderMenubar";
-import { store } from "./store";
 import Layout from "./layout/Layout";
-
 function App() {
   return (
-    <Provider store={store}>
-      <div>
-        <HeaderMenubar />
-        <Layout />
-      </div>
-    </Provider>
+    <div>
+      <HeaderMenubar />
+      <Layout />
+    </div>
   );
 }
 
