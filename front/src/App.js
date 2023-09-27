@@ -1,16 +1,28 @@
+import React from "react";
 import "./App.css";
-import Chat from "./components/chat/Chat";
+import MainPage from "./page/main/MainPage";
+import LoginPage from "./page/loginpage/LoginPage";
+import SignupPage from "./page/signup/SignupPage";
+import EditSignupPage from "./page/editSignupPage/EditSignupPage";
+import CreateContainerPage from "./page/createContainer/CreateContainerPage";
+import EditContainerPage from "./page/editcontainer/EditContainerPage";
+import IdePage from "./page/ide/IdePage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  // test 컨테이너ID
-  const roomId =
-    "aa0cea7dcd81cbea0fe690aa72b8520b6dfce49e35e418c0a0c32f88f24a1056";
-
-  return (
-    <div className="App">
-      <Chat roomId={roomId} />
-    </div>
-  );
-}
+const App = () => (
+  <div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<MainPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/editsignup" element={<EditSignupPage />} />
+        <Route path="/createcontainer" element={<CreateContainerPage />} />
+        <Route path="/editcontainer" element={<EditContainerPage />} />
+        <Route path="/ide/:containerId" element={<IdePage />} />
+      </Routes>
+    </BrowserRouter>
+  </div>
+);
 
 export default App;
