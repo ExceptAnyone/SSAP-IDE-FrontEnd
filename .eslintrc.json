@@ -9,5 +9,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "rules": {}
+  "rules": {
+    "no-console": false // 개발중에 임시처리
+  }
 }
