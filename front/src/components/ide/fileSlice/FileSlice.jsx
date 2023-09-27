@@ -1,17 +1,20 @@
+// FileSlice.jsx
 import { createSlice } from "@reduxjs/toolkit";
-import initialData from "../ideUI/sideBar/sample-data.json";
 
 export const fileSlice = createSlice({
   name: "file",
   initialState: {
-    data: initialData,
-    selectFileId: null, // 현재 선택된 아이템의 ID
+    data: [], // 초기값은 빈 배열로 설정했습니다.
+    selectFileId: null,
   },
   reducers: {
+    setTreeData: (state, action) => {
+      state.data = action.payload;
+    },
     addFile: (state, action) => {
       const newItem = {
         ...action.payload,
-        type: "file", // 기본값은 파일로 설정
+        type: "file",
       };
       state.data.push(newItem);
     },
@@ -23,12 +26,22 @@ export const fileSlice = createSlice({
       };
       state.data.push(newItem);
     },
+    deleteFileOrFolder: (state, action) => {
+      const id = action.payload;
+      state.data = state.data.filter((item) => item.id !== id);
+    },
     selectFile: (state, action) => {
       state.selectFileId = action.payload;
     },
   },
 });
 
-export const { addFile, addFolder, selectFile } = fileSlice.actions;
+export const {
+  setTreeData,
+  addFile,
+  addFolder,
+  deleteFileOrFolder,
+  selectFile,
+} = fileSlice.actions;
 
 export default fileSlice.reducer;

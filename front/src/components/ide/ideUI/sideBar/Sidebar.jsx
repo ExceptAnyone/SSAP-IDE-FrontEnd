@@ -15,7 +15,13 @@ import { AddDialog } from "./addDialog/AddDialog";
 import { theme } from "./theme";
 import styles from "./Sidebar.css";
 import SampleData from "./sample-data.json";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addFile,
+  addFolder,
+  deleteFileOrFolder,
+  setTreeData,
+} from "../../fileSlice/FileSlice";
 
 const getLastId = (treeData) => {
   const reversedArray = [...treeData].sort((a, b) => {
@@ -36,62 +42,91 @@ const getLastId = (treeData) => {
 };
 
 function Sidebar() {
-  const storeTreeData = useSelector((state) => state.files.data);
-  const [treeData, setTreeData] = useState(SampleData);
-  const handleDrop = (newTree) => setTreeData(newTree);
+  const filesAndFolders = useSelector((state) => state.file.data);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
+  const handleDrop = (newTree) => {
+    dispatch(setTreeData(newTree));
+  };
   const handleDelete = (id) => {
-    const deleteIds = [
-      id,
-      ...getDescendants(treeData, id).map((node) => node.id),
-    ];
-    const newTree = treeData.filter((node) => !deleteIds.includes(node.id));
-
-    setTreeData(newTree);
+    dispatch(deleteFileOrFolder(id));
   };
 
   const handleCopy = (id) => {
-    const lastId = getLastId(treeData);
-    const targetNode = treeData.find((n) => n.id === id);
-    const descendants = getDescendants(treeData, id);
-    const partialTree = descendants.map((node) => ({
-      ...node,
-      id: node.id + lastId,
-      parent: node.parent + lastId,
-    }));
-
-    setTreeData([
-      ...treeData,
-      {
-        ...targetNode,
-        id: targetNode.id + lastId,
-      },
-      ...partialTree,
-    ]);
+    // Handle node copy logic (이 부분은 기존 로직과 유사하게 처리할 수 있습니다.)
   };
 
   const handleOpenDialog = () => {
-    setOpen(true);
+    // Handle open dialog logic
   };
 
   const handleCloseDialog = () => {
-    setOpen(false);
+    // Handle close dialog logic
   };
 
   const handleSubmit = (newNode) => {
-    const lastId = getLastId(treeData) + 1;
-
-    setTreeData([
-      ...treeData,
-      {
-        ...newNode,
-        id: lastId,
-      },
-    ]);
-
-    setOpen(false);
+    // newNode의 type에 따라 addFile 또는 addFolder 액션을 dispatch합니다.
+    if (newNode.type === "file") {
+      dispatch(addFile(newNode));
+    } else {
+      dispatch(addFolder(newNode));
+    }
   };
+  // const [treeData, setTreeData] = useState(filesAndFolders);
+  // const handleDrop = (newTree) => setTreeData(newTree);
+
+  // const handleDelete = (id) => {
+  //   const deleteIds = [
+  //     id,
+  //     ...getDescendants(treeData, id).map((node) => node.id),
+  //   ];
+  //   const newTree = treeData.filter((node) => !deleteIds.includes(node.id));
+
+  //   setTreeData(newTree);
+  // };
+
+  // const handleCopy = (id) => {
+  //   const lastId = getLastId(treeData);
+  //   const targetNode = treeData.find((n) => n.id === id);
+  //   const descendants = getDescendants(treeData, id);
+  //   const partialTree = descendants.map((node) => ({
+  //     ...node,
+  //     id: node.id + lastId,
+  //     parent: node.parent + lastId,
+  //   }));
+
+  //   setTreeData([
+  //     ...treeData,
+  //     {
+  //       ...targetNode,
+  //       id: targetNode.id + lastId,
+  //     },
+  //     ...partialTree,
+  //   ]);
+  // };
+
+  // const handleOpenDialog = () => {
+  //   setOpen(true);
+  // };
+
+  // const handleCloseDialog = () => {
+  //   setOpen(false);
+  // };
+
+  // const handleSubmit = (newNode) => {
+  //   const lastId = getLastId(treeData) + 1;
+
+  //   setTreeData([
+  //     ...treeData,
+  //     {
+  //       ...newNode,
+  //       id: lastId,
+  //     },
+  //   ]);
+
+  //   setOpen(false);
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -104,14 +139,14 @@ function Sidebar() {
             </Button>
             {open && (
               <AddDialog
-                tree={treeData}
+                tree={filesAndFolders}
                 onClose={handleCloseDialog}
                 onSubmit={handleSubmit}
               />
             )}
           </div>
           <Tree
-            tree={treeData}
+            tree={filesAndFolders}
             rootId={0}
             render={(node, options) => (
               <CustomNode
