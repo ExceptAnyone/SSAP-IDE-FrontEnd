@@ -27,7 +27,11 @@ export default function File() {
     const newFileData = {
       id: Math.floor(Date.now()), // 유니크한 ID 생성 (실제로는 다른 방식으로 생성해야 함)
       parent: selectedFileId || 0, // 선택된 폴더가 있으면 그 폴더에 추가, 없으면 최상위에 추가
+      droppable: false,
       text: "New File",
+      data: {
+        fileType: "text", // TODO 기본 파일 타입 "text"
+      },
     };
     console.log("newFileData", newFileData);
     dispatch(addFile(newFileData));
@@ -81,24 +85,18 @@ export default function File() {
   };
 
   //추후 주석된 코드로 변경 예정
-  // const createFile = async () => {
-  //   const API_URL = "/ide/containerId/files";
+  // const createFolder = async () => {
+  //   const API_URL = "/api/folder/create";  // TODO: 백엔드 API 주소에 맞게 수정
   //   const requestData = {
-  //     path: "여기에_경로_입력",
-  //     fileName: "여기에_폴더_이름_입력",
+  //     path: "/current/path",  // TODO: 현재 경로에 맞게 수정
+  //     folderName: "newFolder",
   //   };
 
   //   try {
   //     const response = await axios.post(API_URL, requestData);
 
   //     if (response.status === 201) {
-  //       setFiles((prevFiles) => [
-  //         ...prevFiles,
-  //         {
-  //           path: response.data.Path,
-  //           fileName: response.data.fileName,
-  //         },
-  //       ]);
+  //       dispatch(addFolder(response.data));  // 리덕스 스토어 업데이트
   //     } else {
   //       alert(response.data.message);
   //     }

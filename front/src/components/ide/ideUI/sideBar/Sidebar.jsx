@@ -15,6 +15,7 @@ import { AddDialog } from "./addDialog/AddDialog";
 import { theme } from "./theme";
 import styles from "./Sidebar.css";
 import SampleData from "./sample-data.json";
+import { useSelector } from "react-redux";
 
 const getLastId = (treeData) => {
   const reversedArray = [...treeData].sort((a, b) => {
@@ -34,7 +35,8 @@ const getLastId = (treeData) => {
   return 0;
 };
 
-function App() {
+function Sidebar() {
+  const storeTreeData = useSelector((state) => state.files.data);
   const [treeData, setTreeData] = useState(SampleData);
   const handleDrop = (newTree) => setTreeData(newTree);
   const [open, setOpen] = useState(false);
@@ -135,4 +137,4 @@ function App() {
   );
 }
 
-export default App;
+export default Sidebar;
