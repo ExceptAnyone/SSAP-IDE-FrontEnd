@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Button() {
+export default function IdePage() {
     return (
         <div>
             

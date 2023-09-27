@@ -1,41 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-function BigTextarea() {
-  // 상태 변수를 사용하여 입력된 텍스트를 저장합니다.
-  const [text, setText] = useState('');
-  const [submittedText, setSubmittedText] = useState('');
-  const [resultText, setResultText] = useState('');
+function Test() {
+  const [text, setText] = useState("");
+  const [submittedText, setSubmittedText] = useState("");
+
   const [lastModifiedTime, setLastModifiedTime] = useState(null);
 
-  // 텍스트 입력이 변경될 때마다 상태 변수를 업데이트합니다.
   const handleTextChange = (e) => {
+    // input 요소의 값이 변경될 때마다 text 상태 업데이트
     setText(e.target.value);
   };
 
-  // 입력 버튼을 클릭했을 때 호출되는 함수입니다.
   const handleSubmit = () => {
-    // 입력된 텍스트를 제출합니다.
     setSubmittedText(text);
 
     // 여기에서 텍스트 처리 또는 실행 작업을 수행할 수 있습니다.
     // 이 예제에서는 입력된 텍스트를 그대로 표시하고 마지막 수정 시간을 계산합니다.
-    setResultText(text);
 
     const currentTime = new Date();
-    
+
     // 마지막 수정 시간을 현재 시간으로 설정합니다.
     setLastModifiedTime(currentTime);
 
     // 콘솔에 로그를 출력합니다.
-    console.log('입력된 텍스트:', text);
-    console.log('결과:', text);
-    console.log('마지막 수정 시간:', currentTime);
+    console.log("입력된 텍스트:", text);
+    console.log("결과:", text);
+    console.log("마지막 수정 시간:", currentTime);
   };
 
-  // 마지막 수정 시간을 텍스트로 변환하는 함수
   const formatLastModifiedTime = (lastModifiedTime) => {
     if (!lastModifiedTime) {
-      return '';
+      return "";
     }
 
     const currentTime = new Date();
@@ -51,20 +46,35 @@ function BigTextarea() {
 
   return (
     <div>
-      <textarea
-        rows="13"
-        cols="16"
+      <h2>test</h2>
+      <input
+        type="text"
         value={text}
         onChange={handleTextChange}
-        placeholder="test 내용"
+        placeholder="텍스트 입력"
+        style={{ border: "none" }}
       />
       <br />
-      <button onClick={handleSubmit}>실행</button>
-      <p>입력된 텍스트: {submittedText}</p>
-      <p> {resultText}</p>
-      <p>{formatLastModifiedTime(lastModifiedTime)}</p>
+      <div
+        className="start"
+        style={{
+          display: "flex",
+          paddingTop: "30px",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: "20px",
+          alignSelf: "stretch",
+          borderTop: "1px solid #E2E2E2",
+          marginTop: "160px",
+        }}
+      >
+        <button onClick={handleSubmit}>실행</button>
+        <p> {submittedText}</p>
+
+        <p>{formatLastModifiedTime(lastModifiedTime)}</p>
+      </div>
     </div>
   );
 }
 
-export default BigTextarea;
+export default Test;

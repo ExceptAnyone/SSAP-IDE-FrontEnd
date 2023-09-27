@@ -9,15 +9,14 @@ export default function Header(props) {
       <div className="header-inner">
         <div className="header-top">
           <div className="profileicon-left">레인보우/모든 컨테이너</div>
+
           <div className="profileicon-right">
             <ProfileIcon />
           </div>
-
-       
         </div>
         <div className="header-bottom">
-            <BackButton icon={props.icon} />
-          </div>
+          <BackButton icon={props.icon} />
+        </div>
       </div>
 
       <hr />
