@@ -1,44 +1,138 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { DndProvider } from "react-dnd";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
 import {
   Tree,
-  getBackendOptions,
   MultiBackend,
+  getDescendants,
+  getBackendOptions,
 } from "@minoru/react-dnd-treeview";
-import { DndProvider } from "react-dnd";
-import initialData from "./sample-default.json";
-import "./Sidebar.css";
-import { useDispatch, useSelector } from "react-redux";
-import { selectFile } from "../../fileSlice/FileSlice";
+import { CustomNode } from "./customNode/CustomNode";
+import { CustomDragPreview } from "./customDragPreview/CustomDragPreview";
+import { AddDialog } from "./addDialog/AddDialog";
+import { theme } from "./theme";
+import styles from "./Sidebar.css";
+import SampleData from "./sample-data.json";
 
-function Sidebar() {
-  const [treeData, setTreeData] = useState(initialData);
-  const handleDrop = (newTreeData) => setTreeData(newTreeData);
-  const files = useSelector((state) => state.files);
-  // TODO : files 배열을 treeData 형태로 변환하는 로직이 필요합니다.
-  // 여기서는 간단히 files를 바로 사용하였습니다.
-  const dispatch = useDispatch();
+const getLastId = (treeData) => {
+  const reversedArray = [...treeData].sort((a, b) => {
+    if (a.id < b.id) {
+      return 1;
+    } else if (a.id > b.id) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  if (reversedArray.length > 0) {
+    return reversedArray[0].id;
+  }
+
+  return 0;
+};
+
+function App() {
+  const [treeData, setTreeData] = useState(SampleData);
+  const handleDrop = (newTree) => setTreeData(newTree);
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = (id) => {
+    const deleteIds = [
+      id,
+      ...getDescendants(treeData, id).map((node) => node.id),
+    ];
+    const newTree = treeData.filter((node) => !deleteIds.includes(node.id));
+
+    setTreeData(newTree);
+  };
+
+  const handleCopy = (id) => {
+    const lastId = getLastId(treeData);
+    const targetNode = treeData.find((n) => n.id === id);
+    const descendants = getDescendants(treeData, id);
+    const partialTree = descendants.map((node) => ({
+      ...node,
+      id: node.id + lastId,
+      parent: node.parent + lastId,
+    }));
+
+    setTreeData([
+      ...treeData,
+      {
+        ...targetNode,
+        id: targetNode.id + lastId,
+      },
+      ...partialTree,
+    ]);
+  };
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = (newNode) => {
+    const lastId = getLastId(treeData) + 1;
+
+    setTreeData([
+      ...treeData,
+      {
+        ...newNode,
+        id: lastId,
+      },
+    ]);
+
+    setOpen(false);
+  };
+
   return (
-    <div className="SideCollapsible">
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
-        <Tree
-          tree={files.data}
-          rootId={0}
-          onDrop={handleDrop}
-          render={(node, { depth, isOpen, onToggle }) => (
-            <div
-              style={{ marginLeft: depth * 10 }}
-              onClick={() => dispatch(selectFile(node.id))}
-            >
-              {node.type === "folder" && (
-                <span onClick={onToggle}>{isOpen ? "[-]" : "[+]"}</span>
-              )}
-              {node.text}
-            </div>
-          )}
-        />
+        <div className={styles.app}>
+          <div>
+            <Button onClick={handleOpenDialog} startIcon={<AddIcon />}>
+              Add Node
+            </Button>
+            {open && (
+              <AddDialog
+                tree={treeData}
+                onClose={handleCloseDialog}
+                onSubmit={handleSubmit}
+              />
+            )}
+          </div>
+          <Tree
+            tree={treeData}
+            rootId={0}
+            render={(node, options) => (
+              <CustomNode
+                node={node}
+                {...options}
+                onDelete={handleDelete}
+                onCopy={handleCopy}
+              />
+            )}
+            dragPreviewRender={(monitorProps) => (
+              <CustomDragPreview monitorProps={monitorProps} />
+            )}
+            onDrop={handleDrop}
+            classes={{
+              root: styles.treeRoot,
+              draggingSource: styles.draggingSource,
+              dropTarget: styles.dropTarget,
+            }}
+          />
+        </div>
       </DndProvider>
-    </div>
+    </ThemeProvider>
   );
 }
 
-export default Sidebar;
+export default App;

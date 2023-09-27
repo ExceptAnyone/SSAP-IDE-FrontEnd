@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import initialData from "../ideUI/sideBar/sample-default.json";
+import initialData from "../ideUI/sideBar/sample-data.json";
 
 export const fileSlice = createSlice({
   name: "file",
