@@ -1,11 +1,11 @@
 import CodeEditor from "../codeEditor/CodeEditor";
-import SideCollapsible from "../ideUI/sideBar/SideCollapsible";
+import Sidebar from "../ideUI/sideBar/Sidebar";
 
 function Layout() {
   return (
     <div className="Layout">
       <div className="Sidebar">
-        <SideCollapsible />
+        <Sidebar />
       </div>
       <div className="Editor">
         <CodeEditor />

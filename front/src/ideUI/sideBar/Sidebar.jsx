@@ -6,11 +6,11 @@ import {
 } from "@minoru/react-dnd-treeview";
 import { DndProvider } from "react-dnd";
 import initialData from "./sample-default.json";
-import "./SideCollapsible.css";
+import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFile } from "../../fileSlice/FileSlice";
 
-function SideCollapsible() {
+function Sidebar() {
   const [treeData, setTreeData] = useState(initialData);
   const handleDrop = (newTreeData) => setTreeData(newTreeData);
   const files = useSelector((state) => state.files);
@@ -21,7 +21,7 @@ function SideCollapsible() {
     <div className="SideCollapsible">
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <Tree
-          tree={files.data} //updated state를 바로 사용
+          tree={files.data}
           rootId={0}
           onDrop={handleDrop}
           render={(node, { depth, isOpen, onToggle }) => (
@@ -29,7 +29,7 @@ function SideCollapsible() {
               style={{ marginLeft: depth * 10 }}
               onClick={() => dispatch(selectFile(node.id))}
             >
-              {node.droppable && (
+              {node.type === "folder" && (
                 <span onClick={onToggle}>{isOpen ? "[-]" : "[+]"}</span>
               )}
               {node.text}
@@ -41,4 +41,4 @@ function SideCollapsible() {
   );
 }
 
-export default SideCollapsible;
+export default Sidebar;

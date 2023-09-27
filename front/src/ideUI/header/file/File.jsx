@@ -3,7 +3,7 @@ import * as Menubar from "@radix-ui/react-menubar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import "../HeaderMenubar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addFile } from "../../../fileSlice/FileSlice";
+import { addFile, addFolder } from "../../../fileSlice/FileSlice";
 export default function File() {
   // 화면에 표시될 폴더 목록 상태
   const [files, setFiles] = useState([]);
@@ -17,7 +17,7 @@ export default function File() {
     // 모킹 데이터 TODO
     const mockResponse = {
       status: 201,
-      message: "폴더 생성",
+      message: "파일 생성",
       data: {
         Path: "/example/path",
         fileName: "NewFile",
@@ -70,7 +70,7 @@ export default function File() {
     };
     console.log("new folder:", newFolderData);
 
-    dispatch(addFile(newFolderData)); // 리덕스 스토어에 폴더 데이터 추가
+    dispatch(addFolder(newFolderData)); // 리덕스 스토어에 폴더 데이터 추가
     console.log("Current folders state:", folders);
     if (mockResponse.status === 201) {
       //폴더 생성 성공시 화면에 폴더 추가
