@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --grass-1: #0e1511;
+  --grass-2: #151a16;
+  --grass-3: #1b2a1e;
+  --grass-4: #1e3a25;
+  --grass-5: #25482e;
+  --grass-6: #2d5737;
+  --grass-7: #366740;
+  --grass-8: #3e7949;
+  --grass-9: #46a758;
+  --grass-10: #53b365;
+  --grass-11: #71d083;
+  --grass-12: #c2f0c2;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --grass-1: color(display-p3 0.0617 0.0832 0.0667);
+      --grass-2: color(display-p3 0.0858 0.1015 0.0877);
+      --grass-3: color(display-p3 0.118 0.1631 0.1219);
+      --grass-4: color(display-p3 0.1432 0.2241 0.1529);
+      --grass-5: color(display-p3 0.1784 0.2788 0.1883);
+      --grass-6: color(display-p3 0.2171 0.3364 0.2258);
+      --grass-7: color(display-p3 0.2584 0.3996 0.2649);
+      --grass-8: color(display-p3 0.3019 0.4697 0.3049);
+      --grass-9: color(display-p3 0.3795 0.6466 0.3779);
+      --grass-10: color(display-p3 0.4256 0.694 0.4262);
+      --grass-11: color(display-p3 0.5349 0.8067 0.5421);
+      --grass-12: color(display-p3 0.7968 0.9359 0.7757);
+    }
+  }
+}

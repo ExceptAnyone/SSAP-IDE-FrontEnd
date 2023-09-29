@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --indigo-a1: #00008002;
+  --indigo-a2: #0040ff08;
+  --indigo-a3: #0047f112;
+  --indigo-a4: #0044ff1e;
+  --indigo-a5: #0044ff2d;
+  --indigo-a6: #003eff3e;
+  --indigo-a7: #0037ed54;
+  --indigo-a8: #0034dc72;
+  --indigo-a9: #0031d2c1;
+  --indigo-a10: #002ec9cc;
+  --indigo-a11: #002bb7c5;
+  --indigo-a12: #001046e0;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --indigo-a1: color(display-p3 0.0196 0.0196 0.5098 / 0.008);
+      --indigo-a2: color(display-p3 0.0235 0.1608 0.8627 / 0.028);
+      --indigo-a3: color(display-p3 0.0078 0.2392 0.8863 / 0.067);
+      --indigo-a4: color(display-p3 0.0039 0.2471 1 / 0.114);
+      --indigo-a5: color(display-p3 0.0039 0.2353 1 / 0.169);
+      --indigo-a6: color(display-p3 0.0039 0.2078 0.9843 / 0.232);
+      --indigo-a7: color(display-p3 0.0039 0.1765 0.8627 / 0.314);
+      --indigo-a8: color(display-p3 0.0039 0.1647 0.8118 / 0.432);
+      --indigo-a9: color(display-p3 0 0.1529 0.7725 / 0.726);
+      --indigo-a10: color(display-p3 0 0.1373 0.7373 / 0.765);
+      --indigo-a11: color(display-p3 0.2565 0.3537 0.7554);
+      --indigo-a12: color(display-p3 0.133 0.1749 0.3485);
+    }
+  }
+}

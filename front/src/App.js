@@ -19,7 +19,7 @@ const App = () => (
         <Route path="/editsignup" element={<EditSignupPage />} />
         <Route path="/createcontainer" element={<CreateContainerPage />} />
         <Route path="/editcontainer" element={<EditContainerPage />} />
-        <Route path="/ide/:containerId" element={<IdePage />} />
+        <Route path="/ide" element={<IdePage />} />
       </Routes>
     </BrowserRouter>
   </div>

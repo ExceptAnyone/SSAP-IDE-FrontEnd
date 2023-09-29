@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --grass-a1: #00de1205;
+  --grass-a2: #78f7910a;
+  --grass-a3: #70fe8c1b;
+  --grass-a4: #5dff852c;
+  --grass-a5: #68ff8f3b;
+  --grass-a6: #71ff934b;
+  --grass-a7: #77fd925d;
+  --grass-a8: #77fd9070;
+  --grass-a9: #65ff82a1;
+  --grass-a10: #72ff8dae;
+  --grass-a11: #89ff9fcd;
+  --grass-a12: #ceffceef;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --grass-a1: color(display-p3 0 0.9922 0.0706 / 0.017);
+      --grass-a2: color(display-p3 0.5843 0.9961 0.5843 / 0.038);
+      --grass-a3: color(display-p3 0.549 0.9922 0.5882 / 0.106);
+      --grass-a4: color(display-p3 0.5333 0.9961 0.5804 / 0.169);
+      --grass-a5: color(display-p3 0.5529 1 0.6039 / 0.227);
+      --grass-a6: color(display-p3 0.5843 1 0.6235 / 0.29);
+      --grass-a7: color(display-p3 0.6039 1 0.6275 / 0.358);
+      --grass-a8: color(display-p3 0.6078 1 0.6196 / 0.433);
+      --grass-a9: color(display-p3 0.5725 1 0.5686 / 0.622);
+      --grass-a10: color(display-p3 0.6 0.9961 0.6 / 0.673);
+      --grass-a11: color(display-p3 0.5349 0.8067 0.5421);
+      --grass-a12: color(display-p3 0.7968 0.9359 0.7757);
+    }
+  }
+}

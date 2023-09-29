@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --teal-a1: #00deab05;
+  --teal-a2: #27fbe60c;
+  --teal-a3: #00ffe61e;
+  --teal-a4: #00ffdd2d;
+  --teal-a5: #00ffe13b;
+  --teal-a6: #23ffe44b;
+  --teal-a7: #31fde55f;
+  --teal-a8: #32ffe775;
+  --teal-a9: #13ffe49f;
+  --teal-a10: #0dffe0ae;
+  --teal-a11: #0afed5d6;
+  --teal-a12: #b8ffebef;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --teal-a1: color(display-p3 0 0.9922 0.7608 / 0.017);
+      --teal-a2: color(display-p3 0.3176 0.9882 0.902 / 0.047);
+      --teal-a3: color(display-p3 0.2353 1 0.898 / 0.118);
+      --teal-a4: color(display-p3 0.2275 0.9961 0.8863 / 0.173);
+      --teal-a5: color(display-p3 0.3294 1 0.898 / 0.227);
+      --teal-a6: color(display-p3 0.4118 1 0.9176 / 0.286);
+      --teal-a7: color(display-p3 0.4588 1 0.9255 / 0.362);
+      --teal-a8: color(display-p3 0.4667 1 0.9137 / 0.454);
+      --teal-a9: color(display-p3 0.4431 0.9961 0.902 / 0.614);
+      --teal-a10: color(display-p3 0.4392 0.9961 0.8902 / 0.669);
+      --teal-a11: color(display-p3 0.3881 0.8345 0.7191);
+      --teal-a12: color(display-p3 0.7343 0.934 0.8696);
+    }
+  }
+}

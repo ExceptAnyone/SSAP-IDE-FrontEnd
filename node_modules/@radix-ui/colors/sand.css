@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --sand-1: #fdfdfc;
+  --sand-2: #f9f9f8;
+  --sand-3: #f1f0ef;
+  --sand-4: #e9e8e6;
+  --sand-5: #e2e1de;
+  --sand-6: #dad9d6;
+  --sand-7: #cfceca;
+  --sand-8: #bcbbb5;
+  --sand-9: #8d8d86;
+  --sand-10: #82827c;
+  --sand-11: #63635e;
+  --sand-12: #21201c;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --sand-1: color(display-p3 0.9922 0.9922 0.9886);
+      --sand-2: color(display-p3 0.9771 0.9765 0.9731);
+      --sand-3: color(display-p3 0.943 0.942 0.936);
+      --sand-4: color(display-p3 0.913 0.9116 0.9033);
+      --sand-5: color(display-p3 0.8848 0.883 0.8727);
+      --sand-6: color(display-p3 0.8542 0.852 0.8395);
+      --sand-7: color(display-p3 0.8126 0.8099 0.7943);
+      --sand-8: color(display-p3 0.7379 0.7343 0.7134);
+      --sand-9: color(display-p3 0.5529 0.5529 0.528);
+      --sand-10: color(display-p3 0.5108 0.5108 0.4877);
+      --sand-11: color(display-p3 0.3882 0.3882 0.3704);
+      --sand-12: color(display-p3 0.1287 0.1256 0.1114);
+    }
+  }
+}

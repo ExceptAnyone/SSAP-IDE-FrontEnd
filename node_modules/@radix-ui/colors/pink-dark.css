@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --pink-1: #191117;
+  --pink-2: #21121d;
+  --pink-3: #37172f;
+  --pink-4: #4b143d;
+  --pink-5: #591c47;
+  --pink-6: #692955;
+  --pink-7: #833869;
+  --pink-8: #a84885;
+  --pink-9: #d6409f;
+  --pink-10: #de51a8;
+  --pink-11: #ff8dcc;
+  --pink-12: #fdd1ea;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --pink-1: color(display-p3 0.0931 0.0679 0.0888);
+      --pink-2: color(display-p3 0.1214 0.0727 0.1098);
+      --pink-3: color(display-p3 0.1983 0.0983 0.1792);
+      --pink-4: color(display-p3 0.2708 0.0952 0.231);
+      --pink-5: color(display-p3 0.3201 0.1274 0.2728);
+      --pink-6: color(display-p3 0.3816 0.1775 0.3258);
+      --pink-7: color(display-p3 0.4773 0.2384 0.405);
+      --pink-8: color(display-p3 0.6119 0.3044 0.5102);
+      --pink-9: color(display-p3 0.7749 0.2973 0.6104);
+      --pink-10: color(display-p3 0.8084 0.3563 0.6449);
+      --pink-11: color(display-p3 1 0.535 0.78);
+      --pink-12: color(display-p3 0.9645 0.8261 0.9124);
+    }
+  }
+}

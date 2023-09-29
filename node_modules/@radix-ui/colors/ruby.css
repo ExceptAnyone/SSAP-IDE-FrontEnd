@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --ruby-1: #fffcfd;
+  --ruby-2: #fff7f8;
+  --ruby-3: #feeaed;
+  --ruby-4: #ffdce1;
+  --ruby-5: #ffced6;
+  --ruby-6: #f8bfc8;
+  --ruby-7: #efacb8;
+  --ruby-8: #e592a3;
+  --ruby-9: #e54666;
+  --ruby-10: #dc3b5d;
+  --ruby-11: #ca244d;
+  --ruby-12: #64172b;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --ruby-1: color(display-p3 0.9979 0.9886 0.992);
+      --ruby-2: color(display-p3 0.9948 0.971 0.9737);
+      --ruby-3: color(display-p3 0.9831 0.9202 0.9285);
+      --ruby-4: color(display-p3 0.9874 0.8692 0.8851);
+      --ruby-5: color(display-p3 0.9681 0.8168 0.8388);
+      --ruby-6: color(display-p3 0.9374 0.7581 0.7861);
+      --ruby-7: color(display-p3 0.8967 0.6848 0.7212);
+      --ruby-8: color(display-p3 0.8507 0.588 0.6393);
+      --ruby-9: color(display-p3 0.8296 0.3231 0.4084);
+      --ruby-10: color(display-p3 0.795 0.2861 0.3748);
+      --ruby-11: color(display-p3 0.728 0.2111 0.3113);
+      --ruby-12: color(display-p3 0.3597 0.115 0.1711);
+    }
+  }
+}
