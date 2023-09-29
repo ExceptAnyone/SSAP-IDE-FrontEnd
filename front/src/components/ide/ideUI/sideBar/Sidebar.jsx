@@ -14,37 +14,30 @@ import { CustomDragPreview } from "./customDragPreview/CustomDragPreview";
 import { AddDialog } from "./addDialog/AddDialog";
 import { theme } from "./theme";
 import styles from "./Sidebar.css";
-import SampleData from "./sample-data.json";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFile,
   addFolder,
   deleteFileOrFolder,
+  setCurrentEditingFile,
   setTreeData,
 } from "../../fileSlice/FileSlice";
-
-const getLastId = (treeData) => {
-  const reversedArray = [...treeData].sort((a, b) => {
-    if (a.id < b.id) {
-      return 1;
-    } else if (a.id > b.id) {
-      return -1;
-    }
-
-    return 0;
-  });
-
-  if (reversedArray.length > 0) {
-    return reversedArray[0].id;
-  }
-
-  return 0;
-};
 
 function Sidebar() {
   const filesAndFolders = useSelector((state) => state.file.data);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+
+  const handleFileClick = (node) => {
+    // 클릭한 파일의 ID와 내용을 가져옵니다.
+    const clickedFileId = node.id;
+    const clickedFileContent = node.content || ""; // 예: 초기 파일 내용 설정
+
+    // 편집 중인 파일 정보를 업데이트합니다.
+    dispatch(
+      setCurrentEditingFile({ id: clickedFileId, content: clickedFileContent }),
+    );
+  };
 
   const handleDrop = (newTree) => {
     dispatch(setTreeData(newTree));
@@ -154,6 +147,7 @@ function Sidebar() {
                 {...options}
                 onDelete={handleDelete}
                 onCopy={handleCopy}
+                onClick={() => handleFileClick(node)}
               />
             )}
             dragPreviewRender={(monitorProps) => (

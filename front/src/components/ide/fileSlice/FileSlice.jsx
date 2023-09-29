@@ -1,11 +1,13 @@
 // FileSlice.jsx
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 export const fileSlice = createSlice({
   name: "file",
   initialState: {
     data: [], // 초기값은 빈 배열로 설정했습니다.
     selectFileId: null,
+    editingFileId: null, // 현재 편집 중인 파일 id
+    editingFileContent: "", //현재 편집 중인 파일의 내용
   },
   reducers: {
     setTreeData: (state, action) => {
@@ -33,6 +35,22 @@ export const fileSlice = createSlice({
     selectFile: (state, action) => {
       state.selectFileId = action.payload;
     },
+    setCurrentEditingFile: (state, action) => {
+      console.log("setCurrentEditingFile action called with:", action.payload); //TODO 추후 삭제
+      state.editingFileId = action.payload.id;
+      state.editingFileContent = action.payload.content;
+    },
+    updateFileContent: (state, action) => {
+      console.log("updateFileContent action.payload:", action.payload); //TODO 추후 삭제
+      const { id, content } = action.payload;
+      const targetFile = state.data.find((file) => file.id === id);
+      console.log("Found target file :", targetFile); //TODO 추후 삭제
+
+      if (targetFile) {
+        console.log("파일 업데이트", content); //TODO 추후 삭제
+        targetFile.content = content;
+      }
+    },
   },
 });
 
@@ -42,6 +60,8 @@ export const {
   addFolder,
   deleteFileOrFolder,
   selectFile,
+  setCurrentEditingFile,
+  updateFileContent,
 } = fileSlice.actions;
 
 export default fileSlice.reducer;

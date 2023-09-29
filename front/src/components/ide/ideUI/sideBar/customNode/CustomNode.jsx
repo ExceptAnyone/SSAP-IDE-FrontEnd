@@ -16,6 +16,14 @@ export const CustomNode = (props) => {
     props.onToggle(props.node.id);
   };
 
+  const handleNodeClick = (e) => {
+    e.stopPropagation(); // 이벤트 버블링을 중지
+    if (props.onClick) {
+      // props로 전달받은 onClick 핸들러가 있는 경우에만 호출
+      props.onClick(e);
+    }
+  };
+
   const dragOverProps = useDragOver(id, props.isOpen, props.onToggle);
 
   return (
@@ -25,6 +33,7 @@ export const CustomNode = (props) => {
       {...dragOverProps}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={handleNodeClick}
     >
       <div
         className={`${styles.expandIconWrapper} ${
