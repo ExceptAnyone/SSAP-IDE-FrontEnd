@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFile, addFolder } from "../../../fileSlice/FileSlice";
+import axios from "axios";
 
 export default function useFileAction() {
   const [files, setFiles] = useState([]);
   const [folders, setFolders] = useState([]);
   const selectFileId = useSelector((state) => state.file.selectFileId);
-
+  const [saveStatus, setSaveStatus] = useState(null);
   const dispatch = useDispatch();
 
   const createFile = () => {
@@ -80,5 +81,53 @@ export default function useFileAction() {
       alert(response.message);
     }
   };
-  return { createFile, createFolder };
+
+  const saveFile = async (fileData) => {
+    try {
+      // 가상의 모킹 데이터로 응답 TODO
+      const mockResponse = {
+        status: 200,
+        message: "File saved successfully!",
+        data: {
+          ...fileData,
+          id: Date.now().toString(), // 예시로 파일에 대한 고유 ID를 생성
+        },
+      };
+
+      // 200 상태 코드를 통해 성공적으로 처리되었다고 가정
+      if (mockResponse.status === 200) {
+        setSaveStatus("success");
+        console.log("File saved (mock):", mockResponse.data);
+        return mockResponse.data; // 혹은 원하는 데이터 반환
+      } else {
+        setSaveStatus("failed");
+        throw new Error(mockResponse.message);
+      }
+    } catch (error) {
+      setSaveStatus("failed");
+      console.error("Error saving the file:", error);
+      throw error;
+    }
+
+    // axios.post 를 이용한 모킹데이터
+    // try {
+    //   // 모킹 데이터 (실제 백엔드 연결 시 해당 URL을 사용)
+    //   const API_URL = "/api/saveFile"; // 가상의 API endpoint
+    //   const response = await axios.post(API_URL, fileData);
+
+    //   // 만약 실제로 백엔드와 연동한다면, 백엔드의 응답 형식에 따라 아래 코드를 조정해야 합니다.
+    //   if (response.status === 200) {
+    //     setSaveStatus("success");
+    //     return response.data; // 혹은 원하는 데이터 반환
+    //   } else {
+    //     setSaveStatus("failed");
+    //     throw new Error(response.data.message);
+    //   }
+    // } catch (error) {
+    //   setSaveStatus("failed");
+    //   console.error("Error saving the file:", error);
+    //   throw error;
+    // }
+  };
+  return { createFile, createFolder, selectFileId, saveFile, saveStatus };
 }

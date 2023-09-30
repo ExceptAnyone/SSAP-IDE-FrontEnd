@@ -2,7 +2,7 @@
 import * as Menubar from "@radix-ui/react-menubar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 
-export function MenuBarComponent({ onCreateFile, onCreateFolder }) {
+export function MenuBarComponent({ onCreateFile, onCreateFolder, onSave }) {
   return (
     <Menubar.Menu>
       <Menubar.Trigger className="MenubarTrigger">파일</Menubar.Trigger>
@@ -37,7 +37,7 @@ export function MenuBarComponent({ onCreateFile, onCreateFolder }) {
           </Menubar.Sub>
           <Menubar.Separator className="MenubarSeparator" />
 
-          <Menubar.Item className="MenubarItem">
+          <Menubar.Item className="MenubarItem" onClick={onSave}>
             저장 <div className="RightSlot"></div>
           </Menubar.Item>
           <Menubar.Item className="MenubarItem">
