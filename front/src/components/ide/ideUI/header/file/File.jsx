@@ -46,7 +46,7 @@ export default function File() {
             fileName: mockResponse.data.fileName,
           },
         ];
-        console.log("Updated file:", newFiles); // 이 부분을 추가
+        console.log("Updated file:", newFiles); // TODO 추후 삭제
         return newFiles;
       });
     } else {
@@ -56,7 +56,7 @@ export default function File() {
   };
 
   const createFolder = () => {
-    //모킹 데이터 TODO
+    //모킹 데이터 TODO 추후 삭제
     const mockCreateFolderResponse = {
       status: 201,
       message: "폴더 생성 성공",
@@ -83,24 +83,6 @@ export default function File() {
     } else {
       alert(response.message);
     }
-
-    //TODO 일단 밑에 주석 처리(초기 코드임)
-    // const newFolderData = {
-    //   id: Math.floor(Date.now()),
-    //   parent: selectFileId || 0,
-    //   droppable: true,
-    //   text: "new Folder",
-    // };
-    // console.log("new folder:", newFolderData);
-
-    // dispatch(addFolder(newFolderData)); // 리덕스 스토어에 폴더 데이터 추가
-    // console.log("Current folders state:", folders);
-    // if (mockResponse.status === 201) {
-    //   //폴더 생성 성공시 화면에 폴더 추가
-    //   setFolders((prevFolders) => [...prevFolders, newFolderData]);
-    // } else {
-    //   alert(mockResponse.message);
-    // }
   };
 
   //추후 주석된 코드로 변경 예정

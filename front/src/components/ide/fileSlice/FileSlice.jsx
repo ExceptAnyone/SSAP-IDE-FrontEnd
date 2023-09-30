@@ -4,7 +4,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 export const fileSlice = createSlice({
   name: "file",
   initialState: {
-    data: [], // 초기값은 빈 배열로 설정했습니다.
+    data: [],
     selectFileId: null,
     editingFileId: null, // 현재 편집 중인 파일 id
     editingFileContent: "", //현재 편집 중인 파일의 내용

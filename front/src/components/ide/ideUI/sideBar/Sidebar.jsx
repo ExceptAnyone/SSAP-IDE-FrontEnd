@@ -29,11 +29,11 @@ function Sidebar() {
   const [open, setOpen] = useState(false);
 
   const handleFileClick = (node) => {
-    // 클릭한 파일의 ID와 내용을 가져옵니다.
+    // 클릭한 파일의 ID와 내용
     const clickedFileId = node.id;
     const clickedFileContent = node.content || ""; // 예: 초기 파일 내용 설정
 
-    // 편집 중인 파일 정보를 업데이트합니다.
+    // 편집 중인 파일 정보를 업데이트
     dispatch(
       setCurrentEditingFile({ id: clickedFileId, content: clickedFileContent }),
     );
@@ -47,19 +47,22 @@ function Sidebar() {
   };
 
   const handleCopy = (id) => {
-    // Handle node copy logic (이 부분은 기존 로직과 유사하게 처리할 수 있습니다.)
+    // Handle node copy logic
+    // TODO
   };
 
   const handleOpenDialog = () => {
     // Handle open dialog logic
+    // TODO
   };
 
   const handleCloseDialog = () => {
     // Handle close dialog logic
+    // TODO
   };
 
   const handleSubmit = (newNode) => {
-    // newNode의 type에 따라 addFile 또는 addFolder 액션을 dispatch합니다.
+    // newNode의 type에 따라 addFile 또는 addFolder 액션을 dispatch
     if (newNode.type === "file") {
       dispatch(addFile(newNode));
     } else {
