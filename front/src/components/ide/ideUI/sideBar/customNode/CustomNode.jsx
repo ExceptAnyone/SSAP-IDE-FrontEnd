@@ -5,11 +5,42 @@ import { ArrowRight, Delete, FileCopy } from "@mui/icons-material";
 import { useDragOver } from "@minoru/react-dnd-treeview";
 import { TypeIcon } from "../TypeIcon";
 import styles from "./CustomNode.module.css";
+import { useDispatch } from "react-redux";
+import { updateFileName } from "../../../fileSlice/FileSlice";
 
 export const CustomNode = (props) => {
   const [hover, setHover] = useState(false);
   const { id, droppable, data } = props.node;
   const indent = props.depth * 24;
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(props.node.text);
+  const dispatch = useDispatch();
+
+  const handleStartEditing = () => {
+    setIsEditing(true);
+  };
+
+  const handleNameChange = (e) => {
+    setEditedName(e.target.value);
+  };
+
+  const handleEndEditing = () => {
+    setIsEditing(false);
+    // TODO: editedName을 백엔드에 업데이트하는 API 호출
+  };
+
+  const handleSave = () => {
+    if (editedName) {
+      dispatch(updateFileName({ id: props.node.id, newName: editedName }));
+      setIsEditing(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleEndEditing();
+    }
+  };
 
   const handleToggle = (e) => {
     e.stopPropagation();
@@ -50,7 +81,19 @@ export const CustomNode = (props) => {
         <TypeIcon droppable={droppable} fileType={data?.fileType} />
       </div>
       <div className={styles.labelGridItem}>
-        <Typography variant="body2">{props.node.text}</Typography>
+        {isEditing ? (
+          <input
+            value={editedName}
+            onChange={handleNameChange}
+            onBlur={handleSave}
+            onKeyDown={(e) => e.key === "Enter" && handleSave()}
+            autoFocus
+          />
+        ) : (
+          <Typography variant="body2" onClick={handleStartEditing}>
+            {props.node.text}
+          </Typography>
+        )}
       </div>
       {hover && (
         <>

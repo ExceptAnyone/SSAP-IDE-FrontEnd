@@ -51,6 +51,14 @@ export const fileSlice = createSlice({
         targetFile.content = content;
       }
     },
+    updateFileName: (state, action) => {
+      //폴더/파일 이름 수정
+      const { id, newName } = action.payload;
+      const fileOrFolder = state.data.find((item) => item.id === id);
+      if (fileOrFolder) {
+        fileOrFolder.text = newName;
+      }
+    },
   },
 });
 
@@ -62,6 +70,7 @@ export const {
   selectFile,
   setCurrentEditingFile,
   updateFileContent,
+  updateFileName,
 } = fileSlice.actions;
 
 export default fileSlice.reducer;
