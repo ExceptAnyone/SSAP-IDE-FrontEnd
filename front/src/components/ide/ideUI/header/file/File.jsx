@@ -4,6 +4,8 @@ import { ChevronRightIcon } from "@radix-ui/react-icons";
 import "../HeaderMenubar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addFile, addFolder } from "../../../fileSlice/FileSlice";
+import { useSaveFile } from "../../../api/saveFileAPI";
+
 export default function File() {
   // 화면에 표시될 폴더 목록 상태
   const [files, setFiles] = useState([]);
@@ -12,7 +14,24 @@ export default function File() {
   const dispatch = useDispatch();
 
   const selectFileId = useSelector((state) => state.file.selectFileId);
+  // const saveFileMutation = useSaveFile();
 
+  // const handleSaveFile = () => {
+  //   // 필요한 데이터는 실제 값을 사용해야 함 TODO
+  //   const containerId = "your_container_id"; // Container ID 가져오기
+  //   const fileId = "currently_selected_file_id"; // 현재 선택된 파일의 ID 가져오기
+  //   const path = "current_path"; // 현재 파일의 경로 가져오기
+  //   const fileName = "current_file_name"; // 현재 파일의 이름 가져오기
+  //   const content = "current_ide_content"; // 현재 IDE의 내용 가져오기
+
+  //   saveFileMutation.mutate({
+  //     containerId,
+  //     fileId,
+  //     path,
+  //     fileName,
+  //     content,
+  //   });
+  // };
   const createFile = () => {
     // 모킹 데이터 TODO
     const mockResponse = {
