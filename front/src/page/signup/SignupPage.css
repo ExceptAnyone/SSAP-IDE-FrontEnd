@@ -87,3 +87,10 @@ div.form5 {
   gap: 6px;
   margin-left: 160px;
 }
+
+.login-bt:disabled {
+  background-color: gray; /* 배경색을 회색으로 설정 */
+  color: white; /* 글자 색상을 흰색으로 설정 (선택 사항) */
+  cursor: not-allowed; /* 마우스 커서를 기본 상태로 설정 (선택 사항) */
+  border: none;
+}

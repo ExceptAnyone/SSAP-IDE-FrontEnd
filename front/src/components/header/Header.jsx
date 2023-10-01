@@ -6,6 +6,8 @@ import "./Header.css"; // 헤더 스타일링을 위한 CSS 파일
 export default function Header(props) {
   const password = props.password;
   const confirmPassword = props.confirmPassword;
+  const containnername = props.containnername;
+  const MainPage = props.MainPage;
 
   return (
     <div className="header">
@@ -18,7 +20,10 @@ export default function Header(props) {
           </div>
           <button
             className="edit-btn"
-            disabled={password !== confirmPassword || !password}
+            disabled={
+              password !== confirmPassword ||
+              (!password && !containnername && !MainPage)
+            }
           >
             {props.name}
           </button>
