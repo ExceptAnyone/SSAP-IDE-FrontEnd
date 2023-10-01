@@ -19,7 +19,8 @@ const App = () => (
         <Route path="/editsignup" element={<EditSignupPage />} />
         <Route path="/createcontainer" element={<CreateContainerPage />} />
         <Route path="/editcontainer" element={<EditContainerPage />} />
-        <Route path="/ide/:containerId" element={<IdePage />} />
+        <Route path="/ide" element={<IdePage />} />
+        {/* IDE 컨테이너마다 고유 라우터 처리 필요 */}
       </Routes>
     </BrowserRouter>
   </div>

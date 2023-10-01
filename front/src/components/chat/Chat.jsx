@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import { API_ENDPOINT } from "../../api/chatAPI";
+import "./chat.scss";
 
 const Chat = ({ roomId }) => {
   const [userName, setUserName] = useState("");
@@ -8,14 +9,27 @@ const Chat = ({ roomId }) => {
   const [newMessage, setNewMessage] = useState("");
   const socketRef = useRef();
 
-  // test: 페이지 접속시 사용자 입력 받기
-  // 추후 유저 정보 받아서 작업 예정
-  if (!userName) {
-    const inputUserName = prompt("이름을 입력해주세요.:");
-    if (inputUserName) setUserName(inputUserName);
-    console.log(inputUserName);
-  }
+  const [isVisible, setIsVisible] = useState(false);
+  const [newMessageArrived, setNewMessageArrived] = useState(false);
 
+  // TEST: 페이지 접속시 사용자 입력 받기
+  // TODO: 추후 유저 정보 받아서 작업 예정
+  useEffect(() => {
+    if (!userName) {
+      const inputUserName = prompt("이름을 입력해주세요.:");
+      if (inputUserName) setUserName(inputUserName);
+      console.log(inputUserName);
+    }
+  }, []);
+
+  // 채팅창 열림 여부 최신 상태 업뎃 유지
+  const isVisibleRef = useRef(isVisible);
+  useEffect(() => {
+    isVisibleRef.current = isVisible;
+    console.log("isVisible:", isVisible); // isVisible 상태 확인용
+  }, [isVisible]);
+
+  // 소켓
   useEffect(() => {
     if (!userName) return;
 
@@ -27,16 +41,41 @@ const Chat = ({ roomId }) => {
 
     // 서버로부터 메시지를 받으면 상태 업데이트
     socketRef.current.on("receiveMessage", (msg) => {
+      // 본인 확인
+      const isOwner = msg.socketId === socketRef.current.id;
+
       setMessages((prevMessages) => [...prevMessages, msg]);
-      console.log("receiveMessage: ", messages);
+      console.log("isOwner:", isOwner, "isVisible:", isVisible);
+
+      // 새로운 메세지 도착하면 알림
+      if (!isOwner && !isVisibleRef.current) {
+        setNewMessageArrived(true);
+      }
     });
 
     // 소켓 연결 종료
     return () => {
       socketRef.current.disconnect();
     };
-  }, [roomId, userName, messages]);
+  }, [roomId, userName]);
 
+  // 메세지 엡뎃 확인용
+  useEffect(() => {
+    console.log(
+      "Updated messages:",
+      messages,
+      "UpdatednewMessageArrived:",
+      newMessageArrived,
+    );
+  }, [messages, newMessageArrived]);
+
+  // 채팅창 열기
+  const handleToggleChat = () => {
+    setNewMessageArrived(false);
+    setIsVisible((prevIsVisible) => !prevIsVisible); // isVisible 상태 토글
+  }
+
+  // 채팅 메세지 전송
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
     const messageObject = {
@@ -50,22 +89,29 @@ const Chat = ({ roomId }) => {
   };
 
   return (
-    <div>
-      <div>
-        {messages.map((message, index) => (
-          <div key={index}>
-            <strong>{message.userName}: </strong>
-            {message.content}
+    <div className="chat-container">
+      <button onClick={handleToggleChat}>
+        {newMessageArrived && <span className="notification">!</span>}
+      </button>
+      {isVisible && (
+        <div className="chat-inner">
+          <div>
+            {messages.map((message, index) => (
+              <div key={index}>
+                <strong>{message.userName}: </strong>
+                {message.content}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div>
-        <textarea
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        ></textarea>
-        <button onClick={handleSendMessage}>전송</button>
-      </div>
+          <div>
+            <textarea
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+            ></textarea>
+            <button onClick={handleSendMessage}>전송</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
