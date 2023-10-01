@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+
 import "./Header.css";
 
 export default function ProfileIcon() {
@@ -17,12 +17,9 @@ export default function ProfileIcon() {
       <BsFillPersonFill onClick={toggleList} />
       {isListVisible && (
         <ul>
-          <Link to="/profile">
-            <li>내 정보</li>
-          </Link>
-          <Link to="/">
-            <li>로그아웃</li>
-          </Link>
+          <li>내 정보</li>
+
+          <li>로그아웃</li>
         </ul>
       )}
     </div>

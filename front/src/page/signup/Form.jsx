@@ -47,6 +47,8 @@ function Form() {
         value={username}
         onChange={(e) => {
           setUsername(e.target.value);
+        }}
+        onBlur={(e) => {
           validateUsername(e.target.value);
         }}
         className={!isValidUsername ? "invalid" : ""}
@@ -70,6 +72,8 @@ function Form() {
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
+        }}
+        onBlur={(e) => {
           validatePassword(e.target.value);
         }}
         className={!isValidPassword ? "invalid" : ""}
@@ -144,7 +148,7 @@ function Form() {
           password !== confirmPassword
         }
       >
-        <div>로그인</div>
+        로그인
       </button>
     </div>
   );

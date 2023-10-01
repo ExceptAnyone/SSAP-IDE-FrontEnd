@@ -31,27 +31,11 @@ export default function Contain() {
     }
   };
 
-  // 이름 입력 필드가 비어있는지 확인하는 함수
-  const isNameEmpty = name.trim() === "";
-
-  // "생성하기" 버튼 클릭 핸들러
-  const handleCreateClick = (e) => {
-    e.preventDefault(); // 기본 동작(페이지 리프레시)을 막음
-
-    // 여기에서 생성 작업을 수행하거나 다른 작업을 수행할 수 있습니다.
-    // 예: API 호출, 상태 업데이트 등
-  };
-
   return (
     <div>
-      <Header name="수정하기" icon="컨테이너 수정하기" />
+      <Header name="수정하기" icon="컨테이너 수정하기" containnername={name} />
 
-      <div>
-        {/* "생성하기" 버튼 클릭 시 handleCreateClick 함수 실행 */}
-        <button onClick={handleCreateClick} disabled={isNameEmpty}>
-          생성하기
-        </button>
-      </div>
+      <div></div>
       <form className="editcontain">
         <div>
           <div className="edit-1">
@@ -62,6 +46,7 @@ export default function Contain() {
               onChange={(e) => setName(e.target.value)}
               className="input"
             />
+            {!name ? <p className="error">이름 입력</p> : null}
           </div>
         </div>
         <div>

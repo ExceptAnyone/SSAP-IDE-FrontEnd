@@ -1,5 +1,5 @@
 import React from "react";
-import "../../page/main/MainPage.css";
+import "../../page/loginpage/LoginPage.css";
 
 import { Link } from "react-router-dom";
 
@@ -10,13 +10,13 @@ export default function Footer() {
       <br />
       SSAP IDE.ALL RIGHTS RESERVED.
       <nav>
-        <Link to="/loginpage">loginpage</Link>
+        <Link to="/editsignup">editsignup</Link>
         <br />
-        <Link to="/profile">profile</Link>
+        <Link to="/createcontainer">createcontainer</Link>
         <br />
-        <Link to="/contain">contain</Link>
+        <Link to="/editcontainer">editcontainer</Link>
         <br />
-        <Link to="/editcontain">editcontain</Link>
+        <Link to="/ide/:containerId">ide/:containerId</Link>
       </nav>
     </div>
   );
