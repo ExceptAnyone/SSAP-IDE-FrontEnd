@@ -130,9 +130,6 @@ function Sidebar() {
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <div className={styles.app}>
           <div>
-            <Button onClick={handleOpenDialog} startIcon={<AddIcon />}>
-              Add Node
-            </Button>
             {open && (
               <AddDialog
                 tree={filesAndFolders}

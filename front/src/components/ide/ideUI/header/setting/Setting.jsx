@@ -2,11 +2,14 @@ import React from "react";
 import * as Menubar from "@radix-ui/react-menubar";
 
 import "../HeaderMenubar.css";
+import { GearIcon } from "@radix-ui/react-icons";
 
 export default function Setting() {
   return (
     <Menubar.Menu>
-      <Menubar.Trigger className="MenubarTrigger">톱니바퀴</Menubar.Trigger>
+      <Menubar.Trigger className="MenubarTrigger">
+        <GearIcon />
+      </Menubar.Trigger>
       <Menubar.Portal>
         <Menubar.Content
           className="MenubarContent"
@@ -19,12 +22,6 @@ export default function Setting() {
               컨테이너 설정
               <div className="RightSlot"></div>
             </Menubar.SubTrigger>
-            <Menubar.Portal>
-              <Menubar.SubContent
-                className="MenubarSubContent"
-                alignOffset={-5}
-              ></Menubar.SubContent>
-            </Menubar.Portal>
           </Menubar.Sub>
           <Menubar.Separator className="MenubarSeparator" />
 

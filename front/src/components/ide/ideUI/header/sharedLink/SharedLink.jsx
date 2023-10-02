@@ -1,11 +1,14 @@
 import React from "react";
 import * as Menubar from "@radix-ui/react-menubar";
 import "../HeaderMenubar.css";
+import { Share1Icon } from "@radix-ui/react-icons";
 
 export default function SharedLink() {
   return (
     <Menubar.Menu>
-      <Menubar.Trigger className="MenubarTrigger">공유링크</Menubar.Trigger>
+      <Menubar.Trigger className="MenubarTrigger">
+        <Share1Icon />
+      </Menubar.Trigger>
       <Menubar.Portal>
         <Menubar.Content
           className="MenubarContent"
