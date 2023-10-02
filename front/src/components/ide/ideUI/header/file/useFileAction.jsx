@@ -4,6 +4,7 @@ import { addFile, addFolder } from "../../../fileSlice/FileSlice";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { createFileAPI } from "../../../../../api/ideAPI/createFileAPI";
+import { saveAsAPI } from "../../../../../api/ideAPI/saveAsAPI";
 
 export default function useFileAction() {
   const [files, setFiles] = useState([]);
@@ -140,26 +141,77 @@ export default function useFileAction() {
       console.error("Error saving the file:", error);
       throw error;
     }
-
-    // axios.post 를 이용한 모킹데이터
-    // try {
-    //   // 모킹 데이터 (실제 백엔드 연결 시 해당 URL을 사용)
-    //   const API_URL = "/api/saveFile"; // 가상의 API endpoint
-    //   const response = await axios.post(API_URL, fileData);
-
-    //   // 만약 실제로 백엔드와 연동한다면, 백엔드의 응답 형식에 따라 아래 코드를 조정해야 합니다.
-    //   if (response.status === 200) {
-    //     setSaveStatus("success");
-    //     return response.data; // 혹은 원하는 데이터 반환
-    //   } else {
-    //     setSaveStatus("failed");
-    //     throw new Error(response.data.message);
-    //   }
-    // } catch (error) {
-    //   setSaveStatus("failed");
-    //   console.error("Error saving the file:", error);
-    //   throw error;
-    // }
   };
-  return { createFile, createFolder, selectFileId, saveFile, saveStatus };
+
+  const onSaveAs = async (newFileName, currentFilePath, currentFileContent) => {
+    try {
+      const response = await saveAsAPI(
+        "exampleContainerId", // TODO: 실제 containerId로 교체
+        selectFileId, // 현재 선택된 파일의 ID
+        currentFilePath,
+        newFileName,
+        currentFileContent,
+      );
+
+      if (response.status === 200) {
+        console.log("파일이 성공적으로 복제되었습니다:", response.data);
+        // 필요하면 여기서 추가적인 상태 업데이트 또는 로직 수행
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error("다른 이름으로 파일 저장 실패:", error.message);
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            alert("파라미터 필수 항목이 누락되었거나 형식이 잘못되었습니다.");
+            break;
+          case 403:
+            alert("해당 파일을 변경할 권한이 없습니다.");
+            break;
+          case 404:
+            alert(
+              "원본 파일을 찾을 수 없어 다른 이름으로 파일 저장이 불가능 합니다.",
+            );
+            break;
+          case 409:
+            alert("동일한 이름의 파일이 이미 해당 경로에 존재합니다.");
+            break;
+          case 500:
+          default:
+            alert("요청을 처리하는 중에 서버에서 오류가 발생했습니다.");
+            break;
+        }
+      }
+    }
+  };
+
+  // axios.post 를 이용한 모킹데이터
+  // try {
+  //   // 모킹 데이터 (실제 백엔드 연결 시 해당 URL을 사용)
+  //   const API_URL = "/api/saveFile"; // 가상의 API endpoint
+  //   const response = await axios.post(API_URL, fileData);
+
+  //   // 만약 실제로 백엔드와 연동한다면, 백엔드의 응답 형식에 따라 아래 코드를 조정해야 합니다.
+  //   if (response.status === 200) {
+  //     setSaveStatus("success");
+  //     return response.data; // 혹은 원하는 데이터 반환
+  //   } else {
+  //     setSaveStatus("failed");
+  //     throw new Error(response.data.message);
+  //   }
+  // } catch (error) {
+  //   setSaveStatus("failed");
+  //   console.error("Error saving the file:", error);
+  //   throw error;
+  // }
+
+  return {
+    createFile,
+    createFolder,
+    selectFileId,
+    saveFile,
+    saveStatus,
+    onSaveAs,
+  };
 }
