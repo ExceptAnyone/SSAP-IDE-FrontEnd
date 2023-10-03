@@ -4,6 +4,7 @@ import { API_ENDPOINT } from "../../api/chatAPI";
 import { BiSearch, BiSolidUser } from "react-icons/bi";
 import { BsChatSquareDots } from "react-icons/bs";
 import "./chat.scss";
+import ChatUserList from "./chatUserList/ChatUserList";
 
 const Chat = ({ roomId }) => {
   const [userName, setUserName] = useState("");
@@ -134,6 +135,7 @@ const Chat = ({ roomId }) => {
               <button onClick={handleSendMessage}>전송</button>
             </div>
           </div>
+          <ChatUserList />
         </div>
       )}
       <button className="chat-button" onClick={handleToggleChat}>
