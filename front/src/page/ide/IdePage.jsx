@@ -1,5 +1,6 @@
 import React from "react";
 import Chat from "../../components/chat/Chat";
+import "../../components/chat/chat.scss";
 
 export default function IdePage() {
   // TODO 컨테이너 고유ID를 roomID로 적용시켜야함
@@ -7,7 +8,7 @@ export default function IdePage() {
     "aa0cea7dcd81cbea0fe690aa72b8520b6dfce49e35e418c0a0c32f88f24a1056 ";
 
   return (
-    <div>
+    <div className="ide-container">
       <Chat roomId={roomId} />
     </div>
   );

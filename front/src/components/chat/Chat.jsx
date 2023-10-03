@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import { API_ENDPOINT } from "../../api/chatAPI";
+import { BiSearch, BiSolidUser } from "react-icons/bi";
+import { BsChatSquareDots } from "react-icons/bs";
 import "./chat.scss";
 
 const Chat = ({ roomId }) => {
@@ -73,7 +75,7 @@ const Chat = ({ roomId }) => {
   const handleToggleChat = () => {
     setNewMessageArrived(false);
     setIsVisible((prevIsVisible) => !prevIsVisible); // isVisible 상태 토글
-  }
+  };
 
   // 채팅 메세지 전송
   const handleSendMessage = () => {
@@ -89,29 +91,55 @@ const Chat = ({ roomId }) => {
   };
 
   return (
-    <div className="chat-container">
-      <button onClick={handleToggleChat}>
-        {newMessageArrived && <span className="notification">!</span>}
-      </button>
+    <div className="chat_container">
       {isVisible && (
         <div className="chat-inner">
-          <div>
-            {messages.map((message, index) => (
-              <div key={index}>
-                <strong>{message.userName}: </strong>
-                {message.content}
+          <div className="chat-content">
+            <div className="chat-top">
+              <h4>채팅</h4>
+              <div className="top_right">
+                <span>
+                  <BiSearch />
+                </span>
+                <span>
+                  <BiSolidUser />
+                </span>
               </div>
-            ))}
-          </div>
-          <div>
-            <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-            ></textarea>
-            <button onClick={handleSendMessage}>전송</button>
+            </div>
+            <div className="msg-wrap">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`message ${
+                    message.socketId === socketRef.current.id
+                      ? "msg_right"
+                      : "msg_left"
+                  }`}
+                >
+                  {message.socketId === socketRef.current.id ? (
+                    ""
+                  ) : (
+                    <strong>{message.userName}</strong>
+                  )}
+                  <span>{message.content}</span>
+                </div>
+              ))}
+            </div>
+            <div className="msg-form">
+              <textarea
+                value={newMessage}
+                autofocus="true"
+                onChange={(e) => setNewMessage(e.target.value)}
+              ></textarea>
+              <button onClick={handleSendMessage}>전송</button>
+            </div>
           </div>
         </div>
       )}
+      <button className="chat-button" onClick={handleToggleChat}>
+        <BsChatSquareDots />
+        {newMessageArrived && <span className="notification">!</span>}
+      </button>
     </div>
   );
 };
