@@ -7,29 +7,33 @@ import EditContainerPage from "./page/editcontainer/EditContainerPage";
 import IdePage from "./page/ide/IdePage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./page/main/MainPage";
-import LoginPage from "./page/loginpage/LoginPage";
+import LoginPage from "./page/login/LoginPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import PrivateRoute from "./PrivateRoute";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <div>
+function App() {
+  return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route index element={<MainPage />} />
-          <Route path="loginpage/" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/editsignup" element={<EditSignupPage />} />
-          <Route path="/createcontainer" element={<CreateContainerPage />} />
-          <Route path="/editcontainer" element={<EditContainerPage />} />
-          <Route path="/ide/:containerId" element={<IdePage />} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignupPage />} />
+          <Route path="editsignup" element={<EditSignupPage />} />
+          <Route path="createcontainer" element={<CreateContainerPage />} />
+          <Route path="editcontainer" element={<EditContainerPage />} />
+          <Route
+            path="ide/:containerId"
+            element={<PrivateRoute component={IdePage} />}
+          />
         </Routes>
       </BrowserRouter>
       <ReactQueryDevtools />
     </QueryClientProvider>
-  </div>
-);
+  );
+}
 
 export default App;

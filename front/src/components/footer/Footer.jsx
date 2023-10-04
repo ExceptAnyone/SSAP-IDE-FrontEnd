@@ -1,5 +1,5 @@
 import React from "react";
-import "../../page/loginpage/LoginPage.css";
+import "../../page/login/LoginPage.css";
 
 import { Link } from "react-router-dom";
 
@@ -17,6 +17,8 @@ export default function Footer() {
         <Link to="/editcontainer">editcontainer</Link>
         <br />
         <Link to="/ide/:containerId">ide/:containerId</Link>
+        <br />
+        <Link to="/login">loginpage</Link>
       </nav>
     </div>
   );
