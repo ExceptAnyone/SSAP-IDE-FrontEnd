@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import { API_ENDPOINT } from "../../api/chatAPI";
-import { BiSearch, BiSolidUser } from "react-icons/bi";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { BiSearch, BiSolidUser, BiSolidBell } from "react-icons/bi";
 import { BsChatSquareDots } from "react-icons/bs";
 import "./chat.scss";
 import ChatUserList from "./chatUserList/ChatUserList";
@@ -78,8 +79,18 @@ const Chat = ({ roomId }) => {
     setIsVisible((prevIsVisible) => !prevIsVisible); // isVisible 상태 토글
   };
 
+  // TODO: BUG - 마지막글자 두번 전송 됨 수정 필요
+  // textarea 엔터 키 전송
+  const handleTextareaKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   // 채팅 메세지 전송
-  const handleSendMessage = () => {
+  const handleSendMessage = (e) => {
+    if (e) e.preventDefault();
     if (newMessage.trim() === "") return;
     const messageObject = {
       userName,
@@ -122,24 +133,34 @@ const Chat = ({ roomId }) => {
                   ) : (
                     <strong>{message.userName}</strong>
                   )}
+
                   <span>{message.content}</span>
                 </div>
               ))}
             </div>
             <div className="msg-form">
-              <textarea
-                value={newMessage}
-                autofocus="true"
-                onChange={(e) => setNewMessage(e.target.value)}
-              ></textarea>
-              <button onClick={handleSendMessage}>전송</button>
+              <form onSubmit={handleSendMessage}>
+                <textarea
+                  value={newMessage}
+                  autoFocus={true}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyDown={handleTextareaKeyDown}
+                ></textarea>
+                <button type="submit">전송</button>
+              </form>
             </div>
           </div>
           <ChatUserList />
         </div>
       )}
-      <button className="chat-button" onClick={handleToggleChat}>
-        <BsChatSquareDots />
+      {/* TODO: 알림 애니메이션 수정 필요 */}
+      <button
+        className={`chat-button ${isVisible ? "close" : "open"} ${
+          newMessageArrived && "bounce-animation"
+        }`}
+        onClick={handleToggleChat}
+      >
+        {isVisible ? <IoIosCloseCircleOutline /> : <BsChatSquareDots />}
         {newMessageArrived && <span className="notification">!</span>}
       </button>
     </div>
