@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
+import { AiFillSetting } from "react-icons/ai";
+import { SlLogout } from "react-icons/sl";
 
 import "./Header.css";
 import { Link } from "react-router-dom";
@@ -15,15 +17,19 @@ export default function ProfileIcon() {
   };
 
   return (
-    <div className="profileicon">
+    <div>
       <BsFillPersonFill onClick={toggleList} />
       {isListVisible && (
-        <ul>
-          <Link to="/editsignup">
-            <li>내 정보</li>
+        <ul className="profileicon">
+          <Link to="/editsignup" className="link-sty">
+            <li className="profileicon-1">
+              {" "}
+              <AiFillSetting />내 정보
+            </li>
           </Link>
 
-          <li>
+          <li className="profileicon-1">
+            <SlLogout />
             <LogoutButton />
           </li>
         </ul>

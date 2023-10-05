@@ -39,7 +39,7 @@ function LoginForm() {
 
   const { mutate: loginMutation } = useMutation(
     async ({ username, password }) => {
-      const response = await axios.get("/api/login", { username, password });
+      const response = await axios.post("/api/login", { username, password });
       return response.data; // 로그인 결과를 반환 (예: 토큰)
     },
     {

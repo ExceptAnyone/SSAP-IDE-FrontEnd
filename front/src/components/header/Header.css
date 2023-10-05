@@ -69,3 +69,16 @@
   color: white; /* 글자 색상을 흰색으로 설정 (선택 사항) */
   cursor: not-allowed; /* 마우스 커서를 기본 상태로 설정 (선택 사항) */
 }
+
+.profileicon {
+  display: flex;
+  flex-direction: column; /* 세로 정렬을 위한 컬럼 방향 */
+  list-style: none; /* 목록 마커 제거 */
+  padding: 0; /* 내부 여백 제거 */
+  margin: 0; /* 외부 여백 제거 */
+}
+
+.link-sty {
+  text-decoration: none; /* 밑줄 제거 */
+  color: black;
+}

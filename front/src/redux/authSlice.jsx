@@ -10,7 +10,7 @@ const authSlice = createSlice({
     confirmPassword: "", // 비밀번호 확인
     name: "", // 이름
     error: "", // 에러 메시지
-    isValidUsername: true, // 유효한 사용자 이름 여부
+    isValidusername: true, // 유효한 사용자 이름 여부
     isValidPassword: true, // 유효한 비밀번호 여부
     isLoading: false, // 로딩 중 여부
     isError: false, // 에러 발생 여부
