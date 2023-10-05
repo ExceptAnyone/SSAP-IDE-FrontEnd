@@ -1,4 +1,4 @@
-// api/folderAPI.jsx
+// 폴더이름 수정
 import { useMutation } from "react-query";
 import axios from "axios";
 

@@ -9,7 +9,7 @@ export default function File() {
   // 아래는 예시. 실제 필요한 데이터와 구조에 맞게 수정해야 함. TODO
   const handleSave = async () => {
     const fileData = {
-      content: "file content here", // 실제 파일의 내용
+      content: "file content here", // 실제 파일의 내용 TODO
       // ... 다른 필요한 데이터
     };
 

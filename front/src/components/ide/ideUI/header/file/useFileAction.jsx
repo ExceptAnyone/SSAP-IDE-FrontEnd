@@ -5,6 +5,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { createFileAPI } from "../../../../../api/ideAPI/createFileAPI";
 import { saveAsAPI } from "../../../../../api/ideAPI/saveAsAPI";
+import { createFolderAPI } from "../../../../../api/ideAPI/createFolderAPI";
 
 export default function useFileAction() {
   const [files, setFiles] = useState([]);
@@ -42,7 +43,7 @@ export default function useFileAction() {
     });
   };
 
-  // TODO 모킹데이터를 이용한 파일 생성
+  // TODO 모킹데이터를 이용한 새 파일 생성
   // const createFile = () => {
   //   // 모킹 데이터 TODO
   //   const mockResponse = {
@@ -85,35 +86,64 @@ export default function useFileAction() {
   //   }
   // };
 
-  const createFolder = () => {
-    //모킹 데이터 TODO 추후 삭제
-    const mockCreateFolderResponse = {
-      status: 201,
-      message: "폴더 생성 성공",
-      data: {
-        id: Date.now().toString(), // 유니크한 폴더 ID
-        name: "newFolder",
-        path: "/current/path/newFolder",
-        created_at: "2023-09-27T12:00:00Z",
-      },
-    };
-
-    // mockCreateFolderResponse를 사용하여 폴더 생성 로직을 시뮬레이션
-    const response = mockCreateFolderResponse;
-
-    if (response.status === 201) {
+  const createFolderMutation = useMutation(createFolderAPI, {
+    onError: (error) => {
+      console.error("폴더 생성 에러:", error);
+    },
+    onSuccess: (data) => {
+      console.log("새 폴더 생성 성공:", data);
+      // 리덕스나 로컬 상태 업데이트 로직 추가
       const newFolderData = {
-        id: response.data.id,
+        id: Date.now().toString(),
         parent: selectFileId || 0,
         droppable: true,
-        text: response.data.name, // 여기에 폴더의 이름을 지정
-        type: "folder",
+        text: data.folderName,
+        data: {
+          fileType: "folder", // 폴더 타입 지정
+          path: data.Path,
+        },
       };
-      dispatch(addFolder(newFolderData)); // 리덕스 스토어 업데이트
-    } else {
-      alert(response.message);
-    }
+      dispatch(addFolder(newFolderData));
+    },
+  });
+
+  const createFolder = (path, folderName) => {
+    createFolderMutation.mutate({
+      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+      path,
+      folderName,
+    });
   };
+
+  // const createFolder = () => {
+  //   //폴더 생성 모킹 데이터 TODO 추후 삭제
+  //   const mockCreateFolderResponse = {
+  //     status: 201,
+  //     message: "폴더 생성 성공",
+  //     data: {
+  //       id: Date.now().toString(), // 유니크한 폴더 ID
+  //       name: "newFolder",
+  //       path: "/current/path/newFolder",
+  //       created_at: "2023-09-27T12:00:00Z",
+  //     },
+  //   };
+
+  //   // mockCreateFolderResponse를 사용하여 폴더 생성 로직을 시뮬레이션
+  //   const response = mockCreateFolderResponse;
+
+  //   if (response.status === 201) {
+  //     const newFolderData = {
+  //       id: response.data.id,
+  //       parent: selectFileId || 0,
+  //       droppable: true,
+  //       text: response.data.name, // 여기에 폴더의 이름을 지정
+  //       type: "folder",
+  //     };
+  //     dispatch(addFolder(newFolderData)); // 리덕스 스토어 업데이트
+  //   } else {
+  //     alert(response.message);
+  //   }
+  // };
 
   const saveFile = async (fileData) => {
     try {
