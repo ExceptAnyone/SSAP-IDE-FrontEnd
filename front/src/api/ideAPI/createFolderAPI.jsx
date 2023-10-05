@@ -1,3 +1,4 @@
+//폴더 생성시 api 호출 함수
 import axios from "axios";
 
 export const createFolderAPI = async ({ containerId, path, folderName }) => {
