@@ -14,6 +14,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import styles from "./AddDialog.module.css";
+import { getNodeDepth } from "./treeUtils";
 
 export const AddDialog = (props) => {
   const [text, setText] = useState("");
@@ -91,7 +92,7 @@ export const AddDialog = (props) => {
       <DialogActions>
         <Button onClick={props.onClose}>Cancel</Button>
         <Button
-          disabled={text === ""}
+          disabled={text === "" || getNodeDepth(props.tree, parent) >= 3} //TODO 뎁스 검사 추가한 것임. 확인 필요
           onClick={() =>
             props.onSubmit({
               text,
