@@ -6,6 +6,7 @@ import { useMutation } from "react-query";
 import { createFileAPI } from "../../../../../api/ideAPI/createFileAPI";
 import { saveAsAPI } from "../../../../../api/ideAPI/saveAsAPI";
 import { createFolderAPI } from "../../../../../api/ideAPI/createFolderAPI";
+import { saveFileAPI } from "../../../../../api/ideAPI/saveFileAPI";
 
 export default function useFileAction() {
   const [files, setFiles] = useState([]);
@@ -145,33 +146,55 @@ export default function useFileAction() {
   //   }
   // };
 
-  const saveFile = async (fileData) => {
-    try {
-      // 가상의 모킹 데이터로 응답 TODO
-      const mockResponse = {
-        status: 200,
-        message: "File saved successfully!",
-        data: {
-          ...fileData,
-          id: Date.now().toString(), // 예시로 파일에 대한 고유 ID를 생성
-        },
-      };
+  const saveFileMutation = useMutation(saveFileAPI, {
+    onError: (error) => {
+      console.error("파일 저장 에러:", error);
+    },
+    onSuccess: (data) => {
+      console.log("파일 저장 성공:", data);
+      setSaveStatus("success");
+    },
+    onMutate: () => {
+      setSaveStatus("pending");
+    },
+  });
 
-      // 200 상태 코드를 통해 성공적으로 처리되었다고 가정
-      if (mockResponse.status === 200) {
-        setSaveStatus("success");
-        console.log("File saved (mock):", mockResponse.data);
-        return mockResponse.data; // 혹은 원하는 데이터 반환
-      } else {
-        setSaveStatus("failed");
-        throw new Error(mockResponse.message);
-      }
-    } catch (error) {
-      setSaveStatus("failed");
-      console.error("Error saving the file:", error);
-      throw error;
-    }
+  const saveFile = (fileId, path, fileName, content) => {
+    saveFileMutation.mutate({
+      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+      fileId,
+      path,
+      fileName,
+      content,
+    });
   };
+  // const saveFile = async (fileData) => {
+  //   try {
+  //     // 가상의 모킹 데이터로 응답 TODO
+  //     const mockResponse = {
+  //       status: 200,
+  //       message: "File saved successfully!",
+  //       data: {
+  //         ...fileData,
+  //         id: Date.now().toString(), // 예시로 파일에 대한 고유 ID를 생성
+  //       },
+  //     };
+
+  //     // 200 상태 코드를 통해 성공적으로 처리되었다고 가정
+  //     if (mockResponse.status === 200) {
+  //       setSaveStatus("success");
+  //       console.log("File saved (mock):", mockResponse.data);
+  //       return mockResponse.data; // 혹은 원하는 데이터 반환
+  //     } else {
+  //       setSaveStatus("failed");
+  //       throw new Error(mockResponse.message);
+  //     }
+  //   } catch (error) {
+  //     setSaveStatus("failed");
+  //     console.error("Error saving the file:", error);
+  //     throw error;
+  //   }
+  // };
 
   const onSaveAs = async (newFileName, currentFilePath, currentFileContent) => {
     try {
