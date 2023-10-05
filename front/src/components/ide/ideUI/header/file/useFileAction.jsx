@@ -7,6 +7,8 @@ import { createFileAPI } from "../../../../../api/ideAPI/createFileAPI";
 import { saveAsAPI } from "../../../../../api/ideAPI/saveAsAPI";
 import { createFolderAPI } from "../../../../../api/ideAPI/createFolderAPI";
 import { saveFileAPI } from "../../../../../api/ideAPI/saveFileAPI";
+import { editFileNameAPI } from "../../../../../api/ideAPI/editFileNameAPI";
+import { updateFolderNameAPI } from "../../../../../api/ideAPI/folderEditAPI";
 
 export default function useFileAction() {
   const [files, setFiles] = useState([]);
@@ -259,6 +261,42 @@ export default function useFileAction() {
   //   throw error;
   // }
 
+  const editFileNameMutation = useMutation(editFileNameAPI, {
+    onError: (error) => {
+      console.error("파일 이름 수정 에러:", error);
+    },
+    onSuccess: (data) => {
+      console.log("파일 이름 수정 성공:", data);
+      // 필요한 경우, 리덕스나 로컬 상태 업데이트 로직 추가 TODO
+    },
+  });
+
+  const editFolderNameMutation = useMutation(updateFolderNameAPI, {
+    onError: (error) => {
+      console.error("폴더 이름 수정 에러:", error);
+    },
+    onSuccess: (data) => {
+      console.log("폴더 이름 수정 성공:", data);
+      // 필요한 경우, 리덕스나 로컬 상태 업데이트 로직 추가 TODO
+    },
+  });
+
+  const editFileName = (fileId, newName) => {
+    editFileNameMutation.mutate({
+      fileId,
+      newName,
+      // 다른 필요한 인자들 추가...TODO
+    });
+  };
+
+  const editFolderName = (folderId, newName) => {
+    editFolderNameMutation.mutate({
+      folderId,
+      newName,
+      // 다른 필요한 인자들 추가...TODO
+    });
+  };
+
   return {
     createFile,
     createFolder,
@@ -266,5 +304,7 @@ export default function useFileAction() {
     saveFile,
     saveStatus,
     onSaveAs,
+    editFileName,
+    editFolderName,
   };
 }
