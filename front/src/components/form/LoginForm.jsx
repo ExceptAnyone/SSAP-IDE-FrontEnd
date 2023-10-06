@@ -10,7 +10,7 @@ import {
   setIsError,
   setIsSuccess,
 } from "../../redux/authSlice";
-import "../../page/login/LoginPage.css";
+import "../../page/loginpage/LoginPage.css";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { getCookie, setCookie } from "../../cookie/cookieUtils";

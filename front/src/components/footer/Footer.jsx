@@ -1,5 +1,5 @@
 import React from "react";
-import "../../page/login/LoginPage.css";
+import "../../page/loginpage/LoginPage.css";
 
 import { Link } from "react-router-dom";
 
