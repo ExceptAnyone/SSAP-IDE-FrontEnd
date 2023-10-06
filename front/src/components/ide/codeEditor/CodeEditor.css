@@ -1,0 +1,25 @@
+/* CodeEditor.css (또는 CodeEditor.module.css) */
+
+.CodeEditor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 전체 화면 높이 */
+}
+
+.CodeEditor header {
+  /* 필요한 헤더 스타일을 여기에 추가 */
+  height: 10vh;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.CodeEditor .container {
+  display: flex;
+  flex: 1; /* 헤더를 제외한 나머지 공간을 차지 */
+}
+
+.CodeEditor .editor-wrap {
+  flex: 3; /* 에디터의 너비 조절, 사이드바 대비 3배 넓게 */
+  margin-left: 250px; /* 원하는만큼의 값을 설정하세요. 예: 250px */
+  /* 필요한 에디터 스타일 추가 */
+}
