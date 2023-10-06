@@ -14,19 +14,33 @@ import {
   setError,
   setIsLoading,
   setSuccess,
-  registerUser,
+  setIsValidUsername,
+  setIsValidPassword,
 } from "../../redux/authSlice";
 
 function SignUpForm() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.auth.username);
-  const password = useSelector((state) => state.auth.password);
-  const confirmPassword = useSelector((state) => state.auth.confirmPassword);
-  const name = useSelector((state) => state.auth.name);
-  const error = useSelector((state) => state.auth.error);
-  const isLoading = useSelector((state) => state.auth.isLoading);
-  const success = useSelector((state) => state.auth.success);
-  const navigate = useNavigate(); // useHistory 훅을 추가해서 페이지 이동 가능
+
+  const {
+    username,
+    password,
+    confirmPassword,
+    name,
+    error,
+    isLoading,
+    success,
+  } = useSelector((state) => state.auth);
+
+  const handleUsernameBlur = () => {
+    const isValid = validateUsername(username);
+    dispatch(setIsValidUsername(isValid));
+  };
+
+  const handlePasswordBlur = () => {
+    const isValid = validatePassword(password);
+    dispatch(setIsValidPassword(isValid));
+  };
 
   const validateUsername = (value) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -108,9 +122,8 @@ function SignUpForm() {
         type="text"
         placeholder="abcd1234@ssap.com"
         value={username}
-        onChange={(e) => {
-          validateUsername(e.target.value);
-        }}
+        onChange={(e) => dispatch(setUsername(e.target.value))}
+        onBlur={handleUsernameBlur} // onBlur 이벤트 핸들러 추가
         className={error ? "invalid" : ""}
         style={{
           border: "none",
@@ -129,9 +142,8 @@ function SignUpForm() {
         type="password"
         placeholder="영문,숫자,특수문자 8-30자"
         value={password}
-        onChange={(e) => {
-          validatePassword(e.target.value);
-        }}
+        onChange={(e) => dispatch(setPassword(e.target.value))}
+        onBlur={handlePasswordBlur} // onBlur 이벤트 핸들러 추가
         className={error ? "invalid" : ""}
         style={{
           border: "none",
@@ -142,6 +154,7 @@ function SignUpForm() {
           padding: 10,
         }}
       />
+
       {error ? (
         <p className="error">
           비밀번호는 영문,숫자,특수문자 8-30자를 입력하세요{" "}
@@ -154,9 +167,7 @@ function SignUpForm() {
         type="password"
         placeholder="영문,숫자,특수문자 8-30자"
         value={confirmPassword}
-        onChange={(e) => {
-          dispatch(setConfirmPassword(e.target.value));
-        }}
+        onChange={(e) => dispatch(setConfirmPassword(e.target.value))}
         style={{
           border: "none",
           outline: "none",

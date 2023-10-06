@@ -2,28 +2,36 @@ import React, { useState } from "react";
 import { TfiMoreAlt } from "react-icons/tfi";
 import { BsTrash, BsLink45Deg } from "react-icons/bs";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import clipboardCopy from "clipboard-copy";
+import "../main/MainPage.css";
 
-function Test() {
+function Test({ posts, deletePost }) {
   const [text, setText] = useState("");
   const [submittedText, setSubmittedText] = useState("");
-
   const [lastModifiedTime, setLastModifiedTime] = useState(null);
   const [isListVisible, setListVisible] = useState(false);
+
   const toggleList = () => {
     setListVisible(!isListVisible);
   };
+
+  const confirmDelete = () => {
+    // 컨테이너 삭제를 확인하는 알림 창을 띄웁니다.
+    const isConfirmed = window.confirm("컨테이너를 삭제하시겠습니까?");
+
+    if (isConfirmed) {
+      // 확인 버튼을 누르면 컨테이너 삭제 함수를 호출합니다.
+      deletePost();
+    }
+  };
+
   const handleSubmit = () => {
     setSubmittedText(text);
 
-    // 여기에서 텍스트 처리 또는 실행 작업을 수행할 수 있습니다.
-    // 이 예제에서는 입력된 텍스트를 그대로 표시하고 마지막 수정 시간을 계산합니다.
-
     const currentTime = new Date();
-
-    // 마지막 수정 시간을 현재 시간으로 설정합니다.
     setLastModifiedTime(currentTime);
 
-    // 콘솔에 로그를 출력합니다.
     console.log("입력된 텍스트:", text);
     console.log("결과:", text);
     console.log("마지막 수정 시간:", currentTime);
@@ -35,38 +43,66 @@ function Test() {
     }
 
     const currentTime = new Date();
-    const timeDifference = Math.floor((currentTime - lastModifiedTime) / 60000); // 밀리초를 분 단위로 변환
+    const timeDifference = Math.floor((currentTime - lastModifiedTime) / 60000);
 
     if (timeDifference < 60) {
       return `${timeDifference} 분 전에 수정됨`;
     } else {
-      const hoursDifference = Math.floor(timeDifference / 60); // 분을 시간 단위로 변환
+      const hoursDifference = Math.floor(timeDifference / 60);
       return `${hoursDifference} 시간 전에 수정됨`;
     }
   };
 
+  const copyLinkToClipboard = () => {
+    const currentURL = window.location.href;
+    clipboardCopy(currentURL)
+      .then(() => {
+        alert("링크가 복사되었습니다.");
+      })
+      .catch((error) => {
+        console.error("링크 복사 중 오류가 발생했습니다.", error);
+      });
+  };
+
   return (
-    <div>
+    <div className="test-1">
       <TfiMoreAlt onClick={toggleList} />
       {isListVisible && (
         <ul className="list">
           <li>
-            <BsLink45Deg />
-            공유링크 복사
+            <button onClick={copyLinkToClipboard}>
+              <BsLink45Deg />
+              공유링크 복사
+            </button>
           </li>
           <li>
-            <IoDocumentTextOutline />
-            컨테이너 수정
+            <Link to="/containers/{containerId}">
+              <IoDocumentTextOutline />
+              컨테이너 수정
+            </Link>
           </li>
           <li>
-            <BsTrash />
-            컨테이너 삭제
+            {/* 삭제 버튼을 누를 때 confirmDelete 함수를 호출합니다. */}
+            <button onClick={confirmDelete}>
+              <BsTrash />
+              컨테이너 삭제
+            </button>
           </li>
         </ul>
       )}
-      <h2>test</h2>
-      test 내용 {setText}
-      <br />
+      <div>
+        <ul>
+          {posts.map((post, index) => (
+            <div key={index}>
+              <h2>{post.title}</h2>
+              <p>{post.description}</p>
+            </div>
+          ))}
+        </ul>
+      </div>
+
+      {setText}
+
       <div
         className="start"
         style={{
@@ -80,8 +116,16 @@ function Test() {
           marginTop: "160px",
         }}
       >
-        <button onClick={handleSubmit}>실행</button>
-        <p> {submittedText}</p>
+        <Link
+          style={{ textDecoration: "none" }}
+          to="containers/run/{containerId}"
+        >
+          <button className="btn-test" onClick={handleSubmit}>
+            실행
+          </button>
+
+          <p> {submittedText}</p>
+        </Link>
 
         <p>{formatLastModifiedTime(lastModifiedTime)}</p>
       </div>
