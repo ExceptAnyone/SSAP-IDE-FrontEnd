@@ -21,9 +21,8 @@ export default function ProfileIcon() {
       <BsFillPersonFill onClick={toggleList} />
       {isListVisible && (
         <ul className="profileicon">
-          <Link to="/editsignup" className="link-sty">
+          <Link to="users/{id}" className="link-sty">
             <li className="profileicon-1">
-              {" "}
               <AiFillSetting />내 정보
             </li>
           </Link>
