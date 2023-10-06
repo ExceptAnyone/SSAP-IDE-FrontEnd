@@ -1,13 +1,16 @@
 import React from "react";
-import Form from "./Form";
+import SignUpForm from "../../components/form/SignUpForm";
 import "./SignupPage.css";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
   return (
     <div className="ssapide">
-      <h1 className="h1">SSAP IDE</h1>
+      <Link to="/login">
+        <h1 className="h1">SSAP IDE</h1>
+      </Link>
       <p className="p">SSAP IDE서비스를 이용하기 위해 회원가입 해 주세요.</p>
-      <Form />
+      <SignUpForm />
     </div>
   );
 }
