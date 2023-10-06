@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import Header from "../../components/header/Header";
+// import axios from "axios"; // Axios 라이브러리를 임포트합니다.
 import "./EditContainerPage.css";
 
-export default function Contain() {
+export default function Contain({ editPost }) {
   // 상태 값 초기화
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState("public"); // 공개범위 기본값 설정
-  const [selectedStacks, setSelectedStacks] = useState("stack1");
-  const [modules, setModules] = useState([]); // 체크박스로 선택한 모듈/패키지 목록
+  const [stack, setStack] = useState("stack");
+  const [customControl, setCustomControl] = useState([]); // 체크박스로 선택한 모듈/패키지 목록
+
+  // const [serverResponse, setServerResponse] = useState(null); // 서버 응답 상태를 저장할 상태 변수
 
   // 공개범위 라디오 버튼 변경 핸들러
   const handleVisibilityChange = (e) => {
@@ -16,7 +19,7 @@ export default function Contain() {
   };
 
   const handleStacksChange = (e) => {
-    setSelectedStacks(e.target.value);
+    setStack(e.target.value);
   };
 
   // 모듈/패키지 체크박스 변경 핸들러
@@ -24,44 +27,43 @@ export default function Contain() {
     const moduleName = e.target.value;
     if (e.target.checked) {
       // 체크된 경우 목록에 추가
-      setModules([...modules, moduleName]);
+      setCustomControl([...customControl, moduleName]);
     } else {
       // 체크 해제된 경우 목록에서 제거
-      setModules(modules.filter((module) => module !== moduleName));
+      setCustomControl(customControl.filter((module) => module !== moduleName));
     }
   };
 
-  // 이름 입력 필드가 비어있는지 확인하는 함수
-  const isNameEmpty = name.trim() === "";
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    // 정규 표현식을 사용하여 영어와 숫자만 허용하도록 필터링합니다.
+    const filteredValue = inputValue.replace(/[^A-Za-z0-9]/g, "");
+    setTitle(filteredValue);
+  };
 
-  // "생성하기" 버튼 클릭 핸들러
-  const handleCreateClick = (e) => {
-    e.preventDefault(); // 기본 동작(페이지 리프레시)을 막음
-
-    // 여기에서 생성 작업을 수행하거나 다른 작업을 수행할 수 있습니다.
-    // 예: API 호출, 상태 업데이트 등
+  const handleInputChange2 = (e) => {
+    const inputValue = e.target.value;
+    // 정규 표현식을 사용하여 영어와 숫자만 허용하도록 필터링합니다.
+    const filteredValue = inputValue.replace(/[^A-Za-z0-9]/g, "");
+    setDescription(filteredValue);
   };
 
   return (
     <div>
-      <Header name="수정하기" icon="컨테이너 수정하기" />
+      <Header name="수정하기" icon="컨테이너 수정하기" containnername={title} />
 
-      <div>
-        {/* "생성하기" 버튼 클릭 시 handleCreateClick 함수 실행 */}
-        <button onClick={handleCreateClick} disabled={isNameEmpty}>
-          생성하기
-        </button>
-      </div>
+      <div></div>
       <form className="editcontain">
         <div>
           <div className="edit-1">
             이름
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={title}
+              onChange={handleInputChange}
               className="input"
             />
+            {!title ? <p className="error">이름 입력</p> : null}
           </div>
         </div>
         <div>
@@ -70,7 +72,7 @@ export default function Contain() {
             <input
               type="text"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleInputChange2}
               className="input-2"
             />
           </div>
@@ -86,7 +88,6 @@ export default function Contain() {
                 checked={visibility === "public"}
                 onChange={handleVisibilityChange}
               />
-
               <label>Private</label>
             </div>
           </div>
@@ -97,8 +98,8 @@ export default function Contain() {
             <div className="ckeckbox1">
               <input
                 type="radio"
-                value="stack1"
-                checked={selectedStacks === "stack1"}
+                value="stack"
+                checked={stack === "stack"}
                 onChange={handleStacksChange}
               />
               <label>Java</label>
@@ -111,8 +112,8 @@ export default function Contain() {
             <div className="ckeckbox2">
               <input
                 type="checkbox"
-                value="module2"
-                checked={modules.includes("module2")}
+                value="customControl"
+                checked={customControl.includes("customControl")}
                 onChange={handleModulesChange}
               />
               <label>MySQL</label>

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { AiFillSetting } from "react-icons/ai";
+import { SlLogout } from "react-icons/sl";
+
 import "./Header.css";
+import { Link } from "react-router-dom";
+import LogoutButton from "./LogoutButton";
 
 export default function ProfileIcon() {
   // 리스트의 표시 여부를 제어할 상태 변수
@@ -13,16 +17,20 @@ export default function ProfileIcon() {
   };
 
   return (
-    <div className="profileicon">
+    <div>
       <BsFillPersonFill onClick={toggleList} />
       {isListVisible && (
-        <ul>
-          <Link to="/profile">
-            <li>내 정보</li>
+        <ul className="profileicon">
+          <Link to="users/{id}" className="link-sty">
+            <li className="profileicon-1">
+              <AiFillSetting />내 정보
+            </li>
           </Link>
-          <Link to="/">
-            <li>로그아웃</li>
-          </Link>
+
+          <li className="profileicon-1">
+            <SlLogout />
+            <LogoutButton />
+          </li>
         </ul>
       )}
     </div>
