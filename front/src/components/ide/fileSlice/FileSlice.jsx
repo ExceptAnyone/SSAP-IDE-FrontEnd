@@ -4,7 +4,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 export const fileSlice = createSlice({
   name: "file",
   initialState: {
-    data: [], // 초기값은 빈 배열로 설정했습니다.
+    data: [],
     selectFileId: null,
     editingFileId: null, // 현재 편집 중인 파일 id
     editingFileContent: "", //현재 편집 중인 파일의 내용
@@ -51,6 +51,14 @@ export const fileSlice = createSlice({
         targetFile.content = content;
       }
     },
+    updateFileName: (state, action) => {
+      //폴더/파일 이름 수정
+      const { id, newName } = action.payload;
+      const fileOrFolder = state.data.find((item) => item.id === id);
+      if (fileOrFolder) {
+        fileOrFolder.text = newName;
+      }
+    },
   },
 });
 
@@ -62,6 +70,7 @@ export const {
   selectFile,
   setCurrentEditingFile,
   updateFileContent,
+  updateFileName,
 } = fileSlice.actions;
 
 export default fileSlice.reducer;

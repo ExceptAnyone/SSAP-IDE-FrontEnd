@@ -1,11 +1,14 @@
 import React from "react";
 import * as Menubar from "@radix-ui/react-menubar";
 import "../HeaderMenubar.css";
+import { PersonIcon } from "@radix-ui/react-icons";
 
 export default function User() {
   return (
     <Menubar.Menu>
-      <Menubar.Trigger className="MenubarTrigger">사람</Menubar.Trigger>
+      <Menubar.Trigger className="MenubarTrigger">
+        <PersonIcon />
+      </Menubar.Trigger>
       <Menubar.Portal>
         <Menubar.Content
           className="MenubarContent"
