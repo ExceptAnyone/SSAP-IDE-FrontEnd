@@ -1,6 +1,6 @@
 .header {
   display: flex;
-  background-color: aqua;
+  background-color: rgb(235, 232, 232);
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -15,7 +15,10 @@
   justify-content: space-around;
   width: 1440px;
   height: 157px;
-  background-color: brown;
+  background-color: rgb(235, 232, 232);
+  padding-right: 0px;
+  margin-right: 0px;
+  margin-top: 100px;
 }
 
 .header-top {
@@ -23,6 +26,17 @@
   align-items: center;
   justify-content: space-around;
   width: 100%;
+  float: right;
+  margin-left: 0px;
+  padding-top: 0px;
+  margin-bottom: 80px;
+  background-color: rgb(235, 232, 232);
+  position: relative; /* 요소의 위치를 상대적으로 설정 */
+  left: -400px;
+  float: left;
+  gap: 800px;
+  position: relative; /* position을 설정해야 z-index가 적용됩니다 */
+  margin-bottom: 130px;
 }
 
 .profileicon {
@@ -35,6 +49,7 @@
 
 .back {
   display: flex;
+  width: 300px;
 }
 
 .backbutton {
@@ -48,6 +63,7 @@
 
 .header-inner {
   flex-direction: row-reverse;
+  padding-left: 260px;
 }
 
 .edit-btn {
@@ -61,7 +77,12 @@
   justify-content: center;
   align-items: center;
   width: 150px;
-  float: right;
+  display: flex;
+  justify-content: flex-end;
+  position: relative; /* 요소의 위치를 상대적으로 설정 */
+  right: -800px;
+
+  position: relative;
 }
 
 .edit-btn:disabled {
@@ -81,4 +102,18 @@
 .link-sty {
   text-decoration: none; /* 밑줄 제거 */
   color: black;
+}
+
+.h4 {
+  width: 300px;
+}
+
+.profileicon-right {
+  width: 300px;
+  display: flex;
+  z-index: 9999;
+}
+
+.profileicon-left {
+  width: 300px;
 }
