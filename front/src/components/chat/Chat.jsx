@@ -33,15 +33,21 @@ const Chat = ({ roomId }) => {
     console.log("isVisible:", isVisible); // isVisible 상태 확인용
   }, [isVisible]);
 
+  // 클라이언트 접속 시간
+  const joinTime = new Date();
+
   // 소켓
   useEffect(() => {
     if (!userName) return;
 
     // Socket.IO 클라이언트 초기화
-    socketRef.current = socketIOClient(API_ENDPOINT);
+    socketRef.current = socketIOClient(API_ENDPOINT, {
+      //cors 체크
+      withCredentials: true,
+    });
 
     socketRef.current.emit("setUsername", userName);
-    socketRef.current.emit("joinRoom", roomId);
+    socketRef.current.emit("joinRoom", roomId, joinTime);
 
     // 서버로부터 메시지를 받으면 상태 업데이트
     socketRef.current.on("receiveMessage", (msg) => {
@@ -92,13 +98,14 @@ const Chat = ({ roomId }) => {
   const handleSendMessage = (e) => {
     if (e) e.preventDefault();
     if (newMessage.trim() === "") return;
+    const socketId = socketRef.current.id;
     const messageObject = {
       userName,
       content: newMessage,
     };
 
     console.log("messageObject", messageObject);
-    socketRef.current.emit("sendMessage", roomId, messageObject);
+    socketRef.current.emit("sendMessage", roomId, socketId, messageObject);
     setNewMessage("");
   };
 
