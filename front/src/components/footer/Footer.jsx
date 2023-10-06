@@ -10,11 +10,11 @@ export default function Footer() {
       <br />
       SSAP IDE.ALL RIGHTS RESERVED.
       <nav>
-        <Link to="/editsignup">editsignup</Link>
+        <Link to="/users/{id}">editsignup</Link>
         <br />
-        <Link to="/createcontainer">createcontainer</Link>
+        <Link to="/containers">createcontainer</Link>
         <br />
-        <Link to="/editcontainer">editcontainer</Link>
+        <Link to="/containers/{containerId}">editcontainer</Link>
         <br />
         <Link to="/ide/:containerId">ide/:containerId</Link>
         <br />
