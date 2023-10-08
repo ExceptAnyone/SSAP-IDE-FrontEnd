@@ -87,7 +87,7 @@ const Chat = ({ roomId }) => {
 
   // TODO: BUG - 마지막글자 두번 전송 됨 수정 필요
   // textarea 엔터 키 전송
-  const handleTextareaKeyDown = (e) => {
+  const handleTextareaKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
@@ -151,7 +151,7 @@ const Chat = ({ roomId }) => {
                   value={newMessage}
                   autoFocus={true}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyDown={handleTextareaKeyDown}
+                  onKeyPress={handleTextareaKeyPress}
                 ></textarea>
                 <button type="submit">전송</button>
               </form>
