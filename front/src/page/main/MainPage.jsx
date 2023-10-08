@@ -1,47 +1,71 @@
-import React from "react";
-import LoginForm from "./LoginForm";
+import React , {useState, useEffect} from "react";
+import Test from "./Test";
+import Header from "../../components/header/Header";
+import { AiOutlineSearch } from "react-icons/ai";
 import "./MainPage.css";
-
 import Footer from "../../components/footer/Footer";
-import { Link } from "react-router-dom";
+
+
+
+  
+
 
 export default function MainPage() {
+  const [posts, setPosts] = useState([]); // 글 목록을 상태로 관리
+  const addPost = (post) => {
+    const updatedPosts = [...posts, post];
+    setPosts(updatedPosts);
+
+    // 로컬 스토리지에 데이터 저장
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  };
+  useEffect(() => {
+    // 페이지가 로드될 때 로컬 스토리지에서 데이터를 읽어옴
+    const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    setPosts(storedPosts);
+  }, []);
+
+  const deletePost = (index) => {
+    // 해당 인덱스의 글을 삭제
+    const updatedPosts = [...posts];
+    updatedPosts.splice(index, 1);
+    setPosts(updatedPosts);
+
+    // 로컬 스토리지에 데이터 저장
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  };
+
+  const editPost = (index, updatedPost) => {
+    // 해당 인덱스의 글을 수정
+    const updatedPosts = [...posts];
+    updatedPosts[index] = updatedPost;
+    setPosts(updatedPosts);
+
+    // 로컬 스토리지에 데이터 저장
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  };
   return (
-    // 컨테이너
-    <div className="con1">
-      <div className="con2">
-        {/* 로고 */}
-        <nav>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <h1 className="top-logo">SSAP IDE</h1>
-          </Link>
-        </nav>
-        {/* 메인 컨텐츠 flex */}
-        <div className="flexcon">
-          {/* 왼쪽에 배치/ 메인 컨텐츠 */}
-          <div className="child1">
-            <h1 className="title-1">
-              CONST RAINBOW
-              <br />
-              ='GITHUB'
-            </h1>
-            <div className="title-2">
-              레인보우는 깃헙과 같이 협업 도구로 자리매김 할 것입니다.
-              <br />
-              우리에게 있어 협업이란, <br />
-              단순 비지니스 관계를 넘어 순간의 인연을 소중히 여기고,
-              <br />
-              같은 목적을 가진 동료들끼리 역경을 극복하는 것입니다.
-            </div>
-          </div>
-          {/* 오른쪽에 배치/ 로그인 */}
-          <div className="child2">
-            <LoginForm />
-          </div>
-        </div>
-        {/* 페이지 하단에 고정/ 푸터바 */}
-        <Footer />
+    <div>
+      <Header
+        link="/containers"
+        name="새 컨테이너"
+        icon="모든 컨테이너"
+        MainPage={MainPage}
+      />
+      <div className="login-hd">
+        <AiOutlineSearch />
+        <input
+          className="search"
+          type="text"
+          placeholder="컨테이너 이름"
+        ></input>
       </div>
+      <div className="test-list">
+        {posts.map((post, index) => (
+          <Test key={index} posts={[post]} deletePost={deletePost} />
+        ))}
+      </div>
+      <Footer />
     </div>
   );
 }

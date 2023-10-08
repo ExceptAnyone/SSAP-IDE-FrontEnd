@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 import Header from "../../components/header/Header";
 import "./EditSignupPage.css";
+// import { Link } from "react-router-dom";
 
 export default function EditSignupPage() {
-  // 상태 초기화를 함수 컴포넌트 내부에서 수행합니다.
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isValidPassword, setIsValidPassword] = useState(true);
+  const [isValidPassword, setIsValidPassword] = useState(false);
 
   const validatePassword = (value) => {
-    // 비밀번호는 영문, 숫자, 특수문자를 포함한 8-30자여야 합니다.
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,30}$/;
     setIsValidPassword(passwordRegex.test(value));
   };
 
+  const handlePasswordBlur = () => {
+    validatePassword(password);
+  };
+
   return (
     <div>
-      <Header name="수정하기" icon="회원정보 수정" />
-      <button className="btn">새 컨테이너</button>
+      <Header
+        name="수정하기"
+        icon="회원정보 수정"
+        password={password}
+        confirmPassword={confirmPassword}
+      />
+      {/* isValidPassword 값을 Header 컴포넌트로 전달 */}
+
       <ul className="profile">
         <div>
           <div className="profile1">
-            {" "}
             이메일
             <div className="email">abcd1234@ssap.com</div>
           </div>
@@ -30,7 +38,7 @@ export default function EditSignupPage() {
           <br />
 
           <div className="profile2">
-            <label for="password">비밀번호</label>
+            <label htmlFor="password">비밀번호</label>
             <div className="pass-2">
               <input
                 type="password"
@@ -38,10 +46,9 @@ export default function EditSignupPage() {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  validatePassword(e.target.value);
                 }}
-                className={!isValidPassword ? "invalid" : ""}
-                style={{ border: "none" }}
+                onBlur={handlePasswordBlur} // onBlur 이벤트 추가
+                className={`pass-0 ${!isValidPassword ? "invalid" : ""}`}
               />
             </div>
             {!isValidPassword ? (
@@ -52,7 +59,7 @@ export default function EditSignupPage() {
           </div>
           <br />
           <div className="profile3">
-            <label for="password">비밀번호 확인</label>
+            <label htmlFor="password">비밀번호 확인</label>
             <input
               className="pass-1"
               type="password"

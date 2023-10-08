@@ -27,7 +27,7 @@
 }
 
 .pass-1,
-.pass-2 {
+.pass-0 {
   border-radius: 10px;
   border: 1px solid #e2e2e2;
   background: #fff;
@@ -60,4 +60,10 @@
 
 .back {
   float: left;
+}
+
+.pass-bt:disabled {
+  background-color: gray; /* 배경색을 회색으로 설정 */
+  color: white; /* 글자 색상을 흰색으로 설정 (선택 사항) */
+  cursor: not-allowed; /* 마우스 커서를 기본 상태로 설정 (선택 사항) */
 }
