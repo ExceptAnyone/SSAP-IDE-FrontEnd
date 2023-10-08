@@ -2,18 +2,11 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 
-export const updateFolderNameAPI = async ({
-  containerId,
-  folderId,
-  newPath,
-  newFolderName,
-}) => {
-  const API_URL = `/ide/${containerId}/folders/${folderId}/name`;
-
+export const updateFolderNameAPI = async ({ newFolderName }) => {
+  const API_URL = `http://ide-env.eba-mhhgujuf.ap-northeast-2.elasticbeanstalk.com/ide/9271b06b-34f3-49ef-b311-776d3bbc2df3/folders/22/rename`;
   try {
     const response = await axios.patch(API_URL, {
-      path: newPath,
-      folderName: newFolderName,
+      newFolderName,
     });
 
     if (response.status === 200) {
