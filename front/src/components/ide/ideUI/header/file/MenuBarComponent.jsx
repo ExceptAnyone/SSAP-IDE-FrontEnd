@@ -1,4 +1,3 @@
-// MenuBarComponent.jsx
 import * as Menubar from "@radix-ui/react-menubar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { SaveAsModal } from "./SaveAsModal";
