@@ -9,6 +9,7 @@ const getMessages = async (roomId) => {
   try {
     const response = await axios.get(`${API_ENDPOINT}/chat/getMessages`, {
       params: { roomId },
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
