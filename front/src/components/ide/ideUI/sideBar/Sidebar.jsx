@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -19,6 +19,7 @@ import {
   addFile,
   addFolder,
   deleteFileOrFolder,
+  selectFile,
   setCurrentEditingFile,
   setTreeData,
 } from "../../fileSlice/FileSlice";
@@ -27,7 +28,11 @@ function Sidebar() {
   const filesAndFolders = useSelector((state) => state.file.data);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [, forceUpdate] = useState();
 
+  useEffect(() => {
+    forceUpdate({});
+  }, [filesAndFolders]);
   const handleFileClick = (node) => {
     // 클릭한 파일의 ID와 내용
     const clickedFileId = node.id;
@@ -37,6 +42,9 @@ function Sidebar() {
     dispatch(
       setCurrentEditingFile({ id: clickedFileId, content: clickedFileContent }),
     );
+
+    // 선택된 파일의 ID를 설정 (새로 추가된 부분)
+    dispatch(selectFile(clickedFileId));
   };
 
   const handleDrop = (newTree) => {
@@ -69,6 +77,8 @@ function Sidebar() {
       dispatch(addFolder(newNode));
     }
   };
+
+  console.log("filesAndFolders", filesAndFolders);
   // const [treeData, setTreeData] = useState(filesAndFolders);
   // const handleDrop = (newTree) => setTreeData(newTree);
 
