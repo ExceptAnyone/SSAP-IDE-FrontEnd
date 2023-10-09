@@ -9,7 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./page/main/MainPage";
 import LoginPage from "./page/loginpage/LoginPage";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+
 import PrivateRoute from "./PrivateRoute";
 
 const queryClient = new QueryClient();
@@ -28,13 +28,9 @@ function App() {
             path="/containers/{containerId}"
             element={<EditContainerPage />}
           />
-          <Route
-            path="/ide/:containerId"
-            element={<PrivateRoute component={IdePage} />}
-          />
+          <Route path="/ide" element={<IdePage />} />
         </Routes>
       </BrowserRouter>
-      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }

@@ -116,7 +116,7 @@ function Test({ posts, onDelete }) {
           marginTop: "160px",
         }}
       >
-        <Link style={{ textDecoration: "none" }} to="containers/{containerId}">
+        <Link style={{ textDecoration: "none" }} to="/ide">
           <button className="btn-test" onClick={handleSubmit}>
             실행
           </button>
