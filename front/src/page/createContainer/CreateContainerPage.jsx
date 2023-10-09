@@ -1,19 +1,34 @@
 import React, { useState } from "react";
+import { useQuery, useMutation } from "react-query";
 import Header from "../../components/header/Header";
-// import axios from "axios"; // Axios 라이브러리를 임포트합니다.
 import "../editcontainer/EditContainerPage.css";
+import "../../page/page.css";
 
-export default function CreateContainerPage({ addPost }) {
-  // 상태 값 초기화
+export default function CreateContainerPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [visibility, setVisibility] = useState("public"); // 공개범위 기본값 설정
-  const [stack, setStack] = useState("stack");
-  const [customControl, setCustomControl] = useState([]); // 체크박스로 선택한 모듈/패키지 목록
+  const [visibility, setVisibility] = useState("");
+  const [stack, setStack] = useState("");
+  const [customControl, setCustomControl] = useState("");
 
-  // const [serverResponse, setServerResponse] = useState(null); // 서버 응답 상태를 저장할 상태 변수
+  const mutation = useMutation((newPost) => {
+    return fetch(
+      "http://ide-env.eba-mhhgujuf.ap-northeast-2.elasticbeanstalk.com/containers/create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPost),
+      },
+    )
+      .then((response) => response.json())
+      .catch((error) => {
+        console.error("데이터 업데이트 실패:", error);
+        return [];
+      });
+  });
 
-  // 공개범위 라디오 버튼 변경 핸들러
   const handleVisibilityChange = (e) => {
     setVisibility(e.target.value);
   };
@@ -22,40 +37,37 @@ export default function CreateContainerPage({ addPost }) {
     setStack(e.target.value);
   };
 
-  // 모듈/패키지 체크박스 변경 핸들러
   const handleModulesChange = (e) => {
-    const moduleName = e.target.value;
-    if (e.target.checked) {
-      // 체크된 경우 목록에 추가
-      setCustomControl([...customControl, moduleName]);
-    } else {
-      // 체크 해제된 경우 목록에서 제거
-      setCustomControl(customControl.filter((module) => module !== moduleName));
-    }
-  };
-
-  // 컨테이너 수정 요청을 서버에 보내는 함수
-  const updateContainer = () => {
-    // 글 작성 로직: 여기서 글을 저장하거나 서버에 전송할 수 있습니다.
-    const newPost = { title, description };
-    addPost(newPost); // 글을 목록에 추가
-    console.log("title:", newPost);
-    setTitle("");
-    setDescription("");
+    setCustomControl(e.target.value);
   };
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
-    // 정규 표현식을 사용하여 영어와 숫자만 허용하도록 필터링합니다.
     const filteredValue = inputValue.replace(/[^A-Za-z0-9]/g, "");
     setTitle(filteredValue);
   };
 
   const handleInputChange2 = (e) => {
     const inputValue = e.target.value;
-    // 정규 표현식을 사용하여 영어와 숫자만 허용하도록 필터링합니다.
     const filteredValue = inputValue.replace(/[^A-Za-z0-9]/g, "");
     setDescription(filteredValue);
+  };
+
+  const updateContainer = () => {
+    const newPost = {
+      title,
+      description,
+      stack,
+      customControl,
+    };
+    mutation.mutate(newPost, {
+      onSuccess: (data) => {
+        console.log("컨테이너 생성 성공:", data);
+        setTitle("");
+        setDescription("");
+        // 성공한 경우 필요한 처리를 추가할 수 있습니다.
+      },
+    });
   };
 
   return (
@@ -68,7 +80,6 @@ export default function CreateContainerPage({ addPost }) {
         link="/"
       />
 
-      <div></div>
       <form className="editcontain">
         <div>
           <div className="edit-1">
@@ -76,7 +87,7 @@ export default function CreateContainerPage({ addPost }) {
             <input
               type="text"
               value={title}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange(e)}
               className="input"
             />
             {!title ? <p className="error">이름 입력</p> : null}
@@ -88,7 +99,7 @@ export default function CreateContainerPage({ addPost }) {
             <input
               type="text"
               value={description}
-              onChange={handleInputChange2}
+              onChange={(e) => handleInputChange2(e)}
               className="input-2"
             />
           </div>
@@ -100,8 +111,8 @@ export default function CreateContainerPage({ addPost }) {
               <input
                 type="radio"
                 name="visibility"
-                value="public"
-                checked={visibility === "public"}
+                value="private"
+                checked={visibility === "private"}
                 onChange={handleVisibilityChange}
               />
               <label>Private</label>
@@ -114,11 +125,11 @@ export default function CreateContainerPage({ addPost }) {
             <div className="ckeckbox1">
               <input
                 type="radio"
-                value="stack"
-                checked={stack === "stack"}
+                value="Java"
+                checked={stack === "Java"}
                 onChange={handleStacksChange}
               />
-              <label>Java</label>
+              <label>java</label>
             </div>
           </div>
         </div>
@@ -128,8 +139,8 @@ export default function CreateContainerPage({ addPost }) {
             <div className="ckeckbox2">
               <input
                 type="checkbox"
-                value="customControl"
-                checked={customControl.includes("customControl")}
+                value="mysql"
+                checked={customControl === "mysql"}
                 onChange={handleModulesChange}
               />
               <label>MySQL</label>

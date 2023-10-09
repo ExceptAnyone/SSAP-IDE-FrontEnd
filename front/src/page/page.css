@@ -1,0 +1,13 @@
+body {
+  background-color: #e2e2e2;
+}
+.editcontain,
+.profile {
+  width: 60%;
+  margin-bottom: 10%;
+}
+
+.con1,
+.ssapide {
+  background-color: white;
+}
