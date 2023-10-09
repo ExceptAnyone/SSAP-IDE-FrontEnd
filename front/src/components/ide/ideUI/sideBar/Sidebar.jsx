@@ -23,6 +23,8 @@ import {
   setCurrentEditingFile,
   setTreeData,
 } from "../../fileSlice/FileSlice";
+import { deleteFolderAPI } from "../../../../api/ideAPI/deleteFolderAPI";
+import { useMutation } from "react-query";
 
 function Sidebar() {
   const filesAndFolders = useSelector((state) => state.file.data);
@@ -50,8 +52,20 @@ function Sidebar() {
   const handleDrop = (newTree) => {
     dispatch(setTreeData(newTree));
   };
-  const handleDelete = (id) => {
-    dispatch(deleteFileOrFolder(id));
+
+  const deleteFolderMutation = useMutation(deleteFolderAPI, {
+    onSuccess: (data, folderId) => {
+      dispatch(deleteFileOrFolder(folderId));
+    },
+
+    // 에러가 발생한 경우의 처리
+    onError: (error) => {
+      console.error("폴더 삭제 실패", error.message);
+    },
+  });
+
+  const handleDelete = (folderId) => {
+    deleteFolderMutation.mutate(folderId);
   };
 
   const handleCopy = (id) => {

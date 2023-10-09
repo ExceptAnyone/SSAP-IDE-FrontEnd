@@ -9,6 +9,8 @@ import { createFolderAPI } from "../../../../../api/ideAPI/createFolderAPI";
 import { saveFileAPI } from "../../../../../api/ideAPI/saveFileAPI";
 import { editFileNameAPI } from "../../../../../api/ideAPI/editFileNameAPI";
 import { updateFolderNameAPI } from "../../../../../api/ideAPI/folderEditAPI";
+import { deleteFolderAPI } from "../../../../../api/ideAPI/deleteFolderAPI";
+import { deleteFileAPI } from "../../../../../api/ideAPI/deleteFileAPI";
 
 export default function useFileAction() {
   const [files, setFiles] = useState([]);
@@ -27,23 +29,27 @@ export default function useFileAction() {
       // 리덕스나 로컬 상태 업데이트 로직 추가
       const newFileData = {
         id: Date.now().toString(),
-        parentId: selectFileId || 0,
+        parent: selectFileId || 0,
         droppable: false,
         text: data.fileName,
-        data: {
-          fileType: "text", // 기본 파일 타입 "text"
-          path: data.Path,
-        },
+        // data: {
+        //   fileType: "text", // 기본 파일 타입 "text" TODO
+        //   path: data.Path,
+        // },
       };
       dispatch(addFile(newFileData));
     },
   });
 
-  const createFile = (path, fileName) => {
+  const createFile = (parentFileId, name, type, ext, path, content) => {
     createFileMutation.mutate({
       containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+      parentFileId,
+      name,
+      type,
+      ext,
       path,
-      fileName,
+      content,
     });
   };
 
@@ -309,6 +315,53 @@ export default function useFileAction() {
     },
   });
 
+  /////////////////delete 관련
+  const deleteFolderMutation = useMutation(deleteFolderAPI, {
+    onError: (error) => {
+      console.error("폴더 삭제 에러:", error);
+    },
+    onSuccess: (data) => {
+      console.log("폴더 삭제 성공:", data.message);
+      // 리덕스나 로컬 상태 업데이트 로직 추가 TODO
+    },
+  });
+
+  const deleteFolder = (folderId) => {
+    deleteFolderMutation.mutate(folderId);
+  };
+
+  const deleteFileMutation = useMutation(deleteFileAPI, {
+    onError: (error) => {
+      switch (error.message) {
+        case "파라미터 필수 항목이 누락되었거나 형식이 잘못되었습니다.":
+          console.error("파일 삭제 에러: 잘못된 파라미터");
+          break;
+        case "해당 파일을 삭제할 권한이 없습니다.":
+          console.error("파일 삭제 권한이 없습니다.");
+          break;
+        case "지정된 경로에 해당하는 파일이 존재하지 않습니다.":
+          console.error("파일 삭제 에러: 파일을 찾을 수 없습니다.");
+          break;
+        default:
+          console.error("파일 삭제 중 알 수 없는 오류가 발생했습니다.", error);
+          break;
+      }
+    },
+    onSuccess: (data) => {
+      console.log("파일 삭제 성공:", data.message);
+      //리덕스 상태 업데이트 로직 추가 TODO
+    },
+  });
+
+  const deleteFile = (fileId, path, fileName) => {
+    deleteFileMutation.mutate({
+      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+      fileId,
+      path,
+      fileName,
+    });
+  };
+
   return {
     createFile,
     createFolder,
@@ -318,5 +371,7 @@ export default function useFileAction() {
     onSaveAs,
     editFileName,
     editFolderName,
+    deleteFolder,
+    deleteFile,
   };
 }
