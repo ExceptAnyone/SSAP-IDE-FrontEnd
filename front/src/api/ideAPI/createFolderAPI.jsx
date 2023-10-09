@@ -1,11 +1,22 @@
 //폴더 생성시 api 호출 함수
 import axios from "axios";
 
-export const createFolderAPI = async ({ containerId, path, folderName }) => {
-  const API_URL = `/ide/${containerId}/folders`;
+export const createFolderAPI = async ({
+  containerId,
+  parentFolderId,
+  name,
+  type,
+  path,
+}) => {
+  const API_URL = `http://ide-env.eba-mhhgujuf.ap-northeast-2.elasticbeanstalk.com/ide/9271b06b-34f3-49ef-b311-776d3bbc2df3/folders`;
 
   try {
-    const response = await axios.post(API_URL, { path, folderName });
+    const response = await axios.post(API_URL, {
+      parentFolderId,
+      name,
+      type,
+      path,
+    });
 
     if (response.status === 201) {
       return response.data;
@@ -32,7 +43,7 @@ export const createFolderAPI = async ({ containerId, path, folderName }) => {
           throw new Error("요청을 처리하는 중에 서버에서 오류가 발생했습니다.");
       }
     } else {
-      throw error; // network error 등 axios 외부의 오류에 대한 처리
+      throw error; // axios 외부의 오류 처리 (예: 네트워크 오류)
     }
   }
 };

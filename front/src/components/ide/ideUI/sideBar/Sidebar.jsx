@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -19,15 +19,22 @@ import {
   addFile,
   addFolder,
   deleteFileOrFolder,
+  selectFile,
   setCurrentEditingFile,
   setTreeData,
 } from "../../fileSlice/FileSlice";
+import { deleteFolderAPI } from "../../../../api/ideAPI/deleteFolderAPI";
+import { useMutation } from "react-query";
 
 function Sidebar() {
   const filesAndFolders = useSelector((state) => state.file.data);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [, forceUpdate] = useState();
 
+  useEffect(() => {
+    forceUpdate({});
+  }, [filesAndFolders]);
   const handleFileClick = (node) => {
     // 클릭한 파일의 ID와 내용
     const clickedFileId = node.id;
@@ -37,13 +44,28 @@ function Sidebar() {
     dispatch(
       setCurrentEditingFile({ id: clickedFileId, content: clickedFileContent }),
     );
+
+    // 선택된 파일의 ID를 설정 (새로 추가된 부분)
+    dispatch(selectFile(clickedFileId));
   };
 
   const handleDrop = (newTree) => {
     dispatch(setTreeData(newTree));
   };
-  const handleDelete = (id) => {
-    dispatch(deleteFileOrFolder(id));
+
+  const deleteFolderMutation = useMutation(deleteFolderAPI, {
+    onSuccess: (data, folderId) => {
+      dispatch(deleteFileOrFolder(folderId));
+    },
+
+    // 에러가 발생한 경우의 처리
+    onError: (error) => {
+      console.error("폴더 삭제 실패", error.message);
+    },
+  });
+
+  const handleDelete = (folderId) => {
+    deleteFolderMutation.mutate(folderId);
   };
 
   const handleCopy = (id) => {
@@ -69,6 +91,8 @@ function Sidebar() {
       dispatch(addFolder(newNode));
     }
   };
+
+  console.log("filesAndFolders", filesAndFolders);
   // const [treeData, setTreeData] = useState(filesAndFolders);
   // const handleDrop = (newTree) => setTreeData(newTree);
 

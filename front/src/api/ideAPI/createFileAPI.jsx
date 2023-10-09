@@ -1,11 +1,26 @@
 // 파일 생성시 api 호출 함수
 import axios from "axios";
 
-export const createFileAPI = async ({ containerId, path, fileName }) => {
+export const createFileAPI = async ({
+  containerId,
+  parentFileId,
+  name,
+  type,
+  ext,
+  path,
+  content,
+}) => {
   const API_URL = `/ide/${containerId}/files`;
 
   try {
-    const response = await axios.post(API_URL, { path, fileName });
+    const response = await axios.post(API_URL, {
+      parentFileId,
+      name,
+      type,
+      ext,
+      path,
+      content,
+    });
 
     if (response.status === 201) {
       return response.data;

@@ -51,10 +51,10 @@ export const CustomNode = (props) => {
 
   const prepareApiData = () => {
     return {
-      containerId: "containerId", // 실제 containerId로 교체 필요 TODO
-      fileId: props.node.id, // 해당 파일/폴더의 실제 id
-      path: "path", // 실제 path로 교체 필요
-      fileName: editedName,
+      // containerId: "containerId", // 실제 containerId로 교체 필요 TODO
+      // fileId: props.node.id, // 해당 파일/폴더의 실제 id
+      // path: "path", // 실제 path로 교체 필요
+      newFolderName: editedName,
     };
   };
 

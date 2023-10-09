@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFile, addFolder } from "../../../fileSlice/FileSlice";
 import axios from "axios";
@@ -9,6 +9,8 @@ import { createFolderAPI } from "../../../../../api/ideAPI/createFolderAPI";
 import { saveFileAPI } from "../../../../../api/ideAPI/saveFileAPI";
 import { editFileNameAPI } from "../../../../../api/ideAPI/editFileNameAPI";
 import { updateFolderNameAPI } from "../../../../../api/ideAPI/folderEditAPI";
+import { deleteFolderAPI } from "../../../../../api/ideAPI/deleteFolderAPI";
+import { deleteFileAPI } from "../../../../../api/ideAPI/deleteFileAPI";
 
 export default function useFileAction() {
   const [files, setFiles] = useState([]);
@@ -16,78 +18,83 @@ export default function useFileAction() {
   const selectFileId = useSelector((state) => state.file.selectFileId);
   const [saveStatus, setSaveStatus] = useState(null);
   const dispatch = useDispatch();
+  const fileData = useSelector((state) => state.file.data);
 
-  const createFileMutation = useMutation(createFileAPI, {
-    onError: (error) => {
-      console.error("파일 생성 에러:", error);
-    },
-    onSuccess: (data) => {
-      console.log("새 파일 생성 성공:", data);
-      // 리덕스나 로컬 상태 업데이트 로직 추가
-      const newFileData = {
-        id: Date.now().toString(),
-        parent: selectFileId || 0,
-        droppable: false,
-        text: data.fileName,
-        data: {
-          fileType: "text", // 기본 파일 타입 "text"
-          path: data.Path,
-        },
-      };
-      dispatch(addFile(newFileData));
-    },
-  });
+  // const createFileMutation = useMutation(createFileAPI, {
+  //   onError: (error) => {
+  //     console.error("파일 생성 에러:", error);
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log("새 파일 생성 성공:", data);
+  //     // 리덕스나 로컬 상태 업데이트 로직 추가
+  //     const newFileData = {
+  //       id: Date.now().toString(),
+  //       parent: selectFileId || 0,
+  //       droppable: false,
+  //       text: data.fileName,
+  //       // data: {
+  //       //   fileType: "text", // 기본 파일 타입 "text" TODO
+  //       //   path: data.Path,
+  //       // },
+  //     };
+  //     dispatch(addFile(newFileData));
+  //   },
+  // });
 
-  const createFile = (path, fileName) => {
-    createFileMutation.mutate({
-      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
-      path,
-      fileName,
-    });
-  };
+  // const createFile = (parentFileId, name, type, ext, path, content) => {
+  //   createFileMutation.mutate({
+  //     containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+  //     parentFileId,
+  //     name,
+  //     type,
+  //     ext,
+  //     path,
+  //     content,
+  //   });
+  // };
 
   // TODO 모킹데이터를 이용한 새 파일 생성
-  // const createFile = () => {
-  //   // 모킹 데이터 TODO
-  //   const mockResponse = {
-  //     status: 201,
-  //     message: "파일 생성",
-  //     data: {
-  //       Path: "/example/path",
-  //       fileName: "NewFile",
-  //     },
-  //   };
+  const createFile = () => {
+    // 모킹 데이터 TODO
+    const mockResponse = {
+      status: 201,
+      message: "파일 생성",
+      data: {
+        Path: "/example/path",
+        fileName: "NewFile",
+      },
+    };
 
-  //   const newFileData = {
-  //     id: Date.now().toString(), // 유니크한 ID 생성 (실제로는 다른 방식으로 생성해야 함)
-  //     parent: selectFileId || 0, // 선택된 폴더가 있으면 그 폴더에 추가, 없으면 최상위에 추가
-  //     droppable: false,
-  //     text: "New File",
-  //     data: {
-  //       fileType: "text", // TODO 기본 파일 타입 "text"
-  //     },
-  //   };
-  //   console.log("newFileData", newFileData);
-  //   dispatch(addFile(newFileData));
+    const newFileData = {
+      id: Date.now().toString(), // 유니크한 ID 생성 (실제로는 다른 방식으로 생성해야 함)
+      parent: selectFileId || 0, // 선택된 폴더가 있으면 그 폴더에 추가, 없으면 최상위에 추가
+      droppable: false,
+      text: "New File",
+      data: {
+        fileType: "text", // TODO 기본 파일 타입 "text"
+      },
+    };
+    console.log("newFileData", newFileData);
+    dispatch(addFile(newFileData));
 
-  //   if (mockResponse.status === 201) {
-  //     // 폴더 생성 성공시 화면에 폴더 추가
-  //     setFiles((prevFiles) => {
-  //       const newFiles = [
-  //         ...prevFiles,
-  //         {
-  //           path: mockResponse.data.Path,
-  //           fileName: mockResponse.data.fileName,
-  //         },
-  //       ];
-  //       console.log("Updated file:", newFiles); // TODO 추후 삭제
-  //       return newFiles;
-  //     });
-  //   } else {
-  //     // 다른 상태 코드에 따른 처리 로직
-  //     alert(mockResponse.message);
-  //   }
-  // };
+    if (mockResponse.status === 201) {
+      // 폴더 생성 성공시 화면에 폴더 추가
+      setFiles((prevFiles) => {
+        const newFiles = [
+          ...prevFiles,
+          {
+            path: mockResponse.data.Path,
+            fileName: mockResponse.data.fileName,
+          },
+        ];
+        console.log("Updated file:", newFiles); // TODO 추후 삭제
+        return newFiles;
+      });
+    } else {
+      // 다른 상태 코드에 따른 처리 로직
+      alert(mockResponse.message);
+    }
+  };
 
   const createFolderMutation = useMutation(createFolderAPI, {
     onError: (error) => {
@@ -95,26 +102,39 @@ export default function useFileAction() {
     },
     onSuccess: (data) => {
       console.log("새 폴더 생성 성공:", data);
+      console.log("selectFileId", selectFileId);
+      console.log("fileData", fileData);
       // 리덕스나 로컬 상태 업데이트 로직 추가
       const newFolderData = {
-        id: Date.now().toString(),
+        id: 1,
         parent: selectFileId || 0,
         droppable: true,
-        text: data.folderName,
-        data: {
-          fileType: "folder", // 폴더 타입 지정
-          path: data.Path,
-        },
+        text: "newFolder",
+
+        // data: {
+        //   fileType: "folder", // 폴더 타입 지정
+        //   path: data.Path,
+        // },
       };
+      console.log("selectFileId", selectFileId);
+      console.log("fileData", fileData);
+
       dispatch(addFolder(newFolderData));
+      console.log("selectFileId", selectFileId);
+      console.log("fileData", fileData);
+      console.log("newFolderData", newFolderData);
     },
   });
 
   const createFolder = (path, folderName) => {
+    console.log("folderName", folderName);
+    console.log("parentId", selectFileId);
+
     createFolderMutation.mutate({
-      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
-      path,
-      folderName,
+      parentFolderId: selectFileId || 0, // 선택된 파일 or 폴더의 ID
+      name: "newFolder",
+      type: false, // 폴더 타입 지정
+      path: "/hello/hello2",
     });
   };
 
@@ -261,6 +281,30 @@ export default function useFileAction() {
   //   throw error;
   // }
 
+  const editFolderNameMutation = useMutation(updateFolderNameAPI, {
+    onError: (error) => {
+      console.error("폴더 이름 수정 에러:", error);
+    },
+    onSuccess: (data) => {
+      console.log("폴더 이름 수정 성공:", data.message);
+      // 리덕스 상태 업데이트 로직 추가 TODO
+    },
+  });
+
+  const editFolderName = (newName) => {
+    editFolderNameMutation.mutate({
+      newFolderName: newName,
+    });
+  };
+
+  const editFileName = (fileId, newName) => {
+    editFileNameMutation.mutate({
+      fileId,
+      newName,
+      // 다른 필요한 인자들 추가...TODO
+    });
+  };
+
   const editFileNameMutation = useMutation(editFileNameAPI, {
     onError: (error) => {
       console.error("파일 이름 수정 에러:", error);
@@ -271,29 +315,50 @@ export default function useFileAction() {
     },
   });
 
-  const editFolderNameMutation = useMutation(updateFolderNameAPI, {
+  /////////////////delete 관련
+  const deleteFolderMutation = useMutation(deleteFolderAPI, {
     onError: (error) => {
-      console.error("폴더 이름 수정 에러:", error);
+      console.error("폴더 삭제 에러:", error);
     },
     onSuccess: (data) => {
-      console.log("폴더 이름 수정 성공:", data);
-      // 필요한 경우, 리덕스나 로컬 상태 업데이트 로직 추가 TODO
+      console.log("폴더 삭제 성공:", data.message);
+      // 리덕스나 로컬 상태 업데이트 로직 추가 TODO
     },
   });
 
-  const editFileName = (fileId, newName) => {
-    editFileNameMutation.mutate({
-      fileId,
-      newName,
-      // 다른 필요한 인자들 추가...TODO
-    });
+  const deleteFolder = (folderId) => {
+    deleteFolderMutation.mutate(folderId);
   };
 
-  const editFolderName = (folderId, newName) => {
-    editFolderNameMutation.mutate({
-      folderId,
-      newName,
-      // 다른 필요한 인자들 추가...TODO
+  const deleteFileMutation = useMutation(deleteFileAPI, {
+    onError: (error) => {
+      switch (error.message) {
+        case "파라미터 필수 항목이 누락되었거나 형식이 잘못되었습니다.":
+          console.error("파일 삭제 에러: 잘못된 파라미터");
+          break;
+        case "해당 파일을 삭제할 권한이 없습니다.":
+          console.error("파일 삭제 권한이 없습니다.");
+          break;
+        case "지정된 경로에 해당하는 파일이 존재하지 않습니다.":
+          console.error("파일 삭제 에러: 파일을 찾을 수 없습니다.");
+          break;
+        default:
+          console.error("파일 삭제 중 알 수 없는 오류가 발생했습니다.", error);
+          break;
+      }
+    },
+    onSuccess: (data) => {
+      console.log("파일 삭제 성공:", data.message);
+      //리덕스 상태 업데이트 로직 추가 TODO
+    },
+  });
+
+  const deleteFile = (fileId, path, fileName) => {
+    deleteFileMutation.mutate({
+      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+      fileId,
+      path,
+      fileName,
     });
   };
 
@@ -306,5 +371,7 @@ export default function useFileAction() {
     onSaveAs,
     editFileName,
     editFolderName,
+    deleteFolder,
+    deleteFile,
   };
 }
