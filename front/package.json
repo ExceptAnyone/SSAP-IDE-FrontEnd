@@ -18,9 +18,13 @@
     "@testing-library/user-event": "^13.5.0",
     "assert": "^2.1.0",
     "axios": "^1.5.0",
+<<<<<<< HEAD
     "browserify-zlib": "^0.2.0",
     "clipboard-copy": "^4.0.1",
     "https-browserify": "^1.0.0",
+=======
+    "clipboard-copy": "^4.0.1",
+>>>>>>> dev
     "install": "^0.13.0",
     "lodash": "^4.17.21",
     "npm": "^10.1.0",

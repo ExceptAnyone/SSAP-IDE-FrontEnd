@@ -1,12 +1,49 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useMutation, useQueryClient } from "react-query";
 import Header from "../../components/header/Header";
 import "./EditSignupPage.css";
-// import { Link } from "react-router-dom";
+import { setPassword, setConfirmPassword } from "../../redux/authSlice";
+import "../../page/page.css";
+
+async function changeUserinfo({ email, password, passwordConfirm, name }) {
+  const response = await fetch("/api/change-user-info", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password, passwordConfirm, name }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
 
 export default function EditSignupPage() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [isValidPassword, setIsValidPassword] = useState(false);
+  const dispatch = useDispatch();
+  const { password, confirmPassword, email, name } = useSelector(
+    (state) => state.auth,
+  );
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(changeUserinfo, {
+    onSuccess: () => {
+      dispatch(setPassword(""));
+      dispatch(setConfirmPassword(""));
+    },
+    onError: (error) => {
+      console.error("회원 정보 수정 실패:", error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries("auth");
+    },
+  });
 
   const validatePassword = (value) => {
     const passwordRegex =
@@ -14,8 +51,26 @@ export default function EditSignupPage() {
     setIsValidPassword(passwordRegex.test(value));
   };
 
-  const handlePasswordBlur = () => {
-    validatePassword(password);
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    dispatch(setPassword(newPassword));
+    validatePassword(newPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const newConfirmPassword = e.target.value;
+    dispatch(setConfirmPassword(newConfirmPassword));
+  };
+
+  const handleSubmit = () => {
+    if (isValidPassword && password === confirmPassword) {
+      mutation.mutate({
+        email, // 이메일 값을 적절히 설정하세요.
+        password,
+        passwordConfirm: confirmPassword,
+        name, // 이름 값을 적절히 설정하세요.
+      });
+    }
   };
 
   return (
@@ -23,16 +78,16 @@ export default function EditSignupPage() {
       <Header
         name="수정하기"
         icon="회원정보 수정"
+        handleSubmit={handleSubmit}
         password={password}
         confirmPassword={confirmPassword}
       />
-      {/* isValidPassword 값을 Header 컴포넌트로 전달 */}
 
       <ul className="profile">
         <div>
           <div className="profile1">
             이메일
-            <div className="email">abcd1234@ssap.com</div>
+            <div className="email">{email}</div>
           </div>
 
           <br />
@@ -44,10 +99,7 @@ export default function EditSignupPage() {
                 type="password"
                 placeholder="영문,숫자,특수문자 8-30자"
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                onBlur={handlePasswordBlur} // onBlur 이벤트 추가
+                onChange={handlePasswordChange}
                 className={`pass-0 ${!isValidPassword ? "invalid" : ""}`}
               />
             </div>
@@ -65,9 +117,7 @@ export default function EditSignupPage() {
               type="password"
               placeholder="영문,숫자,특수문자 8-30자"
               value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-              }}
+              onChange={handleConfirmPasswordChange}
             />
 
             {password !== confirmPassword && (
@@ -76,8 +126,9 @@ export default function EditSignupPage() {
           </div>
           <br />
           <div className="profile4">
-            이름 <div className="name"> 레인보우</div>
+            이름 <div className="name"> {name}레인보우</div>
           </div>
+          <br />
         </div>
       </ul>
     </div>

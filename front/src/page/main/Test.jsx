@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import clipboardCopy from "clipboard-copy";
 import "../main/MainPage.css";
 
-function Test({ posts, deletePost }) {
+function Test({ posts, onDelete }) {
   const [text, setText] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [lastModifiedTime, setLastModifiedTime] = useState(null);
@@ -22,7 +22,7 @@ function Test({ posts, deletePost }) {
 
     if (isConfirmed) {
       // 확인 버튼을 누르면 컨테이너 삭제 함수를 호출합니다.
-      deletePost();
+      onDelete();
     }
   };
 
@@ -116,10 +116,7 @@ function Test({ posts, deletePost }) {
           marginTop: "160px",
         }}
       >
-        <Link
-          style={{ textDecoration: "none" }}
-          to="containers/run/{containerId}"
-        >
+        <Link style={{ textDecoration: "none" }} to="/ide">
           <button className="btn-test" onClick={handleSubmit}>
             실행
           </button>

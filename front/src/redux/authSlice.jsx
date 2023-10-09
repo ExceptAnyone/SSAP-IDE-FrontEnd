@@ -5,22 +5,27 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     registeredUsers: [], // 회원가입 정보를 저장할 배열
-    username: "", // 사용자 이름
+    email: "", // 사용자 이름
     password: "", // 비밀번호
     confirmPassword: "", // 비밀번호 확인
     name: "", // 이름
     error: "", // 에러 메시지
-    isValidusername: true, // 유효한 사용자 이름 여부
+    isValidemail: true, // 유효한 사용자 이름 여부
     isValidPassword: true, // 유효한 비밀번호 여부
     isLoading: false, // 로딩 중 여부
     isError: false, // 에러 발생 여부
     isSuccess: false, // 성공 여부
+    username: "",
   },
   reducers: {
     // 사용자 등록 정보를 배열에 추가
     registerUser: (state, action) => {
       state.registeredUsers.push(action.payload);
       console.log(state);
+    },
+    // 사용자 이름 업데이트
+    setEmail: (state, action) => {
+      state.email = action.payload;
     },
     // 사용자 이름 업데이트
     setUsername: (state, action) => {
@@ -69,7 +74,7 @@ const authSlice = createSlice({
     // 사용자 데이터 초기화
     clearUserData: (state) => {
       // clearUserData 액션을 추가합니다.
-      state.username = "";
+      state.email = "";
       state.password = "";
       state.confirmPassword = "";
       state.name = "";
@@ -79,13 +84,14 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;
+      state.username = "";
     },
   },
 });
 
 // 액션 생성자들을 내보내기
 export const {
-  setUsername,
+  setEmail,
   setPassword,
   setConfirmPassword,
   setName,
@@ -98,6 +104,7 @@ export const {
   registerUser,
   setSuccess,
   clearUserData,
+  setUsername,
 } = authSlice.actions;
 
 // 리듀서를 내보내기
