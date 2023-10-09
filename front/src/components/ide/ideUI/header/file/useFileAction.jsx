@@ -20,81 +20,81 @@ export default function useFileAction() {
   const dispatch = useDispatch();
   const fileData = useSelector((state) => state.file.data);
 
-  const createFileMutation = useMutation(createFileAPI, {
-    onError: (error) => {
-      console.error("파일 생성 에러:", error);
-    },
-    onSuccess: (data) => {
-      console.log("새 파일 생성 성공:", data);
-      // 리덕스나 로컬 상태 업데이트 로직 추가
-      const newFileData = {
-        id: Date.now().toString(),
-        parent: selectFileId || 0,
-        droppable: false,
-        text: data.fileName,
-        // data: {
-        //   fileType: "text", // 기본 파일 타입 "text" TODO
-        //   path: data.Path,
-        // },
-      };
-      dispatch(addFile(newFileData));
-    },
-  });
+  // const createFileMutation = useMutation(createFileAPI, {
+  //   onError: (error) => {
+  //     console.error("파일 생성 에러:", error);
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log("새 파일 생성 성공:", data);
+  //     // 리덕스나 로컬 상태 업데이트 로직 추가
+  //     const newFileData = {
+  //       id: Date.now().toString(),
+  //       parent: selectFileId || 0,
+  //       droppable: false,
+  //       text: data.fileName,
+  //       // data: {
+  //       //   fileType: "text", // 기본 파일 타입 "text" TODO
+  //       //   path: data.Path,
+  //       // },
+  //     };
+  //     dispatch(addFile(newFileData));
+  //   },
+  // });
 
-  const createFile = (parentFileId, name, type, ext, path, content) => {
-    createFileMutation.mutate({
-      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
-      parentFileId,
-      name,
-      type,
-      ext,
-      path,
-      content,
-    });
-  };
+  // const createFile = (parentFileId, name, type, ext, path, content) => {
+  //   createFileMutation.mutate({
+  //     containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+  //     parentFileId,
+  //     name,
+  //     type,
+  //     ext,
+  //     path,
+  //     content,
+  //   });
+  // };
 
   // TODO 모킹데이터를 이용한 새 파일 생성
-  // const createFile = () => {
-  //   // 모킹 데이터 TODO
-  //   const mockResponse = {
-  //     status: 201,
-  //     message: "파일 생성",
-  //     data: {
-  //       Path: "/example/path",
-  //       fileName: "NewFile",
-  //     },
-  //   };
+  const createFile = () => {
+    // 모킹 데이터 TODO
+    const mockResponse = {
+      status: 201,
+      message: "파일 생성",
+      data: {
+        Path: "/example/path",
+        fileName: "NewFile",
+      },
+    };
 
-  //   const newFileData = {
-  //     id: Date.now().toString(), // 유니크한 ID 생성 (실제로는 다른 방식으로 생성해야 함)
-  //     parent: selectFileId || 0, // 선택된 폴더가 있으면 그 폴더에 추가, 없으면 최상위에 추가
-  //     droppable: false,
-  //     text: "New File",
-  //     data: {
-  //       fileType: "text", // TODO 기본 파일 타입 "text"
-  //     },
-  //   };
-  //   console.log("newFileData", newFileData);
-  //   dispatch(addFile(newFileData));
+    const newFileData = {
+      id: Date.now().toString(), // 유니크한 ID 생성 (실제로는 다른 방식으로 생성해야 함)
+      parent: selectFileId || 0, // 선택된 폴더가 있으면 그 폴더에 추가, 없으면 최상위에 추가
+      droppable: false,
+      text: "New File",
+      data: {
+        fileType: "text", // TODO 기본 파일 타입 "text"
+      },
+    };
+    console.log("newFileData", newFileData);
+    dispatch(addFile(newFileData));
 
-  //   if (mockResponse.status === 201) {
-  //     // 폴더 생성 성공시 화면에 폴더 추가
-  //     setFiles((prevFiles) => {
-  //       const newFiles = [
-  //         ...prevFiles,
-  //         {
-  //           path: mockResponse.data.Path,
-  //           fileName: mockResponse.data.fileName,
-  //         },
-  //       ];
-  //       console.log("Updated file:", newFiles); // TODO 추후 삭제
-  //       return newFiles;
-  //     });
-  //   } else {
-  //     // 다른 상태 코드에 따른 처리 로직
-  //     alert(mockResponse.message);
-  //   }
-  // };
+    if (mockResponse.status === 201) {
+      // 폴더 생성 성공시 화면에 폴더 추가
+      setFiles((prevFiles) => {
+        const newFiles = [
+          ...prevFiles,
+          {
+            path: mockResponse.data.Path,
+            fileName: mockResponse.data.fileName,
+          },
+        ];
+        console.log("Updated file:", newFiles); // TODO 추후 삭제
+        return newFiles;
+      });
+    } else {
+      // 다른 상태 코드에 따른 처리 로직
+      alert(mockResponse.message);
+    }
+  };
 
   const createFolderMutation = useMutation(createFolderAPI, {
     onError: (error) => {
