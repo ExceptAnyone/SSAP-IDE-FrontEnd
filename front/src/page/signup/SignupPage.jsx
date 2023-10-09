@@ -2,6 +2,7 @@ import React from "react";
 import SignUpForm from "../../components/form/SignUpForm";
 import "./SignupPage.css";
 import { Link } from "react-router-dom";
+import "../../page/page.css";
 
 export default function SignUp() {
   return (

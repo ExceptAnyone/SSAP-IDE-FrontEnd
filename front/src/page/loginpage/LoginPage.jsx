@@ -4,6 +4,7 @@ import "./LoginPage.css";
 
 import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
+import "../../page/page.css";
 
 export default function LoginPage() {
   return (

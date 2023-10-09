@@ -4,10 +4,11 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import "../../page/signup/SignupPage.css";
 import { useNavigate } from "react-router-dom";
+import "../../page/page.css";
 
 // Redux Toolkit actions 및 리듀서를 가져옵니다.
 import {
-  setUsername,
+  setEmail,
   setPassword,
   setConfirmPassword,
   setName,
@@ -22,18 +23,11 @@ function SignUpForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {
-    username,
-    password,
-    confirmPassword,
-    name,
-    error,
-    isLoading,
-    success,
-  } = useSelector((state) => state.auth);
+  const { email, password, confirmPassword, name, error, isLoading, success } =
+    useSelector((state) => state.auth);
 
   const handleUsernameBlur = () => {
-    const isValid = validateUsername(username);
+    const isValid = validateUsername(email);
     dispatch(setIsValidUsername(isValid));
   };
 
@@ -44,7 +38,7 @@ function SignUpForm() {
 
   const validateUsername = (value) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    dispatch(setUsername(value));
+    dispatch(setEmail(value));
     if (!emailRegex.test(value)) {
       dispatch(setError("이메일 형식으로 입력해주세요."));
     } else {
@@ -65,7 +59,7 @@ function SignUpForm() {
     }
   };
   const newUser = {
-    email: username,
+    email: email,
     password: password,
     passwordConfirm: confirmPassword,
     name: name,
@@ -85,7 +79,7 @@ function SignUpForm() {
       onSuccess: () => {
         dispatch(setSuccess("가입에 성공했습니다."));
         dispatch(setIsLoading(false));
-        navigate("/"); // 가입 성공 시 로그인 페이지로 이동
+        navigate("/login"); // 가입 성공 시 로그인 페이지로 이동
       },
       onError: () => {
         dispatch(setError("가입 중 오류가 발생했습니다."));
@@ -121,8 +115,8 @@ function SignUpForm() {
       <input
         type="text"
         placeholder="abcd1234@ssap.com"
-        value={username}
-        onChange={(e) => dispatch(setUsername(e.target.value))}
+        value={email}
+        onChange={(e) => dispatch(setEmail(e.target.value))}
         onBlur={handleUsernameBlur} // onBlur 이벤트 핸들러 추가
         className={error ? "invalid" : ""}
         style={{
