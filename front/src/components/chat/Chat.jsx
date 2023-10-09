@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
-import { API_ENDPOINT, getMessages } from "../../api/chatAPI";
+import { API_ENDPOINT, getMessages, sendMessage } from "../../api/chatAPI";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { BiSearch, BiSolidUser, BiSolidBell } from "react-icons/bi";
 import { BsChatSquareDots } from "react-icons/bs";
 import "./chat.scss";
 import ChatUserList from "./chatUserList/ChatUserList";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+// TODO: 텍스트 칠때마다 쿼리 요청됨
+// TODO: 접속자 리스트 뿌리기
+// TODO: 소켓 종료했을 때 해당 룸에대한 내용 삭제와 session 초기화
+// TODO: 코드 리팩토링... 필요해해해해
 
 const Chat = ({ roomId, name, email }) => {
-  // const [name, setName] = useState(name);
+  const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const socketRef = useRef();
@@ -17,6 +22,7 @@ const Chat = ({ roomId, name, email }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [newMessageArrived, setNewMessageArrived] = useState(false);
 
+  const queryClient = useQueryClient();
   const {
     data: chatData,
     isLoading,
@@ -33,6 +39,46 @@ const Chat = ({ roomId, name, email }) => {
       retryDelay: (attempt) => Math.min(attempt * 1000, 3000), // 재시도 사이의 지연 시간 설정
     },
   );
+  console.log("getMessages", chatData);
+
+  //TODO
+  const sendMessageMutation = useMutation(sendMessage, {
+    onSuccess: (data) => {
+      // 메시지 전송에 성공하면 데이터를 재요청
+      queryClient.invalidateQueries(["getMessages", roomId]);
+      console.log("메세지 저장 성공:", data);
+    },
+    onError: (error) => {
+      console.error("메세지 저장 실패:", error);
+    },
+  });
+
+  // 채팅창 열기
+  const handleToggleChat = () => {
+    setNewMessageArrived(false);
+    setIsVisible((prevIsVisible) => !prevIsVisible); // isVisible 상태 토글
+  };
+
+  // 채팅 메세지 전송
+  const handleSendMessage = (e) => {
+    if (e) e.preventDefault();
+    if (message.trim() === "") return;
+
+    const data = { email, name, message };
+    console.log("메세지 전송: ", data);
+
+    socketRef.current.emit("sendMessage", roomId, data);
+    sendMessageMutation.mutate(message); // TODO
+    setMessage("");
+  };
+
+  // textarea 엔터 키 전송
+  const handleTextareaKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
 
   // 채팅창 열림 여부 최신 상태 업뎃 유지
   const isVisibleRef = useRef(isVisible);
@@ -59,29 +105,38 @@ const Chat = ({ roomId, name, email }) => {
     socket.emit("joinRoom", roomId, email);
 
     // 서버로부터 메시지를 받으면 상태 업데이트
-    socket.on("receiveMessage", (data) => {
-      console.log("Received message data: ", data);
-
+    const onReceiveMessage = (data) => {
       const { name, message } = data;
       setMessages((prevMessages) => [...prevMessages, { name, message }]);
 
       // TODO: 본인 확인 - 수정 필요
-      // const isOwner = msg.socketId === socketRef.current.id;
-      // console.log("isOwner:", isOwner, "isVisible:", isVisible);
+      const isOwner = data.email === socketRef.current.email;
+      console.log(
+        "data.email:",
+        data.email,
+        "socketRef.current.email:",
+        socketRef.current.email,
+      );
+      console.log("isOwner:", isOwner, "isVisible:", isVisible);
 
       // TODO: 새로운 메세지 도착하면 알림 - 수정 필요
-      // if (!isOwner && !isVisibleRef.current) {
-      //   setNewMessageArrived(true);
-      // }
-    });
+      if (!isOwner && !isVisibleRef.current) {
+        setNewMessageArrived(true);
+      }
+    };
+    socket.on("receiveMessage", (data) => {
+      onReceiveMessage(data);
+      queryClient.invalidateQueries("getMessages");
+    }); // TODO: 수정됨
 
     socketRef.current = socket;
 
     // 소켓 연결 종료
     return () => {
+      socket.off("receiveMessage", onReceiveMessage);
       socketRef.current.disconnect();
     };
-  }, [roomId, name]);
+  }, [roomId, email, name]);
 
   // 메세지 엡뎃 확인용
   useEffect(() => {
@@ -92,31 +147,6 @@ const Chat = ({ roomId, name, email }) => {
       newMessageArrived,
     );
   }, [messages, newMessageArrived]);
-
-  // 채팅창 열기
-  const handleToggleChat = () => {
-    setNewMessageArrived(false);
-    setIsVisible((prevIsVisible) => !prevIsVisible); // isVisible 상태 토글
-  };
-
-  // textarea 엔터 키 전송
-  const handleTextareaKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
-  // 채팅 메세지 전송
-  const handleSendMessage = (e) => {
-    if (e) e.preventDefault();
-    if (message.trim() === "") return;
-
-    const data = { email, name, message };
-    socketRef.current.emit("sendMessage", roomId, data);
-    console.log("메세지 전송: ", data);
-    setMessage("");
-  };
 
   return (
     <div className="chat_container">
@@ -139,16 +169,10 @@ const Chat = ({ roomId, name, email }) => {
                 <div
                   key={index}
                   className={`message ${
-                    msg.socketId === socketRef.current.id
-                      ? "msg_right"
-                      : "msg_left"
+                    msg.email === email ? "msg_right" : "msg_left"
                   }`}
                 >
-                  {msg.socketId === socketRef.current.id ? (
-                    ""
-                  ) : (
-                    <strong>{msg.name}</strong>
-                  )}
+                  {msg.email === email ? "" : <strong>{msg.name}</strong>}
 
                   <span>{msg.message}</span>
                 </div>
