@@ -8,7 +8,7 @@ export default function IdePage() {
   return (
     <div>
       <Layout />
-      {/* <Chat /> TODO 추후에 추가*/}
+      <Chat />
     </div>
   );
 }
