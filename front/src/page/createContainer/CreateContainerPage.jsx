@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useQuery, useMutation } from "react-query";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
 import "../editcontainer/EditContainerPage.css";
 import "../../page/page.css";
@@ -11,23 +10,7 @@ export default function CreateContainerPage() {
   const [stack, setStack] = useState("");
   const [customControl, setCustomControl] = useState("");
 
-  const mutation = useMutation((newPost) => {
-    return fetch(
-      "http://ide-env.eba-mhhgujuf.ap-northeast-2.elasticbeanstalk.com/containers/create",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newPost),
-      },
-    )
-      .then((response) => response.json())
-      .catch((error) => {
-        console.error("데이터 업데이트 실패:", error);
-        return [];
-      });
-  });
+  const [posts, setPosts] = useState([]); // 글 목록을 상태로 관리
 
   const handleVisibilityChange = (e) => {
     setVisibility(e.target.value);
@@ -53,21 +36,26 @@ export default function CreateContainerPage() {
     setDescription(filteredValue);
   };
 
+  const addPost = (post) => {
+    const updatedPosts = [...posts, post];
+    setPosts(updatedPosts);
+
+    // 로컬 스토리지에 데이터 저장
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  };
+  useEffect(() => {
+    // 페이지가 로드될 때 로컬 스토리지에서 데이터를 읽어옴
+    const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    setPosts(storedPosts);
+  }, []);
+
   const updateContainer = () => {
-    const newPost = {
-      title,
-      description,
-      stack,
-      customControl,
-    };
-    mutation.mutate(newPost, {
-      onSuccess: (data) => {
-        console.log("컨테이너 생성 성공:", data);
-        setTitle("");
-        setDescription("");
-        // 성공한 경우 필요한 처리를 추가할 수 있습니다.
-      },
-    });
+    // 글 작성 로직: 여기서 글을 저장하거나 서버에 전송할 수 있습니다.
+    const newPost = { title, description };
+    addPost(newPost); // 글을 목록에 추가
+    console.log("작성된 글:", newPost);
+    setTitle("");
+    setDescription(""); // setDescription 함수를 사용하여 description을 초기화
   };
 
   return (
@@ -76,7 +64,7 @@ export default function CreateContainerPage() {
         name="생성하기"
         icon="컨테이너 생성하기"
         containnername={title}
-        updateContainer={updateContainer}
+        handleSubmit={updateContainer}
         link="/"
       />
 

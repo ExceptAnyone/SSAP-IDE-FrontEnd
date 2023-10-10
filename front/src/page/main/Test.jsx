@@ -2,27 +2,31 @@ import React, { useState } from "react";
 import { TfiMoreAlt } from "react-icons/tfi";
 import { BsTrash, BsLink45Deg } from "react-icons/bs";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import clipboardCopy from "clipboard-copy";
 import "../main/MainPage.css";
 
-function Test({ posts, onDelete }) {
+function Test({ posts, onDelete, deletePost }) {
   const [text, setText] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [lastModifiedTime, setLastModifiedTime] = useState(null);
   const [isListVisible, setListVisible] = useState(false);
+  const [isLastModifiedVisible, setLastModifiedVisible] = useState(false);
+  const navigate = useNavigate();
 
   const toggleList = () => {
     setListVisible(!isListVisible);
   };
 
+  const toggleLastModifiedTime = () => {
+    setLastModifiedVisible(!isLastModifiedVisible);
+  };
+
   const confirmDelete = () => {
-    // 컨테이너 삭제를 확인하는 알림 창을 띄웁니다.
     const isConfirmed = window.confirm("컨테이너를 삭제하시겠습니까?");
 
     if (isConfirmed) {
-      // 확인 버튼을 누르면 컨테이너 삭제 함수를 호출합니다.
-      onDelete();
+      deletePost();
     }
   };
 
@@ -30,11 +34,13 @@ function Test({ posts, onDelete }) {
     setSubmittedText(text);
 
     const currentTime = new Date();
-    setLastModifiedTime(currentTime);
+    setLastModifiedTime(currentTime); // Context에서 상태를 설정
 
-    console.log("입력된 텍스트:", text);
-    console.log("결과:", text);
-    console.log("마지막 수정 시간:", currentTime);
+    // 버튼 클릭 시 수정 시간을 표시하는 함수 호출
+    toggleLastModifiedTime();
+
+    // 실행 버튼을 눌렀을 때 링크로 이동
+    navigate("/ide");
   };
 
   const formatLastModifiedTime = (lastModifiedTime) => {
@@ -82,7 +88,6 @@ function Test({ posts, onDelete }) {
             </Link>
           </li>
           <li>
-            {/* 삭제 버튼을 누를 때 confirmDelete 함수를 호출합니다. */}
             <button onClick={confirmDelete}>
               <BsTrash />
               컨테이너 삭제
@@ -101,7 +106,10 @@ function Test({ posts, onDelete }) {
         </ul>
       </div>
 
-      {setText}
+      {/* 수정 시간을 표시하는 요소를 추가 */}
+      {isLastModifiedVisible && (
+        <p>{formatLastModifiedTime(lastModifiedTime)}</p>
+      )}
 
       <div
         className="start"
@@ -116,15 +124,11 @@ function Test({ posts, onDelete }) {
           marginTop: "160px",
         }}
       >
-        <Link style={{ textDecoration: "none" }} to="/ide">
-          <button className="btn-test" onClick={handleSubmit}>
-            실행
-          </button>
+        <button className="btn-test" onClick={handleSubmit}>
+          실행
+        </button>
 
-          <p> {submittedText}</p>
-        </Link>
-
-        <p>{formatLastModifiedTime(lastModifiedTime)}</p>
+        <p> {submittedText}</p>
       </div>
     </div>
   );
