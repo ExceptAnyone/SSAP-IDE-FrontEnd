@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -19,53 +19,80 @@ import {
   addFile,
   addFolder,
   deleteFileOrFolder,
+  selectFile,
   setCurrentEditingFile,
   setTreeData,
 } from "../../fileSlice/FileSlice";
+import { deleteFolderAPI } from "../../../../api/ideAPI/deleteFolderAPI";
+import { useMutation } from "react-query";
 
 function Sidebar() {
   const filesAndFolders = useSelector((state) => state.file.data);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [, forceUpdate] = useState();
 
+  useEffect(() => {
+    forceUpdate({});
+  }, [filesAndFolders]);
   const handleFileClick = (node) => {
-    // 클릭한 파일의 ID와 내용을 가져옵니다.
+    // 클릭한 파일의 ID와 내용
     const clickedFileId = node.id;
     const clickedFileContent = node.content || ""; // 예: 초기 파일 내용 설정
 
-    // 편집 중인 파일 정보를 업데이트합니다.
+    // 편집 중인 파일 정보를 업데이트
     dispatch(
       setCurrentEditingFile({ id: clickedFileId, content: clickedFileContent }),
     );
+
+    // 선택된 파일의 ID를 설정 (새로 추가된 부분)
+    dispatch(selectFile(clickedFileId));
   };
 
   const handleDrop = (newTree) => {
     dispatch(setTreeData(newTree));
   };
-  const handleDelete = (id) => {
-    dispatch(deleteFileOrFolder(id));
+
+  const deleteFolderMutation = useMutation(deleteFolderAPI, {
+    onSuccess: (data, folderId) => {
+      dispatch(deleteFileOrFolder(folderId));
+    },
+
+    // 에러가 발생한 경우의 처리
+    onError: (error) => {
+      console.error("폴더 삭제 실패", error.message);
+    },
+  });
+
+  const handleDelete = (folderId) => {
+    deleteFolderMutation.mutate(folderId);
   };
 
   const handleCopy = (id) => {
-    // Handle node copy logic (이 부분은 기존 로직과 유사하게 처리할 수 있습니다.)
+    // Handle node copy logic
+    // TODO
   };
 
   const handleOpenDialog = () => {
     // Handle open dialog logic
+    // TODO
   };
 
   const handleCloseDialog = () => {
     // Handle close dialog logic
+    // TODO
   };
 
   const handleSubmit = (newNode) => {
-    // newNode의 type에 따라 addFile 또는 addFolder 액션을 dispatch합니다.
+    // newNode의 type에 따라 addFile 또는 addFolder 액션을 dispatch
     if (newNode.type === "file") {
       dispatch(addFile(newNode));
     } else {
       dispatch(addFolder(newNode));
     }
   };
+
+  console.log("filesAndFolders", filesAndFolders);
   // const [treeData, setTreeData] = useState(filesAndFolders);
   // const handleDrop = (newTree) => setTreeData(newTree);
 
@@ -127,9 +154,6 @@ function Sidebar() {
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <div className={styles.app}>
           <div>
-            <Button onClick={handleOpenDialog} startIcon={<AddIcon />}>
-              Add Node
-            </Button>
             {open && (
               <AddDialog
                 tree={filesAndFolders}

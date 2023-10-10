@@ -9,6 +9,10 @@ export default function Header(props) {
   const confirmPassword = props.confirmPassword;
   const containnername = props.containnername;
   const MainPage = props.MainPage;
+  const handleSubmit = props.handleSubmit;
+  const updateContainer = props.updateContainer;
+  const handleEditButtonClick = props.handleEditButtonClick;
+  const description = props.description;
 
   return (
     <div className="header">
@@ -25,14 +29,13 @@ export default function Header(props) {
             className="edit-btn"
             disabled={
               password !== confirmPassword ||
-              (!password && !containnername && !MainPage)
+              (!password && !containnername && !MainPage && !description)
             }
-            onClick={props.updateContainer}
+            onClick={updateContainer || handleSubmit || handleEditButtonClick}
           >
             {props.name}
           </button>
         </Link>
-        {/* isValidPassword 값에 따라 버튼의 disabled 속성을 설정하여 활성화/비활성화 조절 */}
 
         <h3>
           <BackButton icon={props.icon} />

@@ -3,7 +3,7 @@
 .CodeEditor {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* 전체 화면 높이 */
+  height: calc(100vh); /* 전체 화면 높이 */
 }
 
 .CodeEditor header {
