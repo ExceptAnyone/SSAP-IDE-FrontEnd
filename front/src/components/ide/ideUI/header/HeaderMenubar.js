@@ -10,11 +10,15 @@ import Setting from "./setting/Setting";
 const HeaderMenubar = () => {
   return (
     <Menubar.Root className="MenubarRoot">
-      <File />
-      <Project />
-      <User />
-      <SharedLink />
-      <Setting />
+      <div className="menu-left">
+        <File />
+        <Project />
+      </div>
+      <div className="menu-right">
+        <User />
+        <SharedLink />
+        <Setting />
+      </div>
     </Menubar.Root>
   );
 };

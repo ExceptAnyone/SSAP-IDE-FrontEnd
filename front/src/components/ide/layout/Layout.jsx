@@ -5,9 +5,15 @@ import Sidebar from "../ideUI/sideBar/Sidebar";
 function Layout() {
   return (
     <div className="appContainer">
-      <HeaderMenubar />
-      <Sidebar />
-      <CodeEditor />
+      <div className="IDE-header">
+        <HeaderMenubar />
+      </div>
+      <div className="IDE-container">
+        <div className="IDE-aside">
+          <Sidebar />
+        </div>
+        <CodeEditor />
+      </div>
     </div>
 
     // <div className="Layout">
