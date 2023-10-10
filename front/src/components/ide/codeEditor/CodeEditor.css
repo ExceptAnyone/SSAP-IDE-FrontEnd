@@ -1,21 +1,7 @@
-/* CodeEditor.css (또는 CodeEditor.module.css) */
-
 .CodeEditor {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh); /* 전체 화면 높이 */
-}
-
-.CodeEditor header {
-  /* 필요한 헤더 스타일을 여기에 추가 */
-  height: 10vh;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.CodeEditor .container {
-  display: flex;
-  flex: 1; /* 헤더를 제외한 나머지 공간을 차지 */
+  flex: 1; /* 사이드바를 제외한 나머지 영역을 차지 */
+  height: 100vh;
+  overflow-y: auto; /* 코드 에디터의 내용이 많을 경우 스크롤바 표시 */
 }
 
 .CodeEditor .editor-wrap {

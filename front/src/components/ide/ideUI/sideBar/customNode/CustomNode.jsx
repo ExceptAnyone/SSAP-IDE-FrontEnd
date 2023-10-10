@@ -6,7 +6,10 @@ import { useDragOver } from "@minoru/react-dnd-treeview";
 import { TypeIcon } from "../TypeIcon";
 import styles from "./CustomNode.module.css";
 import { useDispatch } from "react-redux";
-import { updateFileName } from "../../../fileSlice/FileSlice";
+import {
+  deleteFileOrFolder,
+  updateFileName,
+} from "../../../fileSlice/FileSlice";
 import { updateFolderNameAPI } from "../../../../../api/ideAPI/folderEditAPI";
 import { editFileNameAPI } from "../../../../../api/ideAPI/editFileNameAPI";
 
@@ -58,33 +61,49 @@ export const CustomNode = (props) => {
     };
   };
 
-  const handleSave = async () => {
+  //TODO 모킹 데이터
+  const handleSave = () => {
     if (editedName && editedName !== props.node.text) {
-      // 추가: 수정된 이름이 현재 이름과 다른 경우만 처리
-      const data = prepareApiData();
-
-      try {
-        switch (props.node.type) {
-          case "file":
-            await editFileNameAPI(data);
-            break;
-          case "folder":
-            await updateFolderNameAPI(data);
-            break;
-          default:
-            throw new Error("알 수 없는 타입");
-        }
-
-        dispatch(updateFileName({ id: props.node.id, newName: editedName }));
-        setIsEditing(false);
-      } catch (error) {
-        console.error("이름 변경 실패:", error.message);
-        // 필요한 경우 사용자에게 오류 메시지 표시
-      }
+      // 수정된 이름이 현재 이름과 다른 경우만 처리
+      dispatch(updateFileName({ id: props.node.id, newName: editedName }));
+      setIsEditing(false);
     } else {
       setIsEditing(false);
     }
   };
+  const handleDelete = () => {
+    // 리덕스 액션을 호출하여 상태를 직접 업데이트
+    dispatch(deleteFileOrFolder(props.node.id));
+  };
+
+  // const handleSave = async () => {
+  //   if (editedName && editedName !== props.node.text) {
+  //     // 추가: 수정된 이름이 현재 이름과 다른 경우만 처리
+  //     const data = prepareApiData();
+
+  //     try {
+  //       switch (props.node.type) {
+  //         case "file":
+  //           await editFileNameAPI(data);
+  //           break;
+  //         case "folder":
+  //           await updateFolderNameAPI(data);
+  //           break;
+  //         default:
+  //           throw new Error("알 수 없는 타입");
+  //       }
+
+  //       dispatch(updateFileName({ id: props.node.id, newName: editedName }));
+  //       setIsEditing(false);
+  //     } catch (error) {
+  //       console.error("이름 변경 실패:", error.message);
+  //       // 필요한 경우 사용자에게 오류 메시지 표시
+  //     }
+  //   } else {
+  //     setIsEditing(false);
+  //   }
+  // };
+
   // //TODO 백엔드 쪽과 통신되면 테스트 필수!! (기존코드)
   // const handleSave = async () => {
   //   if (editedName) {
@@ -176,7 +195,8 @@ export const CustomNode = (props) => {
       {hover && (
         <>
           <div className={styles.actionButton}>
-            <IconButton size="small" onClick={() => props.onDelete(id)}>
+            <IconButton size="small" onClick={handleDelete}>
+              {/* <IconButton size="small" onClick={() => props.onDelete(id)}> */}
               <Delete fontSize="small" />
             </IconButton>
           </div>
