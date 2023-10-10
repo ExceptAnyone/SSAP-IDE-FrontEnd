@@ -2,25 +2,23 @@ import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import { API_ENDPOINT, getMessages, sendMessage } from "../../api/chatAPI";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { BiSearch, BiSolidUser, BiSolidBell } from "react-icons/bi";
+import { BiSearch, BiSolidUser } from "react-icons/bi";
 import { BsChatSquareDots } from "react-icons/bs";
 import "./chat.scss";
 import ChatUserList from "./chatUserList/ChatUserList";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-// TODO: 텍스트 칠때마다 쿼리 요청됨
-// TODO: 접속자 리스트 뿌리기
-// TODO: 소켓 종료했을 때 해당 룸에대한 내용 삭제와 session 초기화
-// TODO: 코드 리팩토링... 필요해해해해
-
 const Chat = ({ roomId, name, email }) => {
   const [users, setUsers] = useState([]);
+  const [userName, setUserName] = useState(name);
+  const [userEmail, setUserEmail] = useState(email);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const socketRef = useRef();
 
   const [isVisible, setIsVisible] = useState(false);
   const [newMessageArrived, setNewMessageArrived] = useState(false);
+  const [showUserList, setShowUserList] = useState(false);
 
   const queryClient = useQueryClient();
   const {
@@ -39,7 +37,7 @@ const Chat = ({ roomId, name, email }) => {
       retryDelay: (attempt) => Math.min(attempt * 1000, 3000), // 재시도 사이의 지연 시간 설정
     },
   );
-  console.log("getMessages", chatData);
+  // console.log("getMessages", chatData);
 
   //TODO
   const sendMessageMutation = useMutation(sendMessage, {
@@ -53,43 +51,9 @@ const Chat = ({ roomId, name, email }) => {
     },
   });
 
-  // 채팅창 열기
-  const handleToggleChat = () => {
-    setNewMessageArrived(false);
-    setIsVisible((prevIsVisible) => !prevIsVisible); // isVisible 상태 토글
-  };
-
-  // 채팅 메세지 전송
-  const handleSendMessage = (e) => {
-    if (e) e.preventDefault();
-    if (message.trim() === "") return;
-
-    const data = { email, name, message };
-    console.log("메세지 전송: ", data);
-
-    socketRef.current.emit("sendMessage", roomId, data);
-    sendMessageMutation.mutate(message); // TODO
-    setMessage("");
-  };
-
-  // textarea 엔터 키 전송
-  const handleTextareaKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
-  // 채팅창 열림 여부 최신 상태 업뎃 유지
-  const isVisibleRef = useRef(isVisible);
-  useEffect(() => {
-    isVisibleRef.current = isVisible;
-    console.log("isVisible:", isVisible); // isVisible 상태 확인용
-  }, [isVisible]);
-
   // 소켓
   useEffect(() => {
-    if (!email) return;
+    if (!userEmail) return;
 
     // Socket.IO 클라이언트 초기화
     const socket = socketIOClient(API_ENDPOINT, {
@@ -101,7 +65,8 @@ const Chat = ({ roomId, name, email }) => {
       email: email,
       name: name,
     });
-    console.log(email, name);
+    console.log("setUserInfo: ", email, name);
+
     socket.emit("joinRoom", roomId, email);
 
     // 서버로부터 메시지를 받으면 상태 업데이트
@@ -109,21 +74,18 @@ const Chat = ({ roomId, name, email }) => {
       const { name, message } = data;
       setMessages((prevMessages) => [...prevMessages, { name, message }]);
 
-      // TODO: 본인 확인 - 수정 필요
-      const isOwner = data.email === socketRef.current.email;
-      console.log(
-        "data.email:",
-        data.email,
-        "socketRef.current.email:",
-        socketRef.current.email,
-      );
+      // 본인 확인
+      const isOwner = data.email === userEmail;
+      console.log("data.email:", data.email, "userEmail", userEmail);
       console.log("isOwner:", isOwner, "isVisible:", isVisible);
 
-      // TODO: 새로운 메세지 도착하면 알림 - 수정 필요
+      // 새로운 메세지 도착하면 알림
       if (!isOwner && !isVisibleRef.current) {
         setNewMessageArrived(true);
+        queryClient.invalidateQueries("getMessages"); // 새로운 메세지 도착시 채팅 내용 가져오기
       }
     };
+
     socket.on("receiveMessage", (data) => {
       onReceiveMessage(data);
       queryClient.invalidateQueries("getMessages");
@@ -147,6 +109,50 @@ const Chat = ({ roomId, name, email }) => {
       newMessageArrived,
     );
   }, [messages, newMessageArrived]);
+  
+  // 채팅창 열기
+  const handleToggleChat = () => {
+    setNewMessageArrived(false);
+    setIsVisible((prevIsVisible) => !prevIsVisible); // isVisible 상태 토글
+  };
+
+  // 채팅 메세지 전송
+  const handleSendMessage = async (e) => {
+    if (e) e.preventDefault();
+    if (message.trim() === "") return;
+
+    const data = { email, name, message };
+    console.log("handleSendMessage: ", data);
+
+    try {
+      const result = await sendMessageMutation.mutateAsync(data);
+      if (result.success) {
+        setMessage("");
+      }
+    } catch (error) {
+      console.error("메세지 전송 오류:", error);
+    }
+  };
+
+  // textarea 엔터 키 전송
+  const handleTextareaKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  // 채팅창 열림 여부 최신 상태 업뎃 유지
+  const isVisibleRef = useRef(isVisible);
+  useEffect(() => {
+    isVisibleRef.current = isVisible;
+    console.log("isVisible:", isVisible); // isVisible 상태 확인용
+  }, [isVisible]);
+
+  // 접속자 창 toggle
+  const toggleUserList = () => {
+    setShowUserList((prev) => !prev);
+  };
 
   return (
     <div className="chat_container">
@@ -159,7 +165,7 @@ const Chat = ({ roomId, name, email }) => {
                 <span>
                   <BiSearch />
                 </span>
-                <span>
+                <span onClick={toggleUserList}>
                   <BiSolidUser />
                 </span>
               </div>
@@ -169,10 +175,10 @@ const Chat = ({ roomId, name, email }) => {
                 <div
                   key={index}
                   className={`message ${
-                    msg.email === email ? "msg_right" : "msg_left"
+                    msg.email === userEmail ? "msg_right" : "msg_left"
                   }`}
                 >
-                  {msg.email === email ? "" : <strong>{msg.name}</strong>}
+                  {msg.email === userEmail ? "" : <strong>{msg.name}</strong>}
 
                   <span>{msg.message}</span>
                 </div>
@@ -190,7 +196,7 @@ const Chat = ({ roomId, name, email }) => {
               </form>
             </div>
           </div>
-          <ChatUserList />
+          {showUserList && <ChatUserList userName={userName} />}
         </div>
       )}
       {/* TODO: 알림 애니메이션 수정 필요 */}
