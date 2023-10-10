@@ -96,127 +96,127 @@ export default function useFileAction() {
     }
   };
 
-  const createFolderMutation = useMutation(createFolderAPI, {
-    onError: (error) => {
-      console.error("폴더 생성 에러:", error);
-    },
-    onSuccess: (data) => {
-      console.log("새 폴더 생성 성공:", data);
-      console.log("selectFileId", selectFileId);
-      console.log("fileData", fileData);
-      // 리덕스나 로컬 상태 업데이트 로직 추가
-      const newFolderData = {
-        id: 1,
-        parent: selectFileId || 0,
-        droppable: true,
-        text: "newFolder",
-
-        // data: {
-        //   fileType: "folder", // 폴더 타입 지정
-        //   path: data.Path,
-        // },
-      };
-      console.log("selectFileId", selectFileId);
-      console.log("fileData", fileData);
-
-      dispatch(addFolder(newFolderData));
-      console.log("selectFileId", selectFileId);
-      console.log("fileData", fileData);
-      console.log("newFolderData", newFolderData);
-    },
-  });
-
-  const createFolder = (path, folderName) => {
-    console.log("folderName", folderName);
-    console.log("parentId", selectFileId);
-
-    createFolderMutation.mutate({
-      parentFolderId: selectFileId || 0, // 선택된 파일 or 폴더의 ID
-      name: "newFolder",
-      type: false, // 폴더 타입 지정
-      path: "/hello/hello2",
-    });
-  };
-
-  // const createFolder = () => {
-  //   //폴더 생성 모킹 데이터 TODO 추후 삭제
-  //   const mockCreateFolderResponse = {
-  //     status: 201,
-  //     message: "폴더 생성 성공",
-  //     data: {
-  //       id: Date.now().toString(), // 유니크한 폴더 ID
-  //       name: "newFolder",
-  //       path: "/current/path/newFolder",
-  //       created_at: "2023-09-27T12:00:00Z",
-  //     },
-  //   };
-
-  //   // mockCreateFolderResponse를 사용하여 폴더 생성 로직을 시뮬레이션
-  //   const response = mockCreateFolderResponse;
-
-  //   if (response.status === 201) {
+  // const createFolderMutation = useMutation(createFolderAPI, {
+  //   onError: (error) => {
+  //     console.error("폴더 생성 에러:", error);
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log("새 폴더 생성 성공:", data);
+  //     console.log("selectFileId", selectFileId);
+  //     console.log("fileData", fileData);
+  //     // 리덕스나 로컬 상태 업데이트 로직 추가
   //     const newFolderData = {
-  //       id: response.data.id,
+  //       id: 1,
   //       parent: selectFileId || 0,
   //       droppable: true,
-  //       text: response.data.name, // 여기에 폴더의 이름을 지정
-  //       type: "folder",
+  //       text: "newFolder",
+
+  //       // data: {
+  //       //   fileType: "folder", // 폴더 타입 지정
+  //       //   path: data.Path,
+  //       // },
   //     };
-  //     dispatch(addFolder(newFolderData)); // 리덕스 스토어 업데이트
-  //   } else {
-  //     alert(response.message);
-  //   }
+  //     console.log("selectFileId", selectFileId);
+  //     console.log("fileData", fileData);
+
+  //     dispatch(addFolder(newFolderData));
+  //     console.log("selectFileId", selectFileId);
+  //     console.log("fileData", fileData);
+  //     console.log("newFolderData", newFolderData);
+  //   },
+  // });
+
+  // const createFolder = (path, folderName) => {
+  //   console.log("folderName", folderName);
+  //   console.log("parentId", selectFileId);
+
+  //   createFolderMutation.mutate({
+  //     parentFolderId: selectFileId || 0, // 선택된 파일 or 폴더의 ID
+  //     name: "newFolder",
+  //     type: false, // 폴더 타입 지정
+  //     path: "/hello/hello2",
+  //   });
   // };
 
-  const saveFileMutation = useMutation(saveFileAPI, {
-    onError: (error) => {
-      console.error("파일 저장 에러:", error);
-    },
-    onSuccess: (data) => {
-      console.log("파일 저장 성공:", data);
-      setSaveStatus("success");
-    },
-    onMutate: () => {
-      setSaveStatus("pending");
-    },
-  });
+  const createFolder = () => {
+    //폴더 생성 모킹 데이터 TODO 추후 삭제
+    const mockCreateFolderResponse = {
+      status: 201,
+      message: "폴더 생성 성공",
+      data: {
+        id: Date.now().toString(), // 유니크한 폴더 ID
+        name: "newFolder",
+        path: "/current/path/newFolder",
+        created_at: "2023-09-27T12:00:00Z",
+      },
+    };
 
-  const saveFile = (fileId, path, fileName, content) => {
-    saveFileMutation.mutate({
-      containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
-      fileId,
-      path,
-      fileName,
-      content,
-    });
+    // mockCreateFolderResponse를 사용하여 폴더 생성 로직을 시뮬레이션
+    const response = mockCreateFolderResponse;
+
+    if (response.status === 201) {
+      const newFolderData = {
+        id: response.data.id,
+        parent: selectFileId || 0,
+        droppable: true,
+        text: response.data.name, // 여기에 폴더의 이름을 지정
+        type: "folder",
+      };
+      dispatch(addFolder(newFolderData)); // 리덕스 스토어 업데이트
+    } else {
+      alert(response.message);
+    }
   };
-  // const saveFile = async (fileData) => {
-  //   try {
-  //     // 가상의 모킹 데이터로 응답 TODO
-  //     const mockResponse = {
-  //       status: 200,
-  //       message: "File saved successfully!",
-  //       data: {
-  //         ...fileData,
-  //         id: Date.now().toString(), // 예시로 파일에 대한 고유 ID를 생성
-  //       },
-  //     };
 
-  //     // 200 상태 코드를 통해 성공적으로 처리되었다고 가정
-  //     if (mockResponse.status === 200) {
-  //       setSaveStatus("success");
-  //       console.log("File saved (mock):", mockResponse.data);
-  //       return mockResponse.data; // 혹은 원하는 데이터 반환
-  //     } else {
-  //       setSaveStatus("failed");
-  //       throw new Error(mockResponse.message);
-  //     }
-  //   } catch (error) {
-  //     setSaveStatus("failed");
-  //     console.error("Error saving the file:", error);
-  //     throw error;
-  //   }
+  // const saveFileMutation = useMutation(saveFileAPI, {
+  //   onError: (error) => {
+  //     console.error("파일 저장 에러:", error);
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log("파일 저장 성공:", data);
+  //     setSaveStatus("success");
+  //   },
+  //   onMutate: () => {
+  //     setSaveStatus("pending");
+  //   },
+  // });
+
+  // const saveFile = (fileId, path, fileName, content) => {
+  //   saveFileMutation.mutate({
+  //     containerId: "exampleContainerId", // TODO: 실제 containerId로 교체
+  //     fileId,
+  //     path,
+  //     fileName,
+  //     content,
+  //   });
   // };
+  const saveFile = async (fileData) => {
+    try {
+      // 가상의 모킹 데이터로 응답 TODO
+      const mockResponse = {
+        status: 200,
+        message: "File saved successfully!",
+        data: {
+          ...fileData,
+          id: Date.now().toString(), // 예시로 파일에 대한 고유 ID를 생성
+        },
+      };
+
+      // 200 상태 코드를 통해 성공적으로 처리되었다고 가정
+      if (mockResponse.status === 200) {
+        setSaveStatus("success");
+        console.log("File saved (mock):", mockResponse.data);
+        return mockResponse.data; // 혹은 원하는 데이터 반환
+      } else {
+        setSaveStatus("failed");
+        throw new Error(mockResponse.message);
+      }
+    } catch (error) {
+      setSaveStatus("failed");
+      console.error("Error saving the file:", error);
+      throw error;
+    }
+  };
 
   const onSaveAs = async (newFileName, currentFilePath, currentFileContent) => {
     try {

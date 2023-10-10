@@ -93,60 +93,6 @@ function Sidebar() {
   };
 
   console.log("filesAndFolders", filesAndFolders);
-  // const [treeData, setTreeData] = useState(filesAndFolders);
-  // const handleDrop = (newTree) => setTreeData(newTree);
-
-  // const handleDelete = (id) => {
-  //   const deleteIds = [
-  //     id,
-  //     ...getDescendants(treeData, id).map((node) => node.id),
-  //   ];
-  //   const newTree = treeData.filter((node) => !deleteIds.includes(node.id));
-
-  //   setTreeData(newTree);
-  // };
-
-  // const handleCopy = (id) => {
-  //   const lastId = getLastId(treeData);
-  //   const targetNode = treeData.find((n) => n.id === id);
-  //   const descendants = getDescendants(treeData, id);
-  //   const partialTree = descendants.map((node) => ({
-  //     ...node,
-  //     id: node.id + lastId,
-  //     parent: node.parent + lastId,
-  //   }));
-
-  //   setTreeData([
-  //     ...treeData,
-  //     {
-  //       ...targetNode,
-  //       id: targetNode.id + lastId,
-  //     },
-  //     ...partialTree,
-  //   ]);
-  // };
-
-  // const handleOpenDialog = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleCloseDialog = () => {
-  //   setOpen(false);
-  // };
-
-  // const handleSubmit = (newNode) => {
-  //   const lastId = getLastId(treeData) + 1;
-
-  //   setTreeData([
-  //     ...treeData,
-  //     {
-  //       ...newNode,
-  //       id: lastId,
-  //     },
-  //   ]);
-
-  //   setOpen(false);
-  // };
 
   return (
     <ThemeProvider theme={theme}>

@@ -8,7 +8,7 @@ export const createFolderAPI = async ({
   type,
   path,
 }) => {
-  const API_URL = `http://ide-env.eba-mhhgujuf.ap-northeast-2.elasticbeanstalk.com/ide/9271b06b-34f3-49ef-b311-776d3bbc2df3/folders`;
+  const API_URL = `http://ide-env.eba-mhhgujuf.ap-northeast-2.elasticbeanstalk.com/ide/24dc8c5e-41d4-4ff0-9522-275199b1c354/folders`;
 
   try {
     const response = await axios.post(API_URL, {
