@@ -3,11 +3,16 @@
   width: 1440px;
   padding: 20px 0px;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   border-radius: 40px;
   border: 1px solid #e2e2e2;
   background: #fff;
   margin-left: 14%;
+  margin-top: 80px;
+  height: 100vh; /* 화면 높이를 100%로 설정 (부모 요소가 높이를 가져야 함) */
+
+  align-items: center; /* 수직 가운데 정렬 */
+  justify-content: center; /* 수평 가운데 정렬 */
 }
 
 .edit-1 {
@@ -16,13 +21,16 @@
   padding: 60px;
   align-items: flex-start;
   border-bottom: 1px solid #e2e2e2;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .edit-2 {
   display: flex;
-  width: 1200px;
+  width: 1300px;
   padding: 60px;
   align-items: flex-start;
+  margin-left: 0px;
 }
 
 .input,
@@ -40,21 +48,40 @@
 }
 
 .input {
-  margin-left: 176px;
+  margin-left: 190px;
 }
 
 .ckeckbox {
   margin-left: 160px;
+  margin-top: 22px;
 }
 
 .ckeckbox1 {
-  margin-left: 192px;
+  margin-left: 198px;
+  margin-top: 18px;
 }
 
 .ckeckbox2 {
-  margin-left: 100px;
+  margin-left: 88px;
 }
 
 .body {
   background-color: rgb(56, 54, 54);
+}
+
+.name-1 {
+  padding-top: 8px;
+}
+
+.add-pkg {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+p.error {
+  margin-top: 25px;
+}
+
+.rainbow {
+  margin-left: 200px;
+  margin-top: 23px;
 }

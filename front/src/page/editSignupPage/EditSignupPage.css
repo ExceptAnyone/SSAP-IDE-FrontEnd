@@ -1,13 +1,17 @@
 .profile {
   display: flex;
   width: 1440px;
-  padding: 20px 0px;
+  padding-left: 60px;
   flex-direction: column;
-  align-items: flex-start;
   border-radius: 40px;
   border: 1px solid #e2e2e2;
   background: #fff;
-  margin-left: 16%;
+  margin-top: 60px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-left: 100px;
+  margin-right: 200px;
 }
 
 .profile1,
@@ -32,11 +36,12 @@
   border: 1px solid #e2e2e2;
   background: #fff;
   display: flex;
-  width: 600px;
+  width: 951px;
   height: 60px;
   padding: 10px 20px;
   align-items: center;
   gap: 20px;
+  margin-left: 10px;
 }
 .pass-1 {
   margin-left: 123px;
@@ -66,4 +71,8 @@
   background-color: gray; /* 배경색을 회색으로 설정 */
   color: white; /* 글자 색상을 흰색으로 설정 (선택 사항) */
   cursor: not-allowed; /* 마우스 커서를 기본 상태로 설정 (선택 사항) */
+}
+.name-3 {
+  margin-left: 200px;
+  margin-top: 20px;
 }

@@ -86,14 +86,14 @@ export default function EditSignupPage() {
       <ul className="profile">
         <div>
           <div className="profile1">
-            이메일
+            <h3>이메일</h3>
             <div className="email">{email}</div>
           </div>
 
           <br />
 
           <div className="profile2">
-            <label htmlFor="password">비밀번호</label>
+            <h3 htmlFor="password">비밀번호</h3>
             <div className="pass-2">
               <input
                 type="password"
@@ -103,15 +103,10 @@ export default function EditSignupPage() {
                 className={`pass-0 ${!isValidPassword ? "invalid" : ""}`}
               />
             </div>
-            {!isValidPassword ? (
-              <p className="error">
-                비밀번호는 영문, 숫자, 특수문자를 포함한 8-30자여야 합니다.
-              </p>
-            ) : null}
           </div>
           <br />
           <div className="profile3">
-            <label htmlFor="password">비밀번호 확인</label>
+            <h3 htmlFor="password">비밀번호 확인</h3>
             <input
               className="pass-1"
               type="password"
@@ -126,7 +121,7 @@ export default function EditSignupPage() {
           </div>
           <br />
           <div className="profile4">
-            이름 <div className="name"> {name}레인보우</div>
+            <h3>이름</h3> <div className="name-3"> {name}레인보우</div>
           </div>
           <br />
         </div>

@@ -77,25 +77,24 @@ export default function EditContainerPage() {
   return (
     <div>
       <Header
-        name="수정하기"
         icon="컨테이너 수정하기"
         containnername={title}
         handleEditButtonClick={handleEditButtonClick}
         description={description}
+        name="수정하기"
       />
 
-      <div></div>
       <form className="editcontain">
         <div>
           <div className="edit-1">
-            이름
-            <label>editcontainer</label>
+            <h3 className="name-1">이름</h3>
+            <div className="rainbow">rainbow</div>
           </div>
         </div>
 
         <div>
           <div className="edit-1">
-            설명(선택사항)
+            <h3>설명(선택사항)</h3>
             <input
               type="text"
               value={description}
@@ -106,7 +105,7 @@ export default function EditContainerPage() {
         </div>
         <div>
           <div className="edit-1">
-            공개범위
+            <h3>공개범위</h3>
             <div className="ckeckbox">
               <input
                 type="radio"
@@ -121,21 +120,21 @@ export default function EditContainerPage() {
         </div>
         <div>
           <div className="edit-1">
-            스택
+            <h3>스택</h3>
             <div className="ckeckbox1">
               <input
                 type="radio"
-                value="Java"
-                checked={stack === "Java"}
+                value="javaScript"
+                checked={stack === "javaScript"}
                 onChange={handleStacksChange}
               />
-              <label>Java</label>
+              <label>javaScript</label>
             </div>
           </div>
         </div>
         <div>
           <div className="edit-2">
-            추가 모듈/패키지
+            <h3 className="add-pkg">추가 모듈/패키지</h3>
             <div className="ckeckbox2">
               <input
                 type="checkbox"

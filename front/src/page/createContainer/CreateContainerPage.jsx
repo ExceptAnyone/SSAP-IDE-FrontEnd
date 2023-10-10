@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
 import "../editcontainer/EditContainerPage.css";
 import "../../page/page.css";
+import MainPage from "../main/MainPage";
 
 export default function CreateContainerPage() {
   const [title, setTitle] = useState("");
@@ -71,19 +72,18 @@ export default function CreateContainerPage() {
       <form className="editcontain">
         <div>
           <div className="edit-1">
-            이름
+            <h3 className="name-1">이름</h3>
             <input
               type="text"
               value={title}
               onChange={(e) => handleInputChange(e)}
               className="input"
             />
-            {!title ? <p className="error">이름 입력</p> : null}
           </div>
         </div>
         <div>
           <div className="edit-1">
-            설명(선택사항)
+            <h3>설명(선택사항)</h3>
             <input
               type="text"
               value={description}
@@ -94,7 +94,7 @@ export default function CreateContainerPage() {
         </div>
         <div>
           <div className="edit-1">
-            공개범위
+            <h3>공개범위</h3>
             <div className="ckeckbox">
               <input
                 type="radio"
@@ -109,21 +109,21 @@ export default function CreateContainerPage() {
         </div>
         <div>
           <div className="edit-1">
-            스택
+            <h3>스택</h3>
             <div className="ckeckbox1">
               <input
                 type="radio"
-                value="Java"
-                checked={stack === "Java"}
+                value="javaScript"
+                checked={stack === "javaScript"}
                 onChange={handleStacksChange}
               />
-              <label>java</label>
+              <label>javaScript</label>
             </div>
           </div>
         </div>
         <div>
           <div className="edit-2">
-            추가 모듈/패키지
+            <h3 className="add-pkg">추가 모듈/패키지</h3>
             <div className="ckeckbox2">
               <input
                 type="checkbox"
