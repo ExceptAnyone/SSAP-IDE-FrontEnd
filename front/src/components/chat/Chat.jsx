@@ -6,9 +6,18 @@ import { BiSearch, BiSolidUser } from "react-icons/bi";
 import { BsChatSquareDots } from "react-icons/bs";
 import "./chat.scss";
 import ChatUserList from "./chatUserList/ChatUserList";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
-const Chat = ({ roomId, name, email }) => {
+// TODO 컨테이너 고유ID를 roomID로 적용시켜야함
+const roomId =
+  "aa0cea7dcd81cbea0fe690aa72b8520b6dfce49e35e418c0a0c32f88f24a1056 ";
+// const user = { email: "mater@gmail.com", name: "master" };
+// const user = { email: "mater2@naver.com", name: "master2" };
+const user = { email: "mater3@naver.com", name: "master3" };
+const name = user.name;
+const email = user.email;
+
+const Chat = () => {
   const [users, setUsers] = useState([]);
   const [userName, setUserName] = useState(name);
   const [userEmail, setUserEmail] = useState(email);
@@ -109,7 +118,7 @@ const Chat = ({ roomId, name, email }) => {
       newMessageArrived,
     );
   }, [messages, newMessageArrived]);
-  
+
   // 채팅창 열기
   const handleToggleChat = () => {
     setNewMessageArrived(false);
