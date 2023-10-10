@@ -87,8 +87,12 @@ export default function EditContainerPage() {
       <div></div>
       <form className="editcontain">
         <div>
-          <div className="edit-1">이름</div>
+          <div className="edit-1">
+            이름
+            <label>editcontainer</label>
+          </div>
         </div>
+
         <div>
           <div className="edit-1">
             설명(선택사항)

@@ -31,7 +31,12 @@ export default function Header(props) {
               password !== confirmPassword ||
               (!password && !containnername && !MainPage && !description)
             }
-            onClick={updateContainer || handleSubmit || handleEditButtonClick}
+            onClick={
+              updateContainer ||
+              handleSubmit ||
+              handleEditButtonClick ||
+              handleEditButtonClick
+            }
           >
             {props.name}
           </button>
