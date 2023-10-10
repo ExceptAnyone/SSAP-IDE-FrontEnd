@@ -5,6 +5,7 @@ import Header from "../../components/header/Header";
 import "./EditSignupPage.css";
 import { setPassword, setConfirmPassword } from "../../redux/authSlice";
 import "../../page/page.css";
+import Name from "../../components/form/Name";
 
 async function changeUserinfo({ email, password, passwordConfirm, name }) {
   const response = await fetch("/api/change-user-info", {
@@ -75,9 +76,9 @@ export default function EditSignupPage() {
 
   return (
     <div>
-      <Header
+      <Header icon="회원정보 수정" />
+      <Name
         name="수정하기"
-        icon="회원정보 수정"
         handleSubmit={handleSubmit}
         password={password}
         confirmPassword={confirmPassword}

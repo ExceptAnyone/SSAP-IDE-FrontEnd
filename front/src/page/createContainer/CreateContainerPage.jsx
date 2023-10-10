@@ -3,6 +3,7 @@ import Header from "../../components/header/Header";
 import "../editcontainer/EditContainerPage.css";
 import "../../page/page.css";
 import MainPage from "../main/MainPage";
+import Name from "../../components/form/Name";
 
 export default function CreateContainerPage() {
   const [title, setTitle] = useState("");
@@ -61,11 +62,11 @@ export default function CreateContainerPage() {
 
   return (
     <div>
-      <Header
+      <Header icon="컨테이너 생성하기" containnername={title} link="/" />
+      <Name
         name="생성하기"
-        icon="컨테이너 생성하기"
-        containnername={title}
         handleSubmit={updateContainer}
+        containnername={title}
         link="/"
       />
 

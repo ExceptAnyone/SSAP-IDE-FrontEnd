@@ -3,6 +3,7 @@ import Header from "../../components/header/Header";
 import axios from "axios";
 import "./EditContainerPage.css";
 import "../../page/page.css";
+import Name from "../../components/form/Name";
 
 export default function EditContainerPage() {
   const [title, setTitle] = useState("");
@@ -76,8 +77,8 @@ export default function EditContainerPage() {
   };
   return (
     <div>
-      <Header
-        icon="컨테이너 수정하기"
+      <Header icon="컨테이너 수정하기" />
+      <Name
         containnername={title}
         handleEditButtonClick={handleEditButtonClick}
         description={description}
