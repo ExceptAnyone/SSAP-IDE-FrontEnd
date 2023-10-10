@@ -1,0 +1,51 @@
+[33mcommit 8b2d9c43fe872603f68fce315094e83659d2d96e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/chat[m[33m)[m
+Author: 장정안 <wjddks96@naver.com>
+Date:   Tue Sep 19 23:15:22 2023 +0900
+
+    초기 환경 구축
+
+[33mcommit b4204c0b22ab0ec53f2b286a81940fa97b176413[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: 장정안 <126966681+ExceptAnyone@users.noreply.github.com>
+Date:   Tue Sep 12 16:36:30 2023 +0900
+
+    Create pull_request_template.md
+
+[33mcommit 63a46e1209a1dea4fe92d2db790d70650595ff12[m
+Author: 장정안 <126966681+ExceptAnyone@users.noreply.github.com>
+Date:   Tue Sep 12 16:29:30 2023 +0900
+
+    Update issue templates
+
+[33mcommit d2046a2048abb21cfce9b8af897ab250059b137a[m
+Author: 장정안 <126966681+ExceptAnyone@users.noreply.github.com>
+Date:   Tue Sep 12 16:29:02 2023 +0900
+
+    Update issue templates
+
+[33mcommit 4bc46f72adf5c62cc63f4ecc59cca87fab3cfcc2[m
+Author: 장정안 <126966681+ExceptAnyone@users.noreply.github.com>
+Date:   Tue Sep 12 16:28:36 2023 +0900
+
+    Update issue templates
+
+[33mcommit 8247a443b79973948bce26eb910c45417eebfbdc[m
+Author: 장정안 <126966681+ExceptAnyone@users.noreply.github.com>
+Date:   Tue Sep 12 16:27:42 2023 +0900
+
+    Feature
+    
+    작업 내용을 입력해 주세요.
+
+[33mcommit 30f70da0e8a428bff1319423822474fc0bac803e[m
+Author: 장정안 <126966681+ExceptAnyone@users.noreply.github.com>
+Date:   Tue Sep 12 16:26:47 2023 +0900
+
+    Update issue bug template
+    
+    버그 템플릿 수정
+
+[33mcommit 37bece009f87a9489bdb68f446d8c5a95f821def[m
+Author: 장정안 <126966681+ExceptAnyone@users.noreply.github.com>
+Date:   Tue Sep 12 15:57:27 2023 +0900
+
+    Initial commit
