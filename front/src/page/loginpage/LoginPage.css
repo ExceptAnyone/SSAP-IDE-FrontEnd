@@ -176,7 +176,25 @@ input::placeholder {
 }
 
 .footer {
-  color: #2a2929;
+  margin-top: 100px;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  border-top: 1px solid #e2e2e2;
+}
+.footer ul {
+  padding: 0;
+  display: flex;
+}
+.footer ul li {
+  margin-right: 30px;
+  list-style: none;
+  color: #404040;
+  font-size: 14px;
+}
+.footer span {
+  font-size: 12px;
+  margin-top: 60px;
+  color: #2c2c2c;
 }
 
 .login-bt:disabled {

@@ -72,31 +72,33 @@ function Test({ posts, onDelete, deletePost }) {
 
   return (
     <div className="test-1">
-      <TfiMoreAlt onClick={toggleList} />
-      {isListVisible && (
-        <ul className="list">
-          <li>
-            <button onClick={copyLinkToClipboard}>
-              <BsLink45Deg />
-              공유링크 복사
-            </button>
-          </li>
-          <li>
-            <Link to="/containers/{containerId}">
-              <IoDocumentTextOutline />
-              컨테이너 수정
-            </Link>
-          </li>
-          <li>
-            <button onClick={confirmDelete}>
-              <BsTrash />
-              컨테이너 삭제
-            </button>
-          </li>
-        </ul>
-      )}
-      <div>
-        <ul>
+      <div className="list-item">
+        <div className="list-menu">
+          <TfiMoreAlt onClick={toggleList} className="dot-menu" />
+          {isListVisible && (
+            <ul className="list">
+              <li>
+                <button onClick={copyLinkToClipboard}>
+                  <BsLink45Deg />
+                  <span>공유링크 복사</span>
+                </button>
+              </li>
+              <li>
+                <Link to="/containers/{containerId}">
+                  <IoDocumentTextOutline />
+                  <span>컨테이너 수정</span>
+                </Link>
+              </li>
+              <li>
+                <button onClick={confirmDelete}>
+                  <BsTrash />
+                  <span>컨테이너 삭제</span>
+                </button>
+              </li>
+            </ul>
+          )}
+        </div>
+        <ul className="item-top">
           {posts.map((post, index) => (
             <div key={index}>
               <h2>{post.title}</h2>
@@ -104,31 +106,30 @@ function Test({ posts, onDelete, deletePost }) {
             </div>
           ))}
         </ul>
-      </div>
 
-      {/* 수정 시간을 표시하는 요소를 추가 */}
-      {isLastModifiedVisible && (
-        <p>{formatLastModifiedTime(lastModifiedTime)}</p>
-      )}
+        {/* 수정 시간을 표시하는 요소를 추가 */}
+        {isLastModifiedVisible && (
+          <p>{formatLastModifiedTime(lastModifiedTime)}</p>
+        )}
 
-      <div
-        className="start"
-        style={{
-          display: "flex",
-          paddingTop: "30px",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          gap: "20px",
-          alignSelf: "stretch",
-          borderTop: "1px solid #E2E2E2",
-          marginTop: "160px",
-        }}
-      >
-        <button className="btn-test" onClick={handleSubmit}>
-          실행
-        </button>
+        <div
+          className="start"
+          style={{
+            display: "flex",
+            paddingTop: "30px",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            alignSelf: "stretch",
+            borderTop: "1px solid #E2E2E2",
+            marginTop: "160px",
+          }}
+        >
+          <button className="btn-test" onClick={handleSubmit}>
+            실행
+          </button>
 
-        <p> {submittedText}</p>
+          <p> {submittedText}</p>
+        </div>
       </div>
     </div>
   );

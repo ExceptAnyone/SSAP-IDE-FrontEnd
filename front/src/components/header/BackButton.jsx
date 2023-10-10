@@ -12,13 +12,11 @@ export default function BackButton(props) {
 
   return (
     <div className="back">
-      <div className="backbutton">
-        <FaArrowLeft
-          onClick={goBack}
-          style={{ margin: "0" }}
-          className="backbutton-icon"
-        />
-      </div>
+      <FaArrowLeft
+        onClick={goBack}
+        style={{ margin: "0" }}
+        className="backbutton-icon"
+      />
 
       <h2> {props.icon}</h2>
     </div>

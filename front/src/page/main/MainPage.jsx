@@ -4,6 +4,7 @@ import Header from "../../components/header/Header";
 import { AiOutlineSearch } from "react-icons/ai";
 import "./MainPage.css";
 import Footer from "../../components/footer/Footer";
+import Name from "../../components/form/Name";
 
 export default function MainPage() {
   const [originalPosts, setOriginalPosts] = useState([]); // 초기 글 목록을 저장하는 상태 변수
@@ -67,31 +68,35 @@ export default function MainPage() {
   }, []);
 
   return (
-    <div>
-      <Header
-        link="/containers"
-        name="새 컨테이너"
-        icon="모든 컨테이너"
-        MainPage={MainPage}
-        addPost={addPost}
-      />
-      <div className="login-hd">
-        <input
-          className="search"
-          type="text"
-          placeholder="컨테이너 이름"
-          onChange={handleSearch}
-        ></input>
-        <button>
-          <AiOutlineSearch />
-        </button>
+    <div className="main">
+      <div className="main-inner">
+        <Header icon="모든 컨테이너" />
+        <div className="main-middle">
+          <div className="login-hd">
+            <button>
+              <AiOutlineSearch />
+            </button>
+            <input
+              className="search"
+              type="text"
+              placeholder="컨테이너 이름"
+              onChange={handleSearch}
+            ></input>
+          </div>
+          <Name
+            link="/containers"
+            name="새 컨테이너"
+            MainPage={MainPage}
+            addPost={addPost}
+          />
+        </div>
+        <div className="test-list">
+          {posts.map((post, index) => (
+            <Test key={index} posts={[post]} deletePost={deletePost} />
+          ))}
+        </div>
+        <Footer />
       </div>
-      <div className="test-list">
-        {posts.map((post, index) => (
-          <Test key={index} posts={[post]} deletePost={deletePost} />
-        ))}
-      </div>
-      <Footer />
     </div>
   );
 }

@@ -17,19 +17,22 @@ export default function ProfileIcon() {
   };
 
   return (
-    <div>
+    <div className="userInfo">
       <BsFillPersonFill onClick={toggleList} />
       {isListVisible && (
         <ul className="profileicon">
           <Link to="/users/{id}" className="link-sty">
             <li className="profileicon-1">
-              <AiFillSetting />내 정보
+              <AiFillSetting />
+              <span>내 정보</span>
             </li>
           </Link>
 
           <li className="profileicon-1">
             <SlLogout />
-            <LogoutButton />
+            <span>
+              <LogoutButton />
+            </span>
           </li>
         </ul>
       )}
