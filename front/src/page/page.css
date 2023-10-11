@@ -5,6 +5,7 @@ body {
 .profile {
   width: 60%;
   margin-bottom: 10%;
+  z-index: 999; /* 원하는 값으로 설정하세요 */
 }
 
 .con1,

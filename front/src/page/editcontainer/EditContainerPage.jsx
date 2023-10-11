@@ -76,78 +76,82 @@ export default function EditContainerPage() {
     });
   };
   return (
-    <div>
-      <Header icon="컨테이너 수정하기" />
-      <Name
-        containnername={title}
-        handleEditButtonClick={handleEditButtonClick}
-        description={description}
-        name="수정하기"
-      />
+    <div className="createCon">
+      <div className="createCon-inner">
+        <div>
+          <Header icon="컨테이너 수정하기" />
+          <Name
+            containnername={title}
+            handleEditButtonClick={handleEditButtonClick}
+            description={description}
+            name="수정하기"
+          />
 
-      <form className="editcontain">
-        <div>
-          <div className="edit-1">
-            <h3 className="name-1">이름</h3>
-            <div className="rainbow">rainbow</div>
-          </div>
-        </div>
+          <form className="editcontain">
+            <div>
+              <div className="edit-1">
+                <h3 className="name-1">이름</h3>
+                <div className="rainbow">rainbow</div>
+              </div>
+            </div>
 
-        <div>
-          <div className="edit-1">
-            <h3>설명(선택사항)</h3>
-            <input
-              type="text"
-              value={description}
-              onChange={handleInputChange2}
-              className="input-2"
-            />
-          </div>
-        </div>
-        <div>
-          <div className="edit-1">
-            <h3>공개범위</h3>
-            <div className="ckeckbox">
-              <input
-                type="radio"
-                name="visibility"
-                value="public"
-                checked={visibility === "public"}
-                onChange={handleVisibilityChange}
-              />
-              <label>Private</label>
+            <div>
+              <div className="edit-1">
+                <h3>설명(선택사항)</h3>
+                <input
+                  type="text"
+                  value={description}
+                  onChange={handleInputChange2}
+                  className="input-2"
+                />
+              </div>
             </div>
-          </div>
-        </div>
-        <div>
-          <div className="edit-1">
-            <h3>스택</h3>
-            <div className="ckeckbox1">
-              <input
-                type="radio"
-                value="javaScript"
-                checked={stack === "javaScript"}
-                onChange={handleStacksChange}
-              />
-              <label>javaScript</label>
+            <div>
+              <div className="edit-1">
+                <h3>공개범위</h3>
+                <div className="ckeckbox">
+                  <input
+                    type="radio"
+                    name="visibility"
+                    value="public"
+                    checked={visibility === "public"}
+                    onChange={handleVisibilityChange}
+                  />
+                  <label>Private</label>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div>
-          <div className="edit-2">
-            <h3 className="add-pkg">추가 모듈/패키지</h3>
-            <div className="ckeckbox2">
-              <input
-                type="checkbox"
-                value="MySQL"
-                checked={customControl.includes("MySQL")}
-                onChange={handleModulesChange}
-              />
-              <label>MySQL</label>
+            <div>
+              <div className="edit-1">
+                <h3>스택</h3>
+                <div className="ckeckbox1">
+                  <input
+                    type="radio"
+                    value="javaScript"
+                    checked={stack === "javaScript"}
+                    onChange={handleStacksChange}
+                  />
+                  <label>javaScript</label>
+                </div>
+              </div>
             </div>
-          </div>
+            <div>
+              <div className="edit-2">
+                <h3 className="add-pkg">추가 모듈/패키지</h3>
+                <div className="ckeckbox2">
+                  <input
+                    type="checkbox"
+                    value="MySQL"
+                    checked={customControl.includes("MySQL")}
+                    onChange={handleModulesChange}
+                  />
+                  <label>MySQL</label>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
