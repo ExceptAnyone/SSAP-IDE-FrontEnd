@@ -53,7 +53,7 @@
 }
 .flexcon {
   display: flex;
-  padding-bottom: 260px;
+  /* padding-bottom: 260px; */
   align-items: center;
 }
 
@@ -133,6 +133,7 @@
   line-height: normal;
   letter-spacing: -0.24px;
   text-transform: uppercase;
+  margin-top: 30px;
 }
 
 .login-bt {
@@ -147,6 +148,7 @@
   border-radius: 50px;
   background: #000;
   margin-top: 30px;
+  align-self: auto;
 }
 
 .sign-up-bt-link {
@@ -166,8 +168,9 @@
 
 .error {
   color: red;
-  margin-top: 5px;
+  /* margin-top: 5px; */
   margin-bottom: 5px;
+  font-size: 12px;
 }
 
 /* placeholder 텍스트 색상 변경 (연한 회색) */
@@ -198,6 +201,7 @@ input::placeholder {
 }
 
 .login-bt:disabled {
+  width: 100%;
   background-color: gray; /* 배경색을 회색으로 설정 */
   color: white; /* 글자 색상을 흰색으로 설정 (선택 사항) */
   cursor: not-allowed; /* 마우스 커서를 기본 상태로 설정 (선택 사항) */

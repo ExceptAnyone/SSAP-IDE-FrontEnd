@@ -121,7 +121,9 @@ function LoginForm() {
           padding: 10,
         }}
       />
-      {isValidUsername ? null : <p className="error">이메일 형식으로.</p>}
+      {isValidUsername ? null : (
+        <p className="error">이메일 형식으로 입력해주세요.</p>
+      )}
       <div className="login-tilte-mp">비밀번호</div>
       <input
         type="password"
@@ -136,6 +138,7 @@ function LoginForm() {
           borderBottom: "2px solid #000",
           width: 500,
           padding: 10,
+          marginBottom: 15,
         }}
       />
       {isValidPassword ? null : (

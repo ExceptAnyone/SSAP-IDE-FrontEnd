@@ -135,7 +135,7 @@ function SignUpForm() {
           outline: "none",
           borderBottom: "2px solid #000",
           marginBottom: 15,
-          width: 300,
+          width: 410,
           padding: 10,
         }}
       />
@@ -155,8 +155,8 @@ function SignUpForm() {
           outline: "none",
           borderBottom: "2px solid #000",
           marginBottom: 15,
-          width: 300,
           padding: 10,
+          width: 410,
         }}
       />
 
@@ -178,7 +178,7 @@ function SignUpForm() {
           outline: "none",
           borderBottom: "2px solid #000",
           marginBottom: 15,
-          width: 300,
+          width: 410,
           padding: 10,
         }}
       />
@@ -198,7 +198,7 @@ function SignUpForm() {
           outline: "none",
           borderBottom: "2px solid #000",
           marginBottom: 15,
-          width: 300,
+          width: 410,
           padding: 10,
         }}
       />
