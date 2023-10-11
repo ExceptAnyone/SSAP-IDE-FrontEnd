@@ -7,9 +7,9 @@
   border-radius: 40px;
   border: 1px solid #e2e2e2;
   background: #fff;
-  margin-left: 14%;
-  margin-top: 80px;
-  height: 100vh; /* 화면 높이를 100%로 설정 (부모 요소가 높이를 가져야 함) */
+  /* margin-left: 14%;
+  margin-top: 80px; */
+  /* height: 100vh; 화면 높이를 100%로 설정 (부모 요소가 높이를 가져야 함) */
 
   align-items: center; /* 수직 가운데 정렬 */
   justify-content: center; /* 수평 가운데 정렬 */

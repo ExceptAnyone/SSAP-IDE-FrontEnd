@@ -26,10 +26,12 @@ const authSlice = createSlice({
     // 사용자 이름 업데이트
     setEmail: (state, action) => {
       state.email = action.payload;
+      console.log(state);
     },
     // 사용자 이름 업데이트
     setUsername: (state, action) => {
       state.username = action.payload;
+      console.log(state);
     },
     // 비밀번호 업데이트
     setPassword: (state, action) => {
@@ -42,6 +44,7 @@ const authSlice = createSlice({
     // 이름 업데이트
     setName: (state, action) => {
       state.name = action.payload;
+      console.log(state);
     },
     // 에러 메시지 업데이트
     setError: (state, action) => {

@@ -3,6 +3,7 @@ import * as Menubar from "@radix-ui/react-menubar";
 
 import "../HeaderMenubar.css";
 import { GearIcon } from "@radix-ui/react-icons";
+import { Link } from "@mui/material";
 
 export default function Setting() {
   return (
@@ -17,16 +18,13 @@ export default function Setting() {
           sideOffset={5}
           alignOffset={-3}
         >
-          <Menubar.Sub>
-            <Menubar.SubTrigger className="MenubarSubTrigger">
-              컨테이너 설정
-              <div className="RightSlot"></div>
-            </Menubar.SubTrigger>
-          </Menubar.Sub>
           <Menubar.Separator className="MenubarSeparator" />
 
           <Menubar.Item className="MenubarItem">
-            컨테이너 나가기 <div className="RightSlot"></div>
+            <Link to="/" className="WhiteTextLink">
+              컨테이너 나가기
+            </Link>
+            <div className="RightSlot"></div>
           </Menubar.Item>
           <Menubar.Separator className="MenubarSeparator" />
 

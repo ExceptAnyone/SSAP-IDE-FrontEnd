@@ -10,17 +10,19 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 // TODO 컨테이너 고유ID를 roomID로 적용시켜야함
 const roomId =
-  "aa0cea7dcd81cbea0fe690aa72b8520b6dfce49e35e418c0a0c32f88f24a1056 ";
+  "aa0cea7dcd81cbea0fe690aa72b8520b6dfce49e35e418c0a0c32f88f24a105";
 // const user = { email: "mater@gmail.com", name: "master" };
-// const user = { email: "mater2@naver.com", name: "master2" };
-const user = { email: "mater3@naver.com", name: "master3" };
-const name = user.name;
-const email = user.email;
+// ssap@naver.com ssap1234!
 
 const Chat = () => {
-  const [users, setUsers] = useState([]);
-  const [userName, setUserName] = useState(name);
-  const [userEmail, setUserEmail] = useState(email);
+  const user = JSON.parse(localStorage.getItem("chatUser"));
+  console.log("chatUser", user);
+  const name = user.name;
+  const email = user.email;
+
+  // const [users, setUsers] = useState([]);
+  // const [userName, setUserName] = useState(user.name);
+  // const [userEmail, setUserEmail] = useState(user.name);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const socketRef = useRef();
@@ -62,7 +64,7 @@ const Chat = () => {
 
   // 소켓
   useEffect(() => {
-    if (!userEmail) return;
+    if (!email) return;
 
     // Socket.IO 클라이언트 초기화
     const socket = socketIOClient(API_ENDPOINT, {
@@ -84,8 +86,8 @@ const Chat = () => {
       setMessages((prevMessages) => [...prevMessages, { name, message }]);
 
       // 본인 확인
-      const isOwner = data.email === userEmail;
-      console.log("data.email:", data.email, "userEmail", userEmail);
+      const isOwner = data.email === email;
+      console.log("data.email:", data.email, "userEmail", email);
       console.log("isOwner:", isOwner, "isVisible:", isVisible);
 
       // 새로운 메세지 도착하면 알림
@@ -184,10 +186,10 @@ const Chat = () => {
                 <div
                   key={index}
                   className={`message ${
-                    msg.email === userEmail ? "msg_right" : "msg_left"
+                    msg.email === email ? "msg_right" : "msg_left"
                   }`}
                 >
-                  {msg.email === userEmail ? "" : <strong>{msg.name}</strong>}
+                  {msg.email === email ? "" : <strong>{msg.name}</strong>}
 
                   <span>{msg.message}</span>
                 </div>
@@ -205,7 +207,7 @@ const Chat = () => {
               </form>
             </div>
           </div>
-          {showUserList && <ChatUserList userName={userName} />}
+          {showUserList && <ChatUserList userName={name} />}
         </div>
       )}
       {/* TODO: 알림 애니메이션 수정 필요 */}

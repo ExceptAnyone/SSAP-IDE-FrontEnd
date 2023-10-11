@@ -126,3 +126,8 @@ button {
 [data-disabled] > .RightSlot {
   color: var(--mauve-8);
 }
+
+.WhiteTextLink {
+  color: white !important; /* !important를 사용하여 다른 스타일을 덮어쓸 수 있도록 합니다. /
+  text-decoration: none; / 링크에 밑줄을 제거합니다. */
+}

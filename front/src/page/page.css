@@ -11,3 +11,22 @@ body {
 .ssapide {
   background-color: white;
 }
+
+.createCon,
+.createSing {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8vw 0;
+}
+.createCon-inner,
+.createSing-inner {
+  width: 82%;
+}
+.createCon .edit-btn,
+.createSing .edit-btn {
+  position: relative;
+  top: -90px;
+  left: 1px;
+}

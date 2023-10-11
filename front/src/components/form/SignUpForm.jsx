@@ -25,6 +25,16 @@ function SignUpForm() {
 
   const { email, password, confirmPassword, name, error, isLoading, success } =
     useSelector((state) => state.auth);
+  console.log(email, name);
+  // 채팅에 사용할 유저 정보 저장
+  const chatUser = {
+    email: email,
+    name: name,
+  };
+  const saveToLocalStorage = () => {
+    localStorage.setItem("chatUser", JSON.stringify(chatUser));
+    console.log(chatUser);
+  };
 
   const handleUsernameBlur = () => {
     const isValid = validateUsername(email);
@@ -79,6 +89,7 @@ function SignUpForm() {
       onSuccess: () => {
         dispatch(setSuccess("가입에 성공했습니다."));
         dispatch(setIsLoading(false));
+        saveToLocalStorage();
         navigate("/login"); // 가입 성공 시 로그인 페이지로 이동
       },
       onError: () => {

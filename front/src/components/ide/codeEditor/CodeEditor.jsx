@@ -39,12 +39,13 @@ function CodeEditor() {
     <div className="CodeEditor">
       <div className="editor-wrap">
         <Editor
-          height="100vh" //TODO 사이즈조절
+          height="90vh" //TODO 사이즈조절
           defaultLanguage="javascript"
           defaultValue="// 코드를 입력해주세요"
           theme="vs-dark"
           value={editingFileContent || ""}
           onChange={handleEditorChange}
+          className="editor"
         />
       </div>
     </div>

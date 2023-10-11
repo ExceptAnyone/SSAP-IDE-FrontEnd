@@ -30,10 +30,14 @@
         }
 
         .top_right {
+          display: flex;
           align-items: center;
+
           span {
+            display: flex;
             font-size: 17px;
             margin-left: 5px;
+            cursor: pointer;
           }
         }
       }
@@ -89,11 +93,14 @@
             flex: 1;
             border: none;
             resize: none;
+            padding: 10px;
           }
           button {
             border: none;
             color: #fff;
+            padding: 0 5px;
             background-color: #2a2d3d;
+            cursor: pointer;
           }
         }
       }
@@ -110,9 +117,10 @@
       border-left: 1px solid #000;
       border-radius: 15px;
       overflow: hidden;
+      background-color: #1d202b;
 
       .userList-top {
-        height: 40px;
+        height: 39px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -130,8 +138,8 @@
         color: #fff;
 
         .userItem {
-          padding: 0 10px 20px 10px;
-          // border-bottom: 1px solid #1d202b;
+          padding: 10px;
+          border-bottom: 1px solid #1d202b;
         }
       }
     }
@@ -172,7 +180,8 @@
   }
   .close {
     font-size: 34px;
-    background-color: #1d202b;
+    // background-color: #1d202b;
+    background-color: #aa83ff;
   }
 }
 

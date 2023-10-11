@@ -61,83 +61,85 @@ export default function CreateContainerPage() {
   };
 
   return (
-    <div>
-      <Header icon="컨테이너 생성하기" containnername={title} link="/" />
-      <Name
-        name="생성하기"
-        handleSubmit={updateContainer}
-        containnername={title}
-        link="/"
-      />
+    <div className="createCon">
+      <div className="createCon-inner">
+        <Header icon="컨테이너 생성하기" containnername={title} link="/" />
+        <Name
+          name="생성하기"
+          handleSubmit={updateContainer}
+          containnername={title}
+          link="/"
+        />
 
-      <form className="editcontain">
-        <div>
-          <div className="edit-1">
-            <h3 className="name-1">이름</h3>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => handleInputChange(e)}
-              className="input"
-            />
-          </div>
-        </div>
-        <div>
-          <div className="edit-1">
-            <h3>설명(선택사항)</h3>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => handleInputChange2(e)}
-              className="input-2"
-            />
-          </div>
-        </div>
-        <div>
-          <div className="edit-1">
-            <h3>공개범위</h3>
-            <div className="ckeckbox">
+        <form className="editcontain">
+          <div>
+            <div className="edit-1">
+              <h3 className="name-1">이름</h3>
               <input
-                type="radio"
-                name="visibility"
-                value="private"
-                checked={visibility === "private"}
-                onChange={handleVisibilityChange}
+                type="text"
+                value={title}
+                onChange={(e) => handleInputChange(e)}
+                className="input"
               />
-              <label>Private</label>
             </div>
           </div>
-        </div>
-        <div>
-          <div className="edit-1">
-            <h3>스택</h3>
-            <div className="ckeckbox1">
+          <div>
+            <div className="edit-1">
+              <h3>설명(선택사항)</h3>
               <input
-                type="radio"
-                value="javaScript"
-                checked={stack === "javaScript"}
-                onChange={handleStacksChange}
+                type="text"
+                value={description}
+                onChange={(e) => handleInputChange2(e)}
+                className="input-2"
               />
-              <label>javaScript</label>
             </div>
           </div>
-        </div>
-        <div>
-          <div className="edit-2">
-            <h3 className="add-pkg">추가 모듈/패키지</h3>
-            <div className="ckeckbox2">
-              <input
-                type="checkbox"
-                value="mysql"
-                checked={customControl === "mysql"}
-                onChange={handleModulesChange}
-              />
-              <label>MySQL</label>
-              {/* 필요한 모듈/패키지에 대한 추가 체크박스 입력 */}
+          <div>
+            <div className="edit-1">
+              <h3>공개범위</h3>
+              <div className="ckeckbox">
+                <input
+                  type="radio"
+                  name="visibility"
+                  value="private"
+                  checked={visibility === "private"}
+                  onChange={handleVisibilityChange}
+                />
+                <label>Private</label>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+          <div>
+            <div className="edit-1">
+              <h3>스택</h3>
+              <div className="ckeckbox1">
+                <input
+                  type="radio"
+                  value="javaScript"
+                  checked={stack === "javaScript"}
+                  onChange={handleStacksChange}
+                />
+                <label>javaScript</label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="edit-2">
+              <h3 className="add-pkg">추가 모듈/패키지</h3>
+              <div className="ckeckbox2">
+                <input
+                  type="checkbox"
+                  value="mysql"
+                  checked={customControl === "mysql"}
+                  onChange={handleModulesChange}
+                />
+                <label>MySQL</label>
+                {/* 필요한 모듈/패키지에 대한 추가 체크박스 입력 */}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

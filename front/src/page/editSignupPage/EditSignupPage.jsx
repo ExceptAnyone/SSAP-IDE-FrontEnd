@@ -75,58 +75,60 @@ export default function EditSignupPage() {
   };
 
   return (
-    <div>
-      <Header icon="회원정보 수정" />
-      <Name
-        name="수정하기"
-        handleSubmit={handleSubmit}
-        password={password}
-        confirmPassword={confirmPassword}
-      />
+    <div className="createSing">
+      <div className="createSing-inner">
+        <Header icon="회원정보 수정" />
+        <Name
+          name="수정하기"
+          handleSubmit={handleSubmit}
+          password={password}
+          confirmPassword={confirmPassword}
+        />
 
-      <ul className="profile">
-        <div>
-          <div className="profile1">
-            <h3>이메일</h3>
-            <div className="email">{email}</div>
-          </div>
+        <ul className="profile">
+          <div>
+            <div className="profile1">
+              <h3>이메일</h3>
+              <div className="email">{email}</div>
+            </div>
 
-          <br />
+            <br />
 
-          <div className="profile2">
-            <h3 htmlFor="password">비밀번호</h3>
-            <div className="pass-2">
+            <div className="profile2">
+              <h3 htmlFor="password">비밀번호</h3>
+              <div className="pass-2">
+                <input
+                  type="password"
+                  placeholder="영문,숫자,특수문자 8-30자"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className={`pass-0 ${!isValidPassword ? "invalid" : ""}`}
+                />
+              </div>
+            </div>
+            <br />
+            <div className="profile3">
+              <h3 htmlFor="password">비밀번호 확인</h3>
               <input
+                className="pass-1"
                 type="password"
                 placeholder="영문,숫자,특수문자 8-30자"
-                value={password}
-                onChange={handlePasswordChange}
-                className={`pass-0 ${!isValidPassword ? "invalid" : ""}`}
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
               />
-            </div>
-          </div>
-          <br />
-          <div className="profile3">
-            <h3 htmlFor="password">비밀번호 확인</h3>
-            <input
-              className="pass-1"
-              type="password"
-              placeholder="영문,숫자,특수문자 8-30자"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
 
-            {password !== confirmPassword && (
-              <p className="error">비밀번호가 일치하지 않습니다.</p>
-            )}
+              {password !== confirmPassword && (
+                <p className="error">비밀번호가 일치하지 않습니다.</p>
+              )}
+            </div>
+            <br />
+            <div className="profile4">
+              <h3>이름</h3> <div className="name-3"> {name}레인보우</div>
+            </div>
+            <br />
           </div>
-          <br />
-          <div className="profile4">
-            <h3>이름</h3> <div className="name-3"> {name}레인보우</div>
-          </div>
-          <br />
-        </div>
-      </ul>
+        </ul>
+      </div>
     </div>
   );
 }

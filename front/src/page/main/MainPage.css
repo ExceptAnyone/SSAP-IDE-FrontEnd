@@ -6,7 +6,7 @@
   padding: 8vw 0;
 }
 .main-inner {
-  width: 80%;
+  width: 82%;
 }
 
 .main-middle {
@@ -47,7 +47,6 @@
   align-items: center;
   display: flex;
   float: right;
-  margin-right: 50px;
 }
 .edit-btn:disabled {
   background-color: gray; /* 배경색을 회색으로 설정 */
@@ -62,6 +61,7 @@
   align-content: flex-start;
   justify-content: flex-start;
   margin-top: 60px;
+  min-height: 360px;
 }
 .test-1 {
   min-width: 320px;
@@ -71,6 +71,10 @@
   border-radius: 30px;
   border: 1px solid #e2e2e2;
   background: #fff;
+  margin-left: 35px;
+}
+.test-1:nth-child(1) {
+  margin-left: 0;
 }
 .list-item {
   position: relative;
@@ -125,6 +129,8 @@
 .list-menu .list li button {
   display: flex;
   align-items: center;
+  color: #000;
+  text-decoration: none;
 }
 .list-menu .list li:last-child {
   border-bottom: none;
