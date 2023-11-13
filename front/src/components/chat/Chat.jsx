@@ -17,8 +17,8 @@ const roomId =
 const Chat = () => {
   const user = JSON.parse(localStorage.getItem("chatUser"));
   console.log("chatUser", user);
-  const name = user.name;
-  const email = user.email;
+  const name = user?.name;
+  const email = user?.email;
 
   // const [users, setUsers] = useState([]);
   // const [userName, setUserName] = useState(user.name);
