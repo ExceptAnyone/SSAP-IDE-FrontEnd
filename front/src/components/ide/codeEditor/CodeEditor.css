@@ -1,0 +1,10 @@
+.CodeEditor {
+  flex: 1; /* 사이드바를 제외한 나머지 영역을 차지 */
+  height: 100vh;
+  overflow-y: auto; /* 코드 에디터의 내용이 많을 경우 스크롤바 표시 */
+}
+
+.CodeEditor .editor-wrap {
+  flex: 3; /* 에디터의 너비 조절, 사이드바 대비 3배 넓게 */
+  /* 필요한 에디터 스타일 추가 */
+}

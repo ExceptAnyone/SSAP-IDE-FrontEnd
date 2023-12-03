@@ -1,0 +1,19 @@
+.contain {
+  display: flex;
+  width: 1440px;
+  padding: 20px 0px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 40px;
+  border: 1px solid #e2e2e2;
+  background: #fff;
+  margin-left: 14%;
+}
+
+.body {
+  background-color: rgb(56, 54, 54);
+}
+
+.h3 {
+  width: 300px;
+}
